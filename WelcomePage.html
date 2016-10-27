@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Movie Store</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/heroic-features.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/Angular/MovieController.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls-2.2.0.min.js"></script>
+
+</head>
+
+<body ng-app = 'MovieStore'>
+
+    <!-- logo -->
+    <img src="http://placehold.it/1400x400" alt="">
+
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="font-weight: bold">
+        <div class="container" ng-controller = "menuController">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="WelcomePage.html">Movie Store</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown">
+                      <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
+                        Style
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="contactMenu">
+                        <li ng-repeat = "item in stylelist"><a href="#">{{item}}</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                        <a href="#">CD</a>
+                    </li>
+                    <li>
+                        <a href="#">DVD</a>
+                    </li>
+                    <li>
+                        <a href="#">Blu-ray</a>
+                    </li>
+                    <li>
+                        <a href="#">FAQ</a>
+                    </li>
+                    <li class="dropdown">
+                      <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
+                        Contact
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="contactMenu">
+                        <li ng-repeat = "item in contactlist"><a href="#">{{item}}</a></li>
+                      </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#">Login</a>
+                    </li>
+                    <li>
+                        <a href="#">Register</a>
+                    </li>
+                    <li ng-show = "false">
+                        <a href="#">Logout</a>
+                    </li>
+                    <li>
+                        <a href="http://www.google.com" class ="glyphicon glyphicon-search"></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container" ng-controller = "PromotionMovieController">
+
+        <!-- Jumbotron Header Advisment-->
+        <header class="jumbotron hero-spacer welcome">
+            <h2>HELLO MY FRIENDS !!</h2>
+            <h4>Fusce pretium posuere aliquet. Aenean nec orci eu lorem maximus cursus vel nec orci. Vivamus mollis, dolor eget tincidunt feugiat, nulla orci tincidunt dui, non sagittis ipsum magna ut libero. In placerat sodales justo, pretium aliquam nulla aliquet quis. Aliquam accumsan, elit quis congue tempor, massa tellus pulvinar enim, vitae sodales velit nunc quis nisl. Phasellus eu molestie dolor, sed posuere nunc. Ut hendrerit tellus nec dignissim mollis. Nam ex libero, fringilla iaculis eleifend eu, dignissim condimentum nunc.</h4>
+            <a class = "btn btn-lg btn-success col-md-offset-10">Go Shopping</a>
+        </header>
+        <hr>
+
+        <!--Hot Movie -->
+        <!-- Title -->
+        <div class="row">
+            <div class="col-lg-12">
+                <span class = "label promotion">Special Promotion <span class ="glyphicon glyphicon-gift"></span>
+                </span>
+            </div>
+        </div>
+        <!-- Slides -->
+        <div id="hotslide" class="carousel slide carouselSize" data-ride="carousel" data-interval="false">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <li data-target="#hotslide" data-slide-to="{{movie[0].id}}" class = "active"></li>
+            <li data-target="#hotslide" data-slide-to="{{movie[1].id}}" ></li>
+            <li data-target="#hotslide" data-slide-to="{{movie[2].id}}" ></li>
+          </ol>
+
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner" role="listbox">
+            <div class="item active">
+              <img src="{{movies[0].image}}" alt="{{movies[0].nameEN}}" class = "img-thumbnail">
+              <div class="carousel-caption carouselForm">
+                {{movies[0].nameEN +", "+movies[0].nameTH}}
+              </div>
+            </div>
+            <div class="item">
+              <img src="{{movies[1].image}}" alt="{{movies[1].nameEN}}" class = "img-thumbnail">
+              <div class="carousel-caption carouselForm">
+                {{movies[1].nameEN +", "+movies[1].nameTH}}
+              </div>
+            </div>
+            <div class="item">
+              <img src="{{movies[2].image}}" alt="{{movies[2].nameEN}}" class = "img-thumbnail">
+              <div class="carousel-caption carouselForm">
+                {{movies[2].nameEN +", "+movies[2].nameTH}}
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls Left/Right -->
+          <a class="left carousel-control" href="#hotslide" role="button" data-slide="prev"
+          ng-click = "currIndex = (currIndex==0)?2:currIndex-1" >
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#hotslide" role="button" data-slide="next"
+          ng-click = "currIndex = (currIndex+1)%3">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+
+        <!-- Movie Information-->
+        <div class="jumbotron" ng-show = "currIndex === 0" style = "background-color:#3d3d29">
+            <h2 style="color:white">{{movies[0].nameEN}}</h2>
+            <h4 style="color:white">{{movies[0].nameTH}}</h4>
+            <p style = "color:#c2c2a3">{{movies[0].desc}}</p>
+            <p style = "color:white">จากราคาปกติ {{movies[0].price1}} บาท เหลือเพียง {{movies[0].price2}} บาทเท่านั้น</p>
+            <p class = "col-md-offset-10">
+            <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
+            </p>
+        </div>
+        <div class="jumbotron" ng-show = "currIndex === 1" style = "background-color:#3d3d29">
+            <h2 style="color:white">{{movies[1].nameEN}}</h2>
+            <h4 style="color:white">{{movies[1].nameTH}}</h4>
+            <p style = "color:#c2c2a3">{{movies[1].desc}}</p>
+            <p style = "color:white">จากราคาปกติ {{movies[1].price1}} บาท เหลือเพียง {{movies[1].price2}} บาทเท่านั้น</p>
+            <p class = "col-md-offset-10">
+            <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
+            </p>
+        </div>
+        <div class="jumbotron" ng-show = "(currIndex === 2)" style = "background-color:#3d3d29">
+            <h2 style="color:white">{{movies[2].nameEN}}</h2>
+            <h4 style="color:white">{{movies[2].nameTH}}</h4>
+            <p style = "color:#c2c2a3">{{movies[2].desc}}</p>
+            <p style = "color:white">จากราคาปกติ {{movies[2].price1}} บาท เหลือเพียง {{movies[2].price2}} บาทเท่านั้น</p>
+            <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
+            </p>
+        </div>
+
+        <hr>
+        <!-- Title -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class = "hothit">Best Selling Movies</h3>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Page Features -->
+        <div class="container row text-center">
+            <div class="col-md-3 hero-feature" ng-repeat = "hotmovie in hotmovies">
+                <div class="thumbnail" style="background-color:#f5f5ef;height: 320px;margin-top: -30px">
+                    <img src="{{hotmovie.image}}"" alt="" class="hotmovieimage img-rounded ">
+                    <div class="caption">
+                        <h5 style = "font-weight: bold">{{hotmovie.nameEN}}</h5>
+                        <p>ราคา {{hotmovie.price2}} บาท</p>
+                        <p>
+                            <a href="#" class="btn btn-primary">Buy Now!</a> 
+                            <a href="#" class="btn btn-default" data-toggle="modal" data-target="{{'.infomodal'+$index}}"" >More Info</a>
+                        </p>
+                        <!-- Movie information modal -->
+                        <div class="modal fade {{'infomodal'+$index}}" tabindex="-1" role="dialog" aria-labelledby="InformationModal">
+                         <div class="modal-dialog modal-md" role="document">
+                            <div class="modal-content" style = "background-color:#3d3d29">
+                                <div class="modal-header text-center">
+                                    <h2 style="color:white">{{hotmovie.nameEN}}</h2>
+                                    <h4 style="color:white">{{hotmovie.nameTH}}</h4>
+                                </div>
+                                <div class="modal-body text-left"">
+                                    <p style = "color:#c2c2a3">{{hotmovie.desc}}</p>
+                                    <p style = "color:white">จากราคาปกติ {{hotmovie.price1}} บาท เหลือเพียง {{hotmovie.price2}} บาทเท่านั้น</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <p class = "col-md-offset-8">
+                                    <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
+                                    </p>   
+                                </div>    
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+        <hr>
+    </div>
+    <!-- Footer -->
+    <footer">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p>Copyright &copy; KMITL 2016</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
