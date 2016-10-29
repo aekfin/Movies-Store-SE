@@ -53,6 +53,10 @@ app.controller('PromotionMovieController', function ($scope) {
     });
   };
 
+  $scope.Click = function(){
+    console.log("Hello");
+  };
+
 });
 
 
@@ -71,16 +75,4 @@ app.controller('menuController', function($scope,$log){
     isopen: false
   };
 
-  $scope.toggled = function(open) {
-    $log.log('Dropdown is now: ', open);
-    console.log("Hello");
-  };
-
-  $scope.toggleDropdown = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.status.isopen = !$scope.status.isopen;
-  };
-
-  $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
 });

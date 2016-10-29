@@ -48,7 +48,7 @@
                 <ul class="nav navbar-nav navbar-left">
                     <li class="dropdown">
                       <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
-                        Style
+                        Genre
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="contactMenu">
                         <li ng-repeat = "item in stylelist"><a href="#">{{item}}</a></li>
@@ -115,7 +115,7 @@
             </div>
         </div>
         <!-- Slides -->
-        <div id="hotslide" class="carousel slide carouselSize" data-ride="carousel" data-interval="false">
+        <div id="hotslide" class="carousel slide" data-ride="carousel" data-interval="false">
           <!-- Indicators -->
           <ol class="carousel-indicators">
             <li data-target="#hotslide" data-slide-to="{{movie[0].id}}" class = "active"></li>
@@ -124,26 +124,40 @@
           </ol>
 
           <!-- Wrapper for slides -->
-          <div class="carousel-inner" role="listbox">
+          <div class="carousel-inner" role="listbox" style = "margin-top: 15px">
             <div class="item active">
-              <img src="{{movies[0].image}}" alt="{{movies[0].nameEN}}" class = "img-thumbnail">
+              <div class="fill" style="background-image:url({{movies[0].image}}); height:400px;">
+                   <div class = "glyphicon glyphicon-fullscreen col-md-offset-10" data-toggle="modal" data-target=".img0full"></div>
+              </div>
               <div class="carousel-caption carouselForm">
                 {{movies[0].nameEN +", "+movies[0].nameTH}}
               </div>
             </div>
             <div class="item">
-              <img src="{{movies[1].image}}" alt="{{movies[1].nameEN}}" class = "img-thumbnail">
+              <div class="fill" style="background-image:url({{movies[1].image}}); height:400px;">
+                  <div class = "glyphicon glyphicon-fullscreen col-md-offset-10" data-toggle="modal" data-target=".img1full"></div>
+              </div>
               <div class="carousel-caption carouselForm">
                 {{movies[1].nameEN +", "+movies[1].nameTH}}
               </div>
             </div>
             <div class="item">
-              <img src="{{movies[2].image}}" alt="{{movies[2].nameEN}}" class = "img-thumbnail">
+              <div class="fill" style="background-image:url({{movies[2].image}}); height:400px;">
+                  <div class = "glyphicon glyphicon-fullscreen col-md-offset-10" data-toggle="modal" data-target=".img2full"></div>
+              </div>
               <div class="carousel-caption carouselForm">
                 {{movies[2].nameEN +", "+movies[2].nameTH}}
               </div>
             </div>
           </div>
+          <!-- Full Screen image-->
+          <div ng-repeat = "movie in movies" class="modal fade {{'img'+$index+'full'}}" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                   <img src="{{movie.image}}" alt="{{movie.nameEN}}" class = "img-thumbnail">
+                </div>
+            </div>
+          </div>          
 
           <!-- Controls Left/Right -->
           <a class="left carousel-control" href="#hotslide" role="button" data-slide="prev"
@@ -159,29 +173,30 @@
         </div>
 
         <!-- Movie Information-->
-        <div class="jumbotron" ng-show = "currIndex === 0" style = "background-color:#3d3d29">
-            <h2 style="color:white">{{movies[0].nameEN}}</h2>
-            <h4 style="color:white">{{movies[0].nameTH}}</h4>
-            <p style = "color:#c2c2a3">{{movies[0].desc}}</p>
-            <p style = "color:white">จากราคาปกติ {{movies[0].price1}} บาท เหลือเพียง {{movies[0].price2}} บาทเท่านั้น</p>
+        <div class="well" ng-show = "currIndex === 0" style = "background-color:#3d3d29;">
+            <h2>{{movies[0].nameEN}}</h2>
+            <h4>{{movies[0].nameTH}}</h4>
+            <p>{{movies[0].desc}}</p>
+            <p style="color:red;font-weight: bold">จากราคาปกติ {{movies[0].price1}} บาท เหลือเพียง {{movies[0].price2}} บาทเท่านั้น</p>
             <p class = "col-md-offset-10">
             <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
             </p>
         </div>
-        <div class="jumbotron" ng-show = "currIndex === 1" style = "background-color:#3d3d29">
-            <h2 style="color:white">{{movies[1].nameEN}}</h2>
-            <h4 style="color:white">{{movies[1].nameTH}}</h4>
-            <p style = "color:#c2c2a3">{{movies[1].desc}}</p>
-            <p style = "color:white">จากราคาปกติ {{movies[1].price1}} บาท เหลือเพียง {{movies[1].price2}} บาทเท่านั้น</p>
+        <div class="well" ng-show = "currIndex === 1" style = "background-color:#3d3d29">
+            <h2>{{movies[1].nameEN}}</h2>
+            <h4>{{movies[1].nameTH}}</h4>
+            <p>{{movies[1].desc}}</p>
+            <p style="color:red;font-weight: bold">จากราคาปกติ {{movies[1].price1}} บาท เหลือเพียง {{movies[1].price2}} บาทเท่านั้น</p>
             <p class = "col-md-offset-10">
             <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
             </p>
         </div>
-        <div class="jumbotron" ng-show = "(currIndex === 2)" style = "background-color:#3d3d29">
-            <h2 style="color:white">{{movies[2].nameEN}}</h2>
-            <h4 style="color:white">{{movies[2].nameTH}}</h4>
-            <p style = "color:#c2c2a3">{{movies[2].desc}}</p>
-            <p style = "color:white">จากราคาปกติ {{movies[2].price1}} บาท เหลือเพียง {{movies[2].price2}} บาทเท่านั้น</p>
+        <div class="well" ng-show = "(currIndex === 2)" style = "background-color:#3d3d29">
+            <h2>{{movies[2].nameEN}}</h2>
+            <h4>{{movies[2].nameTH}}</h4>
+            <p>{{movies[2].desc}}</p>
+            <p style="color:red;font-weight: bold">จากราคาปกติ {{movies[2].price1}} บาท เหลือเพียง {{movies[2].price2}} บาทเท่านั้น</p>
+            <p class = "col-md-offset-10">
             <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
             </p>
         </div>

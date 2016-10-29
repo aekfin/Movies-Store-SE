@@ -12,12 +12,7 @@
 .carouselForm{
 	color:white; 
 	font-weight: bold;
-	font-size: 24px;
-}
-
-.carouselSize{
-	height: 100%;
-	width: 100%;
+	font-size: 20px;
 }
 
 .hotmovieimage{
@@ -31,4 +26,29 @@
 	font-weight: bold;
 	color:#4d4d33;
 	margin-bottom: 50px;
+}
+
+.carousel {
+    height: 100%;
+}
+
+.fill {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.item,
+.active,
+.carousel-inner {
+    height: 100%;
+}
+
+.glyphicon-fullscreen{
+	font-size: 30px;
+	margin-top:10px;
 }
