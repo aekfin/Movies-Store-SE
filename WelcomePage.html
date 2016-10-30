@@ -1,16 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
     <title>Movie Store</title>
-
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/heroic-features.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -21,14 +13,11 @@
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/Angular/MovieController.js"></script>
     <script type="text/javascript" src="js/ui-bootstrap-tpls-2.2.0.min.js"></script>
-
 </head>
 
 <body ng-app = 'MovieStore'>
-
     <!-- logo -->
     <img src="http://placehold.it/1400x400" alt="">
-
     <!-- Top Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="font-weight: bold">
         <div class="container" ng-controller = "menuController">
@@ -94,15 +83,13 @@
         </div>
         <!-- /.container -->
     </nav>
-
     <!-- Page Content -->
-    <div class="container" ng-controller = "PromotionMovieController">
-
+    <div class="container" ng-controller = "MovieController">
         <!-- Jumbotron Header Advisment-->
         <header class="jumbotron hero-spacer welcome">
             <h2>HELLO MY FRIENDS !!</h2>
             <h4>Fusce pretium posuere aliquet. Aenean nec orci eu lorem maximus cursus vel nec orci. Vivamus mollis, dolor eget tincidunt feugiat, nulla orci tincidunt dui, non sagittis ipsum magna ut libero. In placerat sodales justo, pretium aliquam nulla aliquet quis. Aliquam accumsan, elit quis congue tempor, massa tellus pulvinar enim, vitae sodales velit nunc quis nisl. Phasellus eu molestie dolor, sed posuere nunc. Ut hendrerit tellus nec dignissim mollis. Nam ex libero, fringilla iaculis eleifend eu, dignissim condimentum nunc.</h4>
-            <a class = "btn btn-lg btn-success col-md-offset-10">Go Shopping</a>
+            <a class = "btn btn-lg btn-success col-md-offset-10" href = "ShoppingPage.html">Go Shopping</a>
         </header>
         <hr>
 
@@ -126,32 +113,32 @@
           <!-- Wrapper for slides -->
           <div class="carousel-inner" role="listbox" style = "margin-top: 15px">
             <div class="item active">
-              <div class="fill" style="background-image:url({{movies[0].image}}); height:400px;">
+              <div class="fill" style="background-image:url({{salemovies[0].image}}); height:400px;">
                    <div class = "glyphicon glyphicon-fullscreen col-md-offset-10" data-toggle="modal" data-target=".img0full"></div>
               </div>
               <div class="carousel-caption carouselForm">
-                {{movies[0].nameEN +", "+movies[0].nameTH}}
+                {{salemovies[0].nameEN +", "+salemovies[0].nameTH}}
               </div>
             </div>
             <div class="item">
-              <div class="fill" style="background-image:url({{movies[1].image}}); height:400px;">
+              <div class="fill" style="background-image:url({{salemovies[1].image}}); height:400px;">
                   <div class = "glyphicon glyphicon-fullscreen col-md-offset-10" data-toggle="modal" data-target=".img1full"></div>
               </div>
               <div class="carousel-caption carouselForm">
-                {{movies[1].nameEN +", "+movies[1].nameTH}}
+                {{salemovies[1].nameEN +", "+salemovies[1].nameTH}}
               </div>
             </div>
             <div class="item">
-              <div class="fill" style="background-image:url({{movies[2].image}}); height:400px;">
+              <div class="fill" style="background-image:url({{salemovies[2].image}}); height:400px;">
                   <div class = "glyphicon glyphicon-fullscreen col-md-offset-10" data-toggle="modal" data-target=".img2full"></div>
               </div>
               <div class="carousel-caption carouselForm">
-                {{movies[2].nameEN +", "+movies[2].nameTH}}
+                {{salemovies[2].nameEN +", "+salemovies[2].nameTH}}
               </div>
             </div>
           </div>
           <!-- Full Screen image-->
-          <div ng-repeat = "movie in movies" class="modal fade {{'img'+$index+'full'}}" role="dialog">
+          <div ng-repeat = "movie in salemovies" class="modal fade {{'img'+$index+'full'}}" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                    <img src="{{movie.image}}" alt="{{movie.nameEN}}" class = "img-thumbnail">
@@ -174,28 +161,28 @@
 
         <!-- Movie Information-->
         <div class="well" ng-show = "currIndex === 0" style = "background-color:#3d3d29;">
-            <h2>{{movies[0].nameEN}}</h2>
-            <h4>{{movies[0].nameTH}}</h4>
-            <p>{{movies[0].desc}}</p>
-            <p style="color:red;font-weight: bold">จากราคาปกติ {{movies[0].price1}} บาท เหลือเพียง {{movies[0].price2}} บาทเท่านั้น</p>
+            <h2>{{salemovies[0].nameEN}}</h2>
+            <h4>{{salemovies[0].nameTH}}</h4>
+            <p>{{salemovies[0].desc}}</p>
+            <p style="color:red;font-weight: bold">จากราคาปกติ {{salemovies[0].price1}} บาท เหลือเพียง {{salemovies[0].price2}} บาทเท่านั้น</p>
             <p class = "col-md-offset-10">
             <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
             </p>
         </div>
         <div class="well" ng-show = "currIndex === 1" style = "background-color:#3d3d29">
-            <h2>{{movies[1].nameEN}}</h2>
-            <h4>{{movies[1].nameTH}}</h4>
-            <p>{{movies[1].desc}}</p>
-            <p style="color:red;font-weight: bold">จากราคาปกติ {{movies[1].price1}} บาท เหลือเพียง {{movies[1].price2}} บาทเท่านั้น</p>
+            <h2>{{salemovies[1].nameEN}}</h2>
+            <h4>{{salemovies[1].nameTH}}</h4>
+            <p>{{salemovies[1].desc}}</p>
+            <p style="color:red;font-weight: bold">จากราคาปกติ {{salemovies[1].price1}} บาท เหลือเพียง {{salemovies[1].price2}} บาทเท่านั้น</p>
             <p class = "col-md-offset-10">
             <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
             </p>
         </div>
         <div class="well" ng-show = "(currIndex === 2)" style = "background-color:#3d3d29">
-            <h2>{{movies[2].nameEN}}</h2>
-            <h4>{{movies[2].nameTH}}</h4>
-            <p>{{movies[2].desc}}</p>
-            <p style="color:red;font-weight: bold">จากราคาปกติ {{movies[2].price1}} บาท เหลือเพียง {{movies[2].price2}} บาทเท่านั้น</p>
+            <h2>{{salemovies[2].nameEN}}</h2>
+            <h4>{{salemovies[2].nameTH}}</h4>
+            <p>{{salemovies[2].desc}}</p>
+            <p style="color:red;font-weight: bold">จากราคาปกติ {{salemovies[2].price1}} บาท เหลือเพียง {{salemovies[2].price2}} บาทเท่านั้น</p>
             <p class = "col-md-offset-10">
             <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
             </p>
@@ -214,13 +201,13 @@
         <div class="container row text-center">
             <div class="col-md-3 hero-feature" ng-repeat = "hotmovie in hotmovies">
                 <div class="thumbnail" style="background-color:#f5f5ef;height: 320px;margin-top: -30px">
-                    <img src="{{hotmovie.image}}"" alt="" class="hotmovieimage img-rounded ">
+                    <img src="{{hotmovie.image}}" alt="" class="hotmovieimage img-rounded ">
                     <div class="caption">
                         <h5 style = "font-weight: bold">{{hotmovie.nameEN}}</h5>
                         <p>ราคา {{hotmovie.price2}} บาท</p>
                         <p>
                             <a href="#" class="btn btn-primary">Buy Now!</a> 
-                            <a href="#" class="btn btn-default" data-toggle="modal" data-target="{{'.infomodal'+$index}}"" >More Info</a>
+                            <a href="#" class="btn btn-default" data-toggle="modal" data-target="{{'.infomodal'+$index}}" >More Info</a>
                         </p>
                         <!-- Movie information modal -->
                         <div class="modal fade {{'infomodal'+$index}}" tabindex="-1" role="dialog" aria-labelledby="InformationModal">
@@ -258,7 +245,6 @@
             </div>
         </div>
     </footer>
-
 </body>
 
 </html>
