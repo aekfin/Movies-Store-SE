@@ -1,16 +1,13 @@
 var app = angular.module('MovieStore',['ui.bootstrap']);
 
-app.controller('menuController', function($scope,$log){
+app.controller('MenuController', function($scope,$log){
   $scope.contactlist = [
     'Telephone number',
     'Location',
     'E-mail'
   ];
-  $scope.stylelist = [
-    'Action',
-    'Drama',
-    'Sci-fi'
-  ];
+  $scope.genreList =[ 'Action','Adventure','Animation','Biography','Comedy','Crime','Documentary','Drama','Family','Fantasy',"Film-Noir",
+                      'History','Horror','Music','Musical','Mystery','Romance','Sci-fi','Sport','Thriller','War','Western'];
   $scope.status = {
     isopen: false
   };
@@ -24,6 +21,7 @@ app.controller('MovieController', function ($scope) {
   // function
   $scope.genreList =[ 'Action','Adventure','Animation','Biography','Comedy','Crime','Documentary','Drama','Family','Fantasy',"Film-Noir",
                       'History','Horror','Music','Musical','Mystery','Romance','Sci-fi','Sport','Thriller','War','Western'];
+  $scope.genreSelected = [false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false];
   $scope.catList = ["New Releases","Best Sellers","Promotion","All Movies","Coming Soon"];
   $scope.catStyle = [{},{},{},{},{}];
   $scope.wasSelect = [false,false,false,true,false];
@@ -183,7 +181,7 @@ app.controller('MovieController', function ($scope) {
     }
   ];
 
-    $scope.SelectCategories = function(catagory){
+  $scope.SelectCategories = function(catagory){
     for(i=0;i<$scope.catStyle.length;i++){
       if(i == catagory){
         $scope.catStyle[i] = {
@@ -198,6 +196,15 @@ app.controller('MovieController', function ($scope) {
       }
     }
   };
+
+  $scope.FilterByGenre = function(i){
+    if($scope.genreSelected[i] == false){
+      console.log($scope.genreList[i]+"("+i+")");
+      $scope.genreSelected[i] = true;
+    }else{
+      $scope.genreSelected[i] = false;
+    }
+  }
 
   // assign short description
   for(i=0;i<$scope.hotmovies.length;i++){
