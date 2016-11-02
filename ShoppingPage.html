@@ -6,10 +6,14 @@
     <title>Shopping Page</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/heroic-features.css" rel="stylesheet">
+    <link href="css/scrolling-nav.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    
+
     <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="js/scrolling-nav.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script> 
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/Angular/MovieController.js"></script>
@@ -19,61 +23,7 @@
 <body ng-app = "MovieStore">
 
     <!-- Top Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="font-weight: bold">
-        <div class="container" ng-controller = "MenuController">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="WelcomePage.html">Movie Store</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-left">
-                    <li class="dropdown">
-                      <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
-                        GENRE
-                      </a>
-                      <ul class="dropdown-menu" aria-labelledby="contactMenu">
-                        <li ng-repeat = "item in genreList"><a href="ShoppingPage.html">{{item}}</a></li>
-                      </ul>
-                    </li>
-                    <li>
-                        <a href="#">FAQ</a>
-                    </li>
-                    <li class="dropdown">
-                      <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
-                        Contact
-                      </a>
-                      <ul class="dropdown-menu" aria-labelledby="contactMenu">
-                        <li ng-repeat = "item in contactlist"><a href="#">{{item}}</a></li>
-                      </ul>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="#">Login</a>
-                    </li>
-                    <li>
-                        <a href="#">Register</a>
-                    </li>
-                    <li ng-show = "false">
-                        <a href="#">Logout</a>
-                    </li>
-                    <li>
-                        <a href="http://www.google.com" class ="glyphicon glyphicon-search"></a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+    <div ng-include = "'NavigatorBar.html'"> </div>
 
     <!-- Genre Checkbox-->
     <div ng-controller = "MovieController">
@@ -103,64 +53,90 @@
                     </div>
                 </div>
 
+                <!-- Movie information modal -->
+                <div class="modal fade infomodal" tabindex="-1" role="dialog" aria-labelledby="InformationModal">
+                 <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content" style = "background-color:#3d3d29">
+                        <div class="modal-header text-center">
+                            <h2 style="color:white">{{showInfoMovie.nameEN}}</h2>
+                            <h4 style="color:white">{{showInfoMovie.nameTH}}</h4>
+                        </div>
+                        <div class="modal-body text-left"">
+                            <p style = "color:#c2c2a3">{{showInfoMovie.desc}}</p>
+                            <p style = "color:white">จากราคาปกติ {{showInfoMovie.price1}} บาท เหลือเพียง {{showInfoMovie.price2}} บาทเท่านั้น</p>
+                        </div>
+                        <div class="modal-footer">
+                            <p class = "col-md-offset-8">
+                            <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
+                            </p>   
+                        </div>    
+                    </div>
+                  </div>
+                </div>
+
                 <div class="col-md-9">
                     <h2 class = "h2shop" ng-repeat = "list in catList" ng-show = "{{'wasSelect['+$index+']'}}">{{list}}</h2>
                     <div class="row" ng-show = "wasSelect[0]">
-                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 290px;">
-                            <div class="thumbnail" style="height: 270px;">
-                                <img src="{{movie.image}}" alt="" class="hotmovieimage img-rounded ">
+                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 300px;">
+                            <div class="thumbnail" style="height: 280px;">
+                                <img src="{{movie.image}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
+                                data-toggle="modal" data-target=".infomodal">
                                 <div class="caption text-center">
-                                    <p style="font-weight: bold;font-size: 13px">{{movie.nameEN}}</p>
-                                    <p style="font-size: 12px;margin-top: -10px">{{movie.nameTH}}</p>
-                                    <p style="margin-top: -10px"> ราคา {{movie.price2}} บาท</p>
+                                    <p ng-style="smartNameEN">{{movie.nameEN}}</p>
+                                    <p ng-style="smartNameTH">{{movie.nameTH}}</p>
+                                    <p ng-style="smartPrice"> ราคา {{movie.price2}} บาท</p>
                                 </div>                           
                             </div>
                         </div>
                     </div>
                     <div class="row" ng-show = "wasSelect[1]">
-                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in salemovies" style="height: 290px;">
-                            <div class="thumbnail" style="height: 270px;">
-                                <img src="{{movie.image}}" alt="" class="hotmovieimage img-rounded ">
+                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in salemovies" style="height: 300px;">
+                            <div class="thumbnail" style="height: 280px;">
+                                <img src="{{movie.image2}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
+                                data-toggle="modal" data-target=".infomodal">
                                 <div class="caption text-center">
-                                    <p style="font-weight: bold;font-size: 13px">{{movie.nameEN}}</p>
-                                    <p style="font-size: 12px;margin-top: -10px">{{movie.nameTH}}</p>
-                                    <p style="margin-top: -10px"> ราคา {{movie.price2}} บาท</p>
+                                    <p ng-style="smartNameEN">{{movie.nameEN}}</p>
+                                    <p ng-style="smartNameTH">{{movie.nameTH}}</p>
+                                    <p ng-style="smartPrice"> ราคา {{movie.price2}} บาท</p>
                                 </div>                           
                             </div>
                         </div>
                     </div>
                     <div class="row" ng-show = "wasSelect[2]">
-                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in hotmovies" style="height: 290px;">
-                            <div class="thumbnail" style="height: 270px;">
-                                <img src="{{movie.image}}" alt="" class="hotmovieimage img-rounded ">
+                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in hotmovies" style="height: 300px;">
+                            <div class="thumbnail" style="height: 280px;">
+                                <img src="{{movie.image}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
+                                data-toggle="modal" data-target=".infomodal">
                                 <div class="caption text-center">
-                                    <p style="font-weight: bold;font-size: 13px">{{movie.nameEN}}</p>
-                                    <p style="font-size: 12px;margin-top: -10px">{{movie.nameTH}}</p>
-                                    <p style="margin-top: -10px"> ราคา {{movie.price2}} บาท</p>
+                                    <p ng-style="smartNameEN">{{movie.nameEN}}</p>
+                                    <p ng-style="smartNameTH">{{movie.nameTH}}</p>
+                                    <p ng-style="smartPrice"> ราคา {{movie.price2}} บาท</p>
                                 </div>                           
                             </div>
                         </div>
                     </div>
                     <div class="row" ng-show = "wasSelect[3]">
-                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 290px;">
-                            <div class="thumbnail" style="height: 270px;">
-                                <img src="{{movie.image}}" alt="" class="hotmovieimage img-rounded ">
+                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 300px;">
+                            <div class="thumbnail" style="height: 280px;">
+                                <img src="{{movie.image}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
+                                data-toggle="modal" data-target=".infomodal">
                                 <div class="caption text-center">
-                                    <p style="font-weight: bold;font-size: 13px">{{movie.nameEN}}</p>
-                                    <p style="font-size: 12px;margin-top: -10px">{{movie.nameTH}}</p>
-                                    <p style="margin-top: -10px"> ราคา {{movie.price2}} บาท</p>
+                                    <p ng-style="smartNameEN">{{movie.nameEN}}</p>
+                                    <p ng-style="smartNameTH">{{movie.nameTH}}</p>
+                                    <p ng-style="smartPrice"> ราคา {{movie.price2}} บาท</p>
                                 </div>                           
                             </div>
                         </div>
                     </div>
                     <div class="row" ng-show = "wasSelect[4]">
-                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 290px;">
-                            <div class="thumbnail" style="height: 270px;">
-                                <img src="{{movie.image}}" alt="" class="hotmovieimage img-rounded ">
+                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 300px;">
+                            <div class="thumbnail" style="height: 280px;">
+                                <img src="{{movie.image}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
+                                data-toggle="modal" data-target=".infomodal">
                                 <div class="caption text-center">
-                                    <p style="font-weight: bold;font-size: 13px">{{movie.nameEN}}</p>
-                                    <p style="font-size: 12px;margin-top: -10px">{{movie.nameTH}}</p>
-                                    <p style="margin-top: -10px"> ราคา {{movie.price2}} บาท</p>
+                                    <p ng-style="smartNameEN">{{movie.nameEN}}</p>
+                                    <p ng-style="smartNameTH">{{movie.nameTH}}</p>
+                                    <p ng-style="smartPrice"> ราคา {{movie.price2}} บาท</p>
                                 </div>                           
                             </div>
                         </div>
@@ -195,21 +171,8 @@
     </div> <!-- /.ng-controller =  -->
     
 
-    <div class="container">
-
-        <hr>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2014</p>
-                </div>
-            </div>
-        </footer>
-
-    </div>
-    <!-- /.container -->
+     <!-- credit -->
+    <div ng-include = "'credit.html'"></div>
 
 </body>
 

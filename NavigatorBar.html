@@ -1,0 +1,60 @@
+<!-- Top Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="font-weight: bold">
+    <div class="container" ng-controller = "MenuController">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand page-scroll" href="WelcomePage.html">Seksu Movie Store</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="dropdown">
+                  <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
+                    GENRE
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="contactMenu">
+                    <li ng-repeat = "item in genreList"><a href="ShoppingPage.html">{{item}}</a></li>
+                  </ul>
+                </li>
+                <li>
+                    <a class = "page-scroll" href="#">FAQ</a>
+                </li>
+                <li class="dropdown">
+                  <a class="page-scroll dropdown-toggle" id="contactMenu" data-toggle="dropdown">
+                    Contact
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="contactMenu">
+                    <li ng-repeat = "item in contactlist"><a href="#">{{item}}</a></li>
+                  </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class = "page-scroll" href="#" ng-show = "!isSearching">Login</a>
+                </li>
+                <li>
+                    <a class = "page-scroll" href="#" ng-show = "!isSearching">Register</a>
+                </li>
+                <li ng-show = "false">
+                    <a class = "page-scroll" href="#">Logout</a>
+                </li>
+                <li>
+                    <a class ="glyphicon glyphicon-search" 
+                    ng-click="(isSearching==false||isSearching==null)? isSearching=true: isSearching=false"></a>
+                </li>
+                <li ng-show = "isSearching">
+                    <input type="text" style = "margin-top: 15px" name = "Search">
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
