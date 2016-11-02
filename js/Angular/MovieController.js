@@ -25,37 +25,49 @@ app.controller('MovieController', function ($scope) {
   $scope.catList = ["New Releases","Best Sellers","Promotion","All Movies","Coming Soon"];
   $scope.catStyle = [{},{},{},{},{}];
   $scope.wasSelect = [false,false,false,true,false];
-
+  $scope.smartNameEN = {
+    'font-weight': 'bold',
+    'font-size': '12px'
+  };
+  $scope.smartNameTH = {
+    'margin-top': '-10px',
+    'font-size': '10px'
+  };
+  $scope.smartPrice = {
+    'font-weight': 'bold',
+    'margin-top': '-10px',
+    'font-size': '14px'
+  };
   // Service
   $scope.salemovies = [
     {  id: 0,nameEN: "Secret life of mitty", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
        desc: "The manager of the negative assets sector of Life magazine, Walter Mitty, has been working for sixteen years for the magazine and has a tedious life, not going anywhere but from his home to his job and vice-versa.",
-       image: "images/mitty2.jpg",price1: 250,price2: 199, 
+       image1: "images/mitty1.jpg",image2: "images/mitty2.jpg",price1: 250,price2: 199, 
        genre: [false,true,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
     },
     {  id: 1,nameEN: "Interstellar", nameTH: "ทะยานดาวกู้โลก ", 
        desc: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-       image: "images/inter2.jpg",price1: 300,price2: 219,
+       image1: "images/inter1.jpg",image2: "images/inter2.jpg",price1: 300,price2: 219,
        genre: [false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
     },
     {  id: 2,nameEN: "Guardians of the Galaxy", nameTH: "รวมพันธุ์นักสู้พิทักษ์จักรวาล", 
        desc: "A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.",
-       image: "images/guar2.jpg",price1: 300,price2: 209, 
+       image1: "images/guar1.jpg",image2: "images/guar2.jpg",price1: 300,price2: 209, 
        genre: [true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
     },
     {  id: 3,nameEN: "Secret life of mitty", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
        desc: "The manager of the negative assets sector of Life magazine, Walter Mitty, has been working for sixteen years for the magazine and has a tedious life, not going anywhere but from his home to his job and vice-versa.",
-       image: "images/mitty2.jpg",price1: 250,price2: 199, 
+       image1: "images/mitty1.jpg",image2: "images/mitty2.jpg",price1: 250,price2: 199, 
        genre: [false,true,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
     },
     {  id: 4,nameEN: "Interstellar", nameTH: "ทะยานดาวกู้โลก ", 
        desc: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-       image: "images/inter2.jpg",price1: 300,price2: 219,
+       image1: "images/inter1.jpg",image2: "images/inter2.jpg",price1: 300,price2: 219,
        genre: [false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
     },
     {  id: 5,nameEN: "Guardians of the Galaxy", nameTH: "รวมพันธุ์นักสู้พิทักษ์จักรวาล", 
        desc: "A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.",
-       image: "images/guar2.jpg",price1: 300,price2: 209, 
+       image1: "images/guar1.jpg",image2: "images/guar2.jpg",price1: 300,price2: 209, 
        genre: [true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
     }
   ];
@@ -180,6 +192,12 @@ app.controller('MovieController', function ($scope) {
        genre: [false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
     }
   ];
+
+  $scope.showInfoMovie;
+  $scope.clickImage = function(index){
+    $scope.showInfoMovie = $scope.movies[index];
+    console.log($scope.isSearching);
+  };
 
   $scope.SelectCategories = function(catagory){
     for(i=0;i<$scope.catStyle.length;i++){

@@ -8,7 +8,10 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+
     <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="js/scrolling-nav.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script> 
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/Angular/MovieController.js"></script>
@@ -16,64 +19,13 @@
 </head>
 
 <body ng-app = 'MovieStore'>
+
+    <!-- Top Navigation -->
+    <div ng-include = "'NavigatorBar.html'"> </div>
+    
     <!-- logo -->
     <img src="http://placehold.it/1400x400" alt="">
-    <!-- Top Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="font-weight: bold">
-        <div class="container" ng-controller = "MenuController">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="WelcomePage.html">Movie Store</a>
-            </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-left">
-                    <li class="dropdown">
-                      <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
-                        GENRE
-                      </a>
-                      <ul class="dropdown-menu" aria-labelledby="contactMenu">
-                        <li ng-repeat = "item in genreList"><a href="ShoppingPage.html">{{item}}</a></li>
-                      </ul>
-                    </li>
-                    <li>
-                        <a href="#">FAQ</a>
-                    </li>
-                    <li class="dropdown">
-                      <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
-                        Contact
-                      </a>
-                      <ul class="dropdown-menu" aria-labelledby="contactMenu">
-                        <li ng-repeat = "item in contactlist"><a href="#">{{item}}</a></li>
-                      </ul>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="#">Login</a>
-                    </li>
-                    <li>
-                        <a href="#">Register</a>
-                    </li>
-                    <li ng-show = "false">
-                        <a href="#">Logout</a>
-                    </li>
-                    <li>
-                        <a href="http://www.google.com" class ="glyphicon glyphicon-search"></a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
     <!-- Page Content -->
     <div class="container" ng-controller = "MovieController">
         <!-- Jumbotron Header Advisment-->
@@ -104,7 +56,7 @@
           <!-- Wrapper for slides -->
           <div class="carousel-inner" role="listbox" style = "margin-top: 15px">
             <div class="item active">
-              <div class="fill" style="background-image:url({{salemovies[0].image}}); height:400px;">
+              <div class="fill" style="background-image:url({{salemovies[0].image2}}); height:500px;">
                    <div class = "glyphicon glyphicon-fullscreen col-md-offset-10" data-toggle="modal" data-target=".img0full"></div>
               </div>
               <div class="carousel-caption carouselForm">
@@ -112,7 +64,7 @@
               </div>
             </div>
             <div class="item">
-              <div class="fill" style="background-image:url({{salemovies[1].image}}); height:400px;">
+              <div class="fill" style="background-image:url({{salemovies[1].image2}}); height:500px;">
                   <div class = "glyphicon glyphicon-fullscreen col-md-offset-10" data-toggle="modal" data-target=".img1full"></div>
               </div>
               <div class="carousel-caption carouselForm">
@@ -120,7 +72,7 @@
               </div>
             </div>
             <div class="item">
-              <div class="fill" style="background-image:url({{salemovies[2].image}}); height:400px;">
+              <div class="fill" style="background-image:url({{salemovies[2].image2}}); height:500px;">
                   <div class = "glyphicon glyphicon-fullscreen col-md-offset-10" data-toggle="modal" data-target=".img2full"></div>
               </div>
               <div class="carousel-caption carouselForm">
@@ -132,7 +84,7 @@
           <div ng-repeat = "movie in salemovies" class="modal fade {{'img'+$index+'full'}}" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                   <img src="{{movie.image}}" alt="{{movie.nameEN}}" class = "img-thumbnail">
+                   <img src="{{movie.image1}}" alt="{{movie.nameEN}}" class = "img-thumbnail">
                 </div>
             </div>
           </div>          
@@ -151,7 +103,7 @@
         </div>
 
         <!-- Movie Information-->
-        <div class="well" ng-show = "currIndex === 0" style = "background-color:#3d3d29;">
+        <div class="well" ng-show = "currIndex === 0">
             <h2>{{salemovies[0].nameEN}}</h2>
             <h4>{{salemovies[0].nameTH}}</h4>
             <p>{{salemovies[0].desc}}</p>
@@ -160,7 +112,7 @@
             <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
             </p>
         </div>
-        <div class="well" ng-show = "currIndex === 1" style = "background-color:#3d3d29">
+        <div class="well" ng-show = "currIndex === 1">
             <h2>{{salemovies[1].nameEN}}</h2>
             <h4>{{salemovies[1].nameTH}}</h4>
             <p>{{salemovies[1].desc}}</p>
@@ -169,7 +121,7 @@
             <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
             </p>
         </div>
-        <div class="well" ng-show = "(currIndex === 2)" style = "background-color:#3d3d29">
+        <div class="well" ng-show = "(currIndex === 2)">
             <h2>{{salemovies[2].nameEN}}</h2>
             <h4>{{salemovies[2].nameTH}}</h4>
             <p>{{salemovies[2].desc}}</p>
@@ -228,14 +180,8 @@
         </div>
         <hr>
     </div>
-    <!-- Footer -->
-    <footer">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <p>Copyright &copy; KMITL 2016</p>
-            </div>
-        </div>
-    </footer>
+    <!-- credit -->
+    <div ng-include = "'credit.html'"></div>
 </body>
 
 </html>
