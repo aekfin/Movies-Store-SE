@@ -14,7 +14,7 @@ app.controller('MenuController', function($scope,$log){
 
 });
 
-app.controller('MovieController', function ($scope) {
+app.controller('MovieController', function ($scope,$http) {
   var currIndex = $scope.currIndex = 0;
   $scope.infoId = 0;
 
@@ -39,159 +39,80 @@ app.controller('MovieController', function ($scope) {
     'font-size': '14px'
   };
   // Service
+  // Promotion
   $scope.salemovies = [
     {  id: 0,nameEN: "Secret life of mitty", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
        desc: "The manager of the negative assets sector of Life magazine, Walter Mitty, has been working for sixteen years for the magazine and has a tedious life, not going anywhere but from his home to his job and vice-versa.",
-       image1: "images/mitty1.jpg",image2: "images/mitty2.jpg",price1: 250,price2: 199, 
+       imgPoster: "images/mitty1.jpg",imgCover: "images/mitty2.jpg",priceDvd: 250,discountDvd: 199, 
        genre: [false,true,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
     },
     {  id: 1,nameEN: "Interstellar", nameTH: "ทะยานดาวกู้โลก ", 
        desc: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-       image1: "images/inter1.jpg",image2: "images/inter2.jpg",price1: 300,price2: 219,
+       imgPoster: "images/inter1.jpg",imgCover: "images/inter2.jpg",priceDvd: 300,discountDvd: 219,
        genre: [false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
     },
     {  id: 2,nameEN: "Guardians of the Galaxy", nameTH: "รวมพันธุ์นักสู้พิทักษ์จักรวาล", 
        desc: "A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.",
-       image1: "images/guar1.jpg",image2: "images/guar2.jpg",price1: 300,price2: 209, 
+       imgPoster: "images/guar1.jpg",imgCover: "images/guar2.jpg",priceDvd: 300,discountDvd: 209, 
        genre: [true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
     },
-    {  id: 3,nameEN: "Secret life of mitty", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
+    {  id: 3,nameEN: "John Wick", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
        desc: "The manager of the negative assets sector of Life magazine, Walter Mitty, has been working for sixteen years for the magazine and has a tedious life, not going anywhere but from his home to his job and vice-versa.",
-       image1: "images/mitty1.jpg",image2: "images/mitty2.jpg",price1: 250,price2: 199, 
+       imgPoster: "images/johnwick1.jpg",priceDvd: 250,discountDvd: 199, 
        genre: [false,true,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
     },
     {  id: 4,nameEN: "Interstellar", nameTH: "ทะยานดาวกู้โลก ", 
        desc: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-       image1: "images/inter1.jpg",image2: "images/inter2.jpg",price1: 300,price2: 219,
+       imgPoster: "images/inter1.jpg",imgCover: "images/inter2.jpg",priceDvd: 300,discountDvd: 219,
        genre: [false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
     },
     {  id: 5,nameEN: "Guardians of the Galaxy", nameTH: "รวมพันธุ์นักสู้พิทักษ์จักรวาล", 
        desc: "A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.",
-       image1: "images/guar1.jpg",image2: "images/guar2.jpg",price1: 300,price2: 209, 
+       imgPoster: "images/guar1.jpg",imgCover: "images/guar2.jpg",priceDvd: 300,discountDvd: 209, 
        genre: [true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
     }
   ];
 
+  // Best Selling
   $scope.hotmovies = [
     {  id: 0,nameEN: "Secret life of mitty", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
        desc: "The manager of the negative assets sector of Life magazine, Walter Mitty, has been working for sixteen years for the magazine and has a tedious life, not going anywhere but from his home to his job and vice-versa.",
-       image: "images/mitty2.jpg",price1: 250,price2: 199, 
+       imgCover: "images/mitty2.jpg",priceDvd: 250,discountDvd: 199, 
        genre: [false,true,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
     },
     {  id: 1,nameEN: "Interstellar", nameTH: "ทะยานดาวกู้โลก ", 
        desc: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-       image: "images/inter2.jpg",price1: 300,price2: 219,
+       imgCover: "images/inter2.jpg",priceDvd: 300,discountDvd: 219,
        genre: [false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
     },
     {  id: 2,nameEN: "Guardians of the Galaxy", nameTH: "รวมพันธุ์นักสู้พิทักษ์จักรวาล", 
        desc: "A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.",
-       image: "images/guar2.jpg",price1: 300,price2: 209, 
+       imgCover: "images/guar2.jpg",priceDvd: 300,discountDvd: 209, 
        genre: [true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
-    }
+    },
+    {  id: 3,nameEN: "John Wick", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
+       desc: "The manager of the negative assets sector of Life magazine, Walter Mitty, has been working for sixteen years for the magazine and has a tedious life, not going anywhere but from his home to his job and vice-versa.",
+       imgCover: "images/johnwick2.jpg",priceDvd: 250,discountDvd: 199, 
+       genre: [false,true,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+    } 
   ];
 
-  $scope.movies = [
-    {  id: 0,nameEN: "Secret life of mitty", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
-       desc: "The manager of the negative assets sector of Life magazine, Walter Mitty, has been working for sixteen years for the magazine and has a tedious life, not going anywhere but from his home to his job and vice-versa.",
-       image: "images/mitty2.jpg",price1: 250,price2: 199, 
-       genre: [false,true,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-    },
-    {  id: 1,nameEN: "Interstellar", nameTH: "ทะยานดาวกู้โลก ", 
-       desc: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-       image: "images/inter2.jpg",price1: 300,price2: 219,
-       genre: [false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
-    },
-    {  id: 2,nameEN: "Guardians of the Galaxy", nameTH: "รวมพันธุ์นักสู้พิทักษ์จักรวาล", 
-       desc: "A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.",
-       image: "images/guar2.jpg",price1: 300,price2: 209, 
-       genre: [true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
-    },
-    {  id: 3,nameEN: "Secret life of mitty", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
-       desc: "The manager of the negative assets sector of Life magazine, Walter Mitty, has been working for sixteen years for the magazine and has a tedious life, not going anywhere but from his home to his job and vice-versa.",
-       image: "images/mitty2.jpg",price1: 250,price2: 199, 
-       genre: [false,true,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-    },
-    {  id: 4,nameEN: "Interstellar", nameTH: "ทะยานดาวกู้โลก ", 
-       desc: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-       image: "images/inter2.jpg",price1: 300,price2: 219,
-       genre: [false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
-    },
-    {  id: 5,nameEN: "Guardians of the Galaxy", nameTH: "รวมพันธุ์นักสู้พิทักษ์จักรวาล", 
-       desc: "A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.",
-       image: "images/guar2.jpg",price1: 300,price2: 209, 
-       genre: [true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
-    },
-    {  id: 6,nameEN: "Secret life of mitty", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
-       desc: "The manager of the negative assets sector of Life magazine, Walter Mitty, has been working for sixteen years for the magazine and has a tedious life, not going anywhere but from his home to his job and vice-versa.",
-       image: "images/mitty2.jpg",price1: 250,price2: 199, 
-       genre: [false,true,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-    },
-    {  id: 7,nameEN: "Interstellar", nameTH: "ทะยานดาวกู้โลก ", 
-       desc: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-       image: "images/inter2.jpg",price1: 300,price2: 219,
-       genre: [false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
-    },
-    {  id: 8,nameEN: "Guardians of the Galaxy", nameTH: "รวมพันธุ์นักสู้พิทักษ์จักรวาล", 
-       desc: "A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.",
-       image: "images/guar2.jpg",price1: 300,price2: 209, 
-       genre: [true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
-    },
-    {  id: 9,nameEN: "Secret life of mitty", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
-       desc: "The manager of the negative assets sector of Life magazine, Walter Mitty, has been working for sixteen years for the magazine and has a tedious life, not going anywhere but from his home to his job and vice-versa.",
-       image: "images/mitty2.jpg",price1: 250,price2: 199, 
-       genre: [false,true,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-    },
-    {  id: 10,nameEN: "Interstellar", nameTH: "ทะยานดาวกู้โลก ", 
-       desc: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-       image: "images/inter2.jpg",price1: 300,price2: 219,
-       genre: [false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
-    },
-    {  id: 11,nameEN: "Guardians of the Galaxy", nameTH: "รวมพันธุ์นักสู้พิทักษ์จักรวาล", 
-       desc: "A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.",
-       image: "images/guar2.jpg",price1: 300,price2: 209, 
-       genre: [true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
-    },
-    {  id: 12,nameEN: "Secret life of mitty", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
-       desc: "The manager of the negative assets sector of Life magazine, Walter Mitty, has been working for sixteen years for the magazine and has a tedious life, not going anywhere but from his home to his job and vice-versa.",
-       image: "images/mitty2.jpg",price1: 250,price2: 199, 
-       genre: [false,true,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-    },
-    {  id: 13,nameEN: "Interstellar", nameTH: "ทะยานดาวกู้โลก ", 
-       desc: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-       image: "images/inter2.jpg",price1: 300,price2: 219,
-       genre: [false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
-    },
-    {  id: 14,nameEN: "Guardians of the Galaxy", nameTH: "รวมพันธุ์นักสู้พิทักษ์จักรวาล", 
-       desc: "A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.",
-       image: "images/guar2.jpg",price1: 300,price2: 209, 
-       genre: [true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
-    },
-    {  id: 15,nameEN: "Secret life of mitty", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
-       desc: "The manager of the negative assets sector of Life magazine, Walter Mitty, has been working for sixteen years for the magazine and has a tedious life, not going anywhere but from his home to his job and vice-versa.",
-       image: "images/mitty2.jpg",price1: 250,price2: 199, 
-       genre: [false,true,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-    },
-    {  id: 16,nameEN: "Interstellar", nameTH: "ทะยานดาวกู้โลก ", 
-       desc: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-       image: "images/inter2.jpg",price1: 300,price2: 219,
-       genre: [false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
-    },
-    {  id: 17,nameEN: "Guardians of the Galaxy", nameTH: "รวมพันธุ์นักสู้พิทักษ์จักรวาล", 
-       desc: "A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.",
-       image: "images/guar2.jpg",price1: 300,price2: 209, 
-       genre: [true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
-    },
-    {  id: 18,nameEN: "Secret life of mitty", nameTH: "ชีวิตพิศวงของ วอลเตอร์ มิตตี้", 
-       desc: "The manager of the negative assets sector of Life magazine, Walter Mitty, has been working for sixteen years for the magazine and has a tedious life, not going anywhere but from his home to his job and vice-versa.",
-       image: "images/mitty2.jpg",price1: 250,price2: 199, 
-       genre: [false,true,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-    },
-    {  id: 19,nameEN: "Interstellar", nameTH: "ทะยานดาวกู้โลก ", 
-       desc: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-       image: "images/inter2.jpg",price1: 300,price2: 219,
-       genre: [false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true,false,false,false,false]
+  // All movies
+  $scope.fetchAmount = 100;
+  $scope.movies = [ ];
+  $http.get("php/GetMovies.php").success(function(data){
+    $scope.dbmovies = data;
+    for(i=0;i<data.length;i++){
+      console.log(data[i].imgPoster);
+      $scope.movies.push({
+        id:data[i].id, nameEN:data[i].nameEN, genre1:data[i].genre1, genre2:data[i].genre2, genre3:data[i].genre3, 
+        desc:data[i].synopsis, sound:data[i].sound, subtitle:data[i].subtitle, runtime:data[i], releaseDate:data[i].releaseDate,
+        priceCd:data[i].priceCd, priceDvd:data[i].priceDvd, priceBluray:data[i].priceBluray, discountCd:data[i].discountCd, discountDvd:data[i].discountDvd,
+        discountBluray:data[i].discountBluray, cd:data[i].cd, dvd:data[i].dvd, bluray:data[i].bluray, cdSold:data[i].cdSold, dvdSold:data[i].dvdSold,
+        bluraySold:data[i].bluraySold, onSale:data[i].onSale, imgPoster:data[i].imgPoster, imgCover:data[i].imgCover  
+      });
     }
-  ];
+  });
 
   $scope.showInfoMovie;
   $scope.clickImage = function(index){

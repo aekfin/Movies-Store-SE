@@ -33,7 +33,7 @@
                 <label class="btn btn-success col-md-2" ng-repeat = "genre in genreList" ng-model="checkModel.genre" uib-btn-checkbox ng-click="FilterByGenre($index)" style="text-align: left"> 
                     <span class = "glyphicon glyphicon-check" ng-show = "checkModel.genre" style="margin-left: 25px"></span> 
                     <span class = "glyphicon glyphicon-unchecked" ng-show = "!checkModel.genre" style="margin-left: 25px"></span>
-                    {{"  "+genre}}
+                    {{genre}}
                 </label>        
             </div>
         </div>
@@ -59,11 +59,10 @@
                     <div class="modal-content" style = "background-color:#3d3d29">
                         <div class="modal-header text-center">
                             <h2 style="color:white">{{showInfoMovie.nameEN}}</h2>
-                            <h4 style="color:white">{{showInfoMovie.nameTH}}</h4>
                         </div>
                         <div class="modal-body text-left"">
                             <p style = "color:#c2c2a3">{{showInfoMovie.desc}}</p>
-                            <p style = "color:white">จากราคาปกติ {{showInfoMovie.price1}} บาท เหลือเพียง {{showInfoMovie.price2}} บาทเท่านั้น</p>
+                            <p style = "color:white">จากราคาปกติ {{showInfoMovie.priceDvd}} บาท เหลือเพียง {{showInfoMovie.discountDvd}} บาทเท่านั้น</p>
                         </div>
                         <div class="modal-footer">
                             <p class = "col-md-offset-8">
@@ -79,12 +78,11 @@
                     <div class="row" ng-show = "wasSelect[0]">
                         <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 300px;">
                             <div class="thumbnail" style="height: 280px;">
-                                <img src="{{movie.image}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
+                                <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
                                 data-toggle="modal" data-target=".infomodal">
                                 <div class="caption text-center">
                                     <p ng-style="smartNameEN">{{movie.nameEN}}</p>
-                                    <p ng-style="smartNameTH">{{movie.nameTH}}</p>
-                                    <p ng-style="smartPrice"> ราคา {{movie.price2}} บาท</p>
+                                    <p ng-style="smartPrice"> ราคา {{movie.discountDvd}} บาท</p>
                                 </div>                           
                             </div>
                         </div>
@@ -92,12 +90,11 @@
                     <div class="row" ng-show = "wasSelect[1]">
                         <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in salemovies" style="height: 300px;">
                             <div class="thumbnail" style="height: 280px;">
-                                <img src="{{movie.image2}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
+                               <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
                                 data-toggle="modal" data-target=".infomodal">
                                 <div class="caption text-center">
                                     <p ng-style="smartNameEN">{{movie.nameEN}}</p>
-                                    <p ng-style="smartNameTH">{{movie.nameTH}}</p>
-                                    <p ng-style="smartPrice"> ราคา {{movie.price2}} บาท</p>
+                                    <p ng-style="smartPrice"> ราคา {{movie.discountDvd}} บาท</p>
                                 </div>                           
                             </div>
                         </div>
@@ -105,12 +102,11 @@
                     <div class="row" ng-show = "wasSelect[2]">
                         <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in hotmovies" style="height: 300px;">
                             <div class="thumbnail" style="height: 280px;">
-                                <img src="{{movie.image}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
+                                <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
                                 data-toggle="modal" data-target=".infomodal">
                                 <div class="caption text-center">
                                     <p ng-style="smartNameEN">{{movie.nameEN}}</p>
-                                    <p ng-style="smartNameTH">{{movie.nameTH}}</p>
-                                    <p ng-style="smartPrice"> ราคา {{movie.price2}} บาท</p>
+                                    <p ng-style="smartPrice"> ราคา {{movie.discountDvd}} บาท</p>
                                 </div>                           
                             </div>
                         </div>
@@ -118,12 +114,11 @@
                     <div class="row" ng-show = "wasSelect[3]">
                         <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 300px;">
                             <div class="thumbnail" style="height: 280px;">
-                                <img src="{{movie.image}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
+                                <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
                                 data-toggle="modal" data-target=".infomodal">
                                 <div class="caption text-center">
                                     <p ng-style="smartNameEN">{{movie.nameEN}}</p>
-                                    <p ng-style="smartNameTH">{{movie.nameTH}}</p>
-                                    <p ng-style="smartPrice"> ราคา {{movie.price2}} บาท</p>
+                                    <p ng-style="smartPrice"> ราคา {{movie.discountDvd}} บาท</p>
                                 </div>                           
                             </div>
                         </div>
@@ -131,12 +126,11 @@
                     <div class="row" ng-show = "wasSelect[4]">
                         <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 300px;">
                             <div class="thumbnail" style="height: 280px;">
-                                <img src="{{movie.image}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
+                                <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
                                 data-toggle="modal" data-target=".infomodal">
                                 <div class="caption text-center">
                                     <p ng-style="smartNameEN">{{movie.nameEN}}</p>
-                                    <p ng-style="smartNameTH">{{movie.nameTH}}</p>
-                                    <p ng-style="smartPrice"> ราคา {{movie.price2}} บาท</p>
+                                    <p ng-style="smartPrice"> ราคา {{movie.discountDvd}} บาท</p>
                                 </div>                           
                             </div>
                         </div>
