@@ -199,3 +199,42 @@ app.controller('MovieController', function ($scope,$http) {
 
 });
 
+
+app.controller('AccountController', function($scope,$http){
+  $scope.agree = false;
+  $scope.alert = [false,false];
+  $scope.account= {};
+  $scope.id = 0;
+  $scope.firstName = "";
+  $scope.lastName = "";
+  $scope.userName = "";
+  $scope.password = "";
+  $scope.email = "";
+  $scope.address = "";
+  $scope.city = "";
+  $scope.province = "";
+  $scope.country = "";
+  $scope.zip = "";
+  $scope.successRegister = false;
+  $scope.Register = function(){
+    $scope.alert = [false,false];
+    if($scope.password != $scope.confirm){
+      $scope.alert[0] = true;
+    }else if($scope.agree == false){
+      $scope.alert[1] = true;
+    }else{
+      $http.get("php/FetchAccountMaxID.php").success(function(data){
+          console.log(data[0].id);
+          $scope.id = parseInt(data[0].id)+1;
+          $http.post("php/AddAccount.php",{'id':$scope.id,'firstName':$scope.firstName,'lastName':$scope.lastName,'userName':$scope.userName,
+            'password':$scope.password,'email':$scope.email,'address':$scope.address,'city':$scope.city,'province':$scope.province,'country':$scope.country,'zip':$scope.zip})
+            .success(function(data){
+              console.log(data);
+              $scope.successRegister = true;
+          });
+      });
+    }
+  }
+
+});
+
