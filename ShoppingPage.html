@@ -54,83 +54,91 @@
                 </div>
 
                 <!-- Movie information modal -->
-                <div class="modal fade infomodal" tabindex="-1" role="dialog" aria-labelledby="InformationModal">
-                 <div class="modal-dialog modal-md" role="document">
-                    <div class="modal-content" style = "background-color:#3d3d29">
-                        <div class="modal-header text-center">
-                            <h2 style="color:white">{{showInfoMovie.nameEN}}</h2>
-                        </div>
-                        <div class="modal-body text-left"">
-                            <p style = "color:#c2c2a3">{{showInfoMovie.desc}}</p>
-                            <p style = "color:white">จากราคาปกติ {{showInfoMovie.priceDvd}} บาท เหลือเพียง {{showInfoMovie.discountDvd}} บาทเท่านั้น</p>
-                        </div>
-                        <div class="modal-footer">
-                            <p class = "col-md-offset-8">
-                            <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
-                            </p>   
-                        </div>    
-                    </div>
-                  </div>
-                </div>
+                <div ng-include="'InformationModal.html'"></div>
 
+                <!-- Main Store-->
                 <div class="col-md-9">
                     <h2 class = "h2shop" ng-repeat = "list in catList" ng-show = "{{'wasSelect['+$index+']'}}">{{list}}</h2>
                     <div class="row" ng-show = "wasSelect[0]">
-                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 300px;">
-                            <div class="thumbnail" style="height: 280px;">
-                                <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
-                                data-toggle="modal" data-target=".infomodal">
+                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in newmovies" style="height: 330px;">
+                            <div class="thumbnail" style="height: 310px;">
+                                <div class = "text-center">
+                                    <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)" data-toggle="modal" data-target=".infomodal">
+                                </div>
                                 <div class="caption text-center">
                                     <p ng-style="smartNameEN">{{movie.nameEN}}</p>
-                                    <p ng-style="smartPrice"> ราคา {{movie.discountDvd}} บาท</p>
+                                    <p class = "rdate">Release Date: {{movie.releaseDate}}</p>
+                                    <p ng-style="smartPrice"> ราคา DVD {{movie.discountDvd}} บาท</p>
+                                    <span class = "label label-primary">{{movie.genre1}}</span>
+                                    <span class = "label label-danger">{{movie.genre2}}</span>
+                                    <span class = "label label-success">{{movie.genre3}}</span>
                                 </div>                           
                             </div>
                         </div>
                     </div>
                     <div class="row" ng-show = "wasSelect[1]">
-                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in salemovies" style="height: 300px;">
-                            <div class="thumbnail" style="height: 280px;">
-                               <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
-                                data-toggle="modal" data-target=".infomodal">
+                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in hotmovies" style="height: 320px;">
+                            <div class="thumbnail" style="height: 300px;">
+                                <div class = "text-center">
+                                    <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)" data-toggle="modal" data-target=".infomodal">
+                                </div>
                                 <div class="caption text-center">
                                     <p ng-style="smartNameEN">{{movie.nameEN}}</p>
-                                    <p ng-style="smartPrice"> ราคา {{movie.discountDvd}} บาท</p>
+                                    <p ng-style="smartPrice"> ราคา DVD {{movie.discountDvd}} บาท</p>
+                                    <span class = "label label-primary">{{movie.genre1}}</span>
+                                    <span class = "label label-danger">{{movie.genre2}}</span>
+                                    <span class = "label label-success">{{movie.genre3}}</span>
                                 </div>                           
                             </div>
                         </div>
                     </div>
                     <div class="row" ng-show = "wasSelect[2]">
-                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in hotmovies" style="height: 300px;">
-                            <div class="thumbnail" style="height: 280px;">
-                                <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
-                                data-toggle="modal" data-target=".infomodal">
+                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in salemovies" style="height: 320px;">
+                            <div class="thumbnail" style="height: 300px;">
+                                <div class = "text-center">
+                                    <img src="{{movie.imgCover}}" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
+                                    data-toggle="modal" data-target=".infomodal">
+                                </div>
                                 <div class="caption text-center">
                                     <p ng-style="smartNameEN">{{movie.nameEN}}</p>
-                                    <p ng-style="smartPrice"> ราคา {{movie.discountDvd}} บาท</p>
+                                    <p ng-style="smartPrice" style="height:30px"> 
+                                    CD / DVD / Bluray
+                                    <del ng-style="delPrice">{{movie.priceCd+"/"+movie.priceDvd+'/'+movie.priceBluray}} บาท</del> 
+                                     {{movie.discountCd+"/"+movie.discountDvd+'/'+movie.discountBluray}} บาท</p>
                                 </div>                           
                             </div>
                         </div>
                     </div>
                     <div class="row" ng-show = "wasSelect[3]">
-                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 300px;">
-                            <div class="thumbnail" style="height: 280px;">
-                                <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
-                                data-toggle="modal" data-target=".infomodal">
+                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 320px;">
+                            <div class="thumbnail" style="height: 300px;">
+                                <div class = "text-center">
+                                    <img src="{{movie.imgCover}}" class="img-rounded hotmovieimage" ng-click="clickImage($index)"
+                                    data-toggle="modal" data-target=".infomodal">
+                                </div>
                                 <div class="caption text-center">
                                     <p ng-style="smartNameEN">{{movie.nameEN}}</p>
-                                    <p ng-style="smartPrice"> ราคา {{movie.discountDvd}} บาท</p>
+                                    <p ng-style="smartPrice"> ราคา DVD {{movie.discountDvd}} บาท</p>
+                                    <span class = "label label-primary">{{movie.genre1}}</span>
+                                    <span class = "label label-danger">{{movie.genre2}}</span>
+                                    <span class = "label label-success">{{movie.genre3}}</span>
                                 </div>                           
                             </div>
                         </div>
                     </div>
                     <div class="row" ng-show = "wasSelect[4]">
-                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 300px;">
-                            <div class="thumbnail" style="height: 280px;">
-                                <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
-                                data-toggle="modal" data-target=".infomodal">
+                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 330px;">
+                            <div class="thumbnail" style="height: 310px;">
+                                <div class = "text-center">
+                                    <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)" data-toggle="modal" data-target=".infomodal">
+                                </div>
                                 <div class="caption text-center">
                                     <p ng-style="smartNameEN">{{movie.nameEN}}</p>
-                                    <p ng-style="smartPrice"> ราคา {{movie.discountDvd}} บาท</p>
+                                    <p class = "rdate">Release Date: {{movie.releaseDate}}</p>
+                                    <p ng-style="smartPrice"> ราคา DVD {{movie.discountDvd}} บาท</p>
+                                    <span class = "label label-primary">{{movie.genre1}}</span>
+                                    <span class = "label label-danger">{{movie.genre2}}</span>
+                                    <span class = "label label-success">{{movie.genre3}}</span>
                                 </div>                           
                             </div>
                         </div>

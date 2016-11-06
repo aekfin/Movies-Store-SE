@@ -116,7 +116,12 @@
         <div class="well" ng-show = "currIndex === 0">
             <h2>{{salemovies[0].nameEN}}</h2>
             <p>{{salemovies[0].desc}}</p>
-            <p style="color:red;font-weight: bold">จากราคาปกติ {{salemovies[0].priceDvd}} บาท เหลือเพียง {{salemovies[0].discountDvd}} บาทเท่านั้น</p>
+            <p style="color:red;font-weight: bold">รูปแบบ CD/DVD/Blu-ray จากราคาปกติ 
+            {{salemovies[0].priceCd}}/{{salemovies[0].priceDvd}}/{{salemovies[0].priceBluray}} บาท เหลือเพียง 
+            {{salemovies[0].discountCd}}/{{salemovies[0].discountDvd}}/{{salemovies[0].priceBluray}} บาทเท่านั้น</p>
+            <span class = "label label-primary" style="font-size: 16px">{{salemovies[0].genre1}}</span>
+            <span class = "label label-danger" style="font-size: 16px">{{salemovies[0].genre2}}</span>
+            <span class = "label label-success" style="font-size: 16px">{{salemovies[0].genre3}}</span>
             <p class = "col-md-offset-10">
             <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
             </p>
@@ -124,7 +129,10 @@
         <div class="well" ng-show = "currIndex === 1">
             <h2>{{salemovies[1].nameEN}}</h2>
             <p>{{salemovies[1].desc}}</p>
-            <p style="color:red;font-weight: bold">จากราคาปกติ {{salemovies[1].priceDvd}} บาท เหลือเพียง {{salemovies[1].discountDvd}} บาทเท่านั้น</p>
+            <p style="color:red;font-weight: bold">รูปแบบ CD/DVD/Blu-ray จากราคาปกติ {{salemovies[1].priceCd}}/{{salemovies[1].priceDvd}}/{{salemovies[1].priceBluray}} บาท เหลือเพียง {{salemovies[1].discountCd}}/{{salemovies[1].discountDvd}}/{{salemovies[1].priceBluray}} บาทเท่านั้น</p>
+            <span class = "label label-primary" style="font-size: 16px">{{salemovies[1].genre1}}</span>
+            <span class = "label label-danger" style="font-size: 16px">{{salemovies[1].genre2}}</span>
+            <span class = "label label-success" style="font-size: 16px">{{salemovies[1].genre3}}</span>
             <p class = "col-md-offset-10">
             <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
             </p>
@@ -132,7 +140,10 @@
         <div class="well" ng-show = "(currIndex === 2)">
             <h2>{{salemovies[2].nameEN}}</h2>
             <p>{{salemovies[2].desc}}</p>
-            <p style="color:red;font-weight: bold">จากราคาปกติ {{salemovies[2].priceDvd}} บาท เหลือเพียง {{salemovies[2].discountDvd}} บาทเท่านั้น</p>
+            <p style="color:red;font-weight: bold">รูปแบบ CD/DVD/Blu-ray จากราคาปกติ {{salemovies[2].priceCd}}/{{salemovies[2].priceDvd}}/{{salemovies[2].priceBluray}} บาท เหลือเพียง {{salemovies[2].discountCd}}/{{salemovies[2].discountDvd}}/{{salemovies[2].priceBluray}} บาทเท่านั้น</p>
+            <span class = "label label-primary" style="font-size: 16px">{{salemovies[2].genre1}}</span>
+            <span class = "label label-danger" style="font-size: 16px">{{salemovies[2].genre2}}</span>
+            <span class = "label label-success" style="font-size: 16px">{{salemovies[2].genre3}}</span>
             <p class = "col-md-offset-10">
             <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
             </p>
@@ -140,7 +151,10 @@
         <div class="well" ng-show = "(currIndex === 3)">
             <h2>{{salemovies[3].nameEN}}</h2>
             <p>{{salemovies[3].desc}}</p>
-            <p style="color:red;font-weight: bold">จากราคาปกติ {{salemovies[2].priceDvd}} บาท เหลือเพียง {{salemovies[3].discountDvd}} บาทเท่านั้น</p>
+            <p style="color:red;font-weight: bold">รูปแบบ CD/DVD/Blu-ray จากราคาปกติ {{salemovies[3].priceCd}}/{{salemovies[3].priceDvd}}/{{salemovies[3].priceBluray}} บาท เหลือเพียง {{salemovies[3].discountCd}}/{{salemovies[3].discountDvd}}/{{salemovies[3].priceBluray}} บาทเท่านั้น</p>
+            <span class = "label label-primary" style="font-size: 16px">{{salemovies[3].genre1}}</span>
+            <span class = "label label-danger" style="font-size: 16px">{{salemovies[3].genre2}}</span>
+            <span class = "label label-success" style="font-size: 16px">{{salemovies[3].genre3}}</span>
             <p class = "col-md-offset-10">
             <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
             </p>
@@ -154,38 +168,27 @@
             </div>
         </div>
         <!-- /.row -->
-
+        <!-- Movie information modal -->
+        <div ng-include="'InformationModal.html'"></div>
         <!-- Page Features -->
         <div class="container row text-center">
             <div class="col-md-3 hero-feature" ng-repeat = "hotmovie in hotmovies">
-                <div class="thumbnail" style="background-color:#f5f5ef;height: 320px;margin-top: -30px">
-                    <img src="{{hotmovie.imgCover}}" alt="" class="hotmovieimage img-rounded ">
+                <div class="thumbnail" style="background-color:#f5f5ef;height: 350px;margin-top: -30px">
+                    <div>
+                      <img src="{{hotmovie.imgCover}}" alt="" class="hotmovieimage img-rounded ">
+                    </div>
                     <div class="caption">
-                        <h5 style = "font-weight: bold">{{hotmovie.nameEN}}</h5>
-                        <p>ราคา {{hotmovie.discountDvd}} บาท</p>
-                        <p>
+                        <h5 style = "font-weight: bold;height:30px">{{hotmovie.nameEN}}</h5>
+                        <p>ราคา <strong>{{hotmovie.discountCd}}/{{hotmovie.discountDvd}}/{{hotmovie.discountBluray}}</strong> บาท</p>
+                        <div style="margin-top: -10px;height:30px"> 
+                          <span class = "label label-primary">{{hotmovie.genre1}}</span>
+                          <span class = "label label-danger">{{hotmovie.genre2}}</span>
+                          <span class = "label label-success">{{hotmovie.genre3}}</span>
+                        </div>                        
+                        <p style="margin-top: 10px">
                             <a href="#" class="btn btn-primary">Buy Now!</a> 
-                            <a href="#" class="btn btn-default" data-toggle="modal" data-target="{{'.infomodal'+$index}}" >More Info</a>
-                        </p>
-                        <!-- Movie information modal -->
-                        <div class="modal fade {{'infomodal'+$index}}" tabindex="-1" role="dialog" aria-labelledby="InformationModal">
-                         <div class="modal-dialog modal-md" role="document">
-                            <div class="modal-content" style = "background-color:#3d3d29">
-                                <div class="modal-header text-center">
-                                    <h2 style="color:white">{{hotmovie.nameEN}}</h2>
-                                </div>
-                                <div class="modal-body text-left"">
-                                    <p style = "color:#c2c2a3">{{hotmovie.desc}}</p>
-                                    <p style = "color:white">จากราคาปกติ {{hotmovie.priceDvd}} บาท เหลือเพียง {{hotmovie.discountDvd}} บาทเท่านั้น</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <p class = "col-md-offset-8">
-                                    <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
-                                    </p>   
-                                </div>    
-                            </div>
-                          </div>
-                        </div>
+                            <a href="#" class="btn btn-default" ng-click="clickImage($index)" data-toggle="modal" data-target=".infomodal">More Info</a>
+                        </p>                       
                     </div>
                 </div>
             </div>
