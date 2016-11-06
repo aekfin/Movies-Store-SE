@@ -100,3 +100,27 @@
 	color:black;
 	background-color: white;
 }
+
+.rdate{
+  margin-top: -10px;
+  margin-bottom: 5px;
+  font-size: 10px;
+}
+
+.infoM{
+  height: 300px;
+  width: 240px;
+}
+
+.instocklabel{
+  font-size: 16px;
+  font-weight: bold;
+  color:#3d3d29;
+  background-color:#ffff33;
+}
+
+.btnbuy{
+  font-weight: bold;
+  font-size: 16px;
+  color:#3d3d29;
+}

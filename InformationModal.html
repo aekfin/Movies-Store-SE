@@ -1,0 +1,55 @@
+<!-- Movie information modal -->
+<div class="modal fade infomodal" tabindex="-1" role="dialog" aria-labelledby="InformationModal">
+ <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style = "background-color:#3d3d29">
+        <div class="modal-header text-center">
+            <h2 style="color:white">{{showInfoMovie.nameEN}}</h2>
+            <span class = "text-left glyphicon glyphicon-remove col-remove"></span>
+            <span class = "label label-primary">{{showInfoMovie.genre1}}</span>
+            <span class = "label label-danger">{{showInfoMovie.genre2}}</span>
+            <span class = "label label-success">{{showInfoMovie.genre3}}</span>
+            </p>
+        </div>
+        <div class="modal-body text-left" style="height: 330px">
+            <div class = "col-xs-4 text-center">
+                <img src="{{showInfoMovie.imgCover}}" class = "img-rounded img-responsive infoM text-center">
+            </div>
+            <div class = "col-xs-8" style="color:white">
+                <h4>Synopsis</h4>
+                <p style = "color:#c2c2a3">{{showInfoMovie.desc}}</p>
+                <p><strong>Sound: </strong>{{showInfoMovie.sound}}<br><strong>Subtitle: </strong> {{showInfoMovie.subtitle}}<br><strong>Release Date: </strong>{{showInfoMovie.releaseDate}}
+                </p>
+                <div class = "text-left">
+                    <strong style="font-size:16px">In Stock:   </strong>
+                    <span class = "label instocklabel" ng-show="showInfoMovie.cd>0">CD</span>
+                    <span class = "label instocklabel" ng-show="showInfoMovie.dvd>0">DVD</span> 
+                    <span class = "label instocklabel" ng-show="showInfoMovie.bluray>0">Blu-ray</span> 
+                </div>                            
+            </div>                            
+        </div>
+        <div class="modal-footer">
+            <div class="dropup col-xs-3 text-center">
+              <span class="btn btn-primary dropdown-toggle" type="button" id="formatMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 100%">
+                {{order.format}}
+                <span class="caret"></span>
+              </span>
+              <ul class="dropdown-menu" aria-labelledby="formatMenu">
+                <li><a ng-show="showInfoMovie.cd>0" ng-click="order.format='CD'">CD</a></li>
+                <li><a ng-show="showInfoMovie.dvd>0" ng-click="order.format='DVD'">DVD</a></li>
+                <li><a ng-show="showInfoMovie.bluray>0" ng-click="order.format='Blu-ray'">Blu-ray</a></li>
+              </ul>
+            </div>                        
+            <input class = "col-xs-2 text-right" type ="number" ng-model = "order.amount" style="height: 34px">
+            <div class = "col-xs-5 text-center" style="color:white;font-size: 14px;font-weight: bold">
+                <span ng-show="order.format=='CD'"> จากราคาปกติ {{showInfoMovie.priceCd*order.amount}} เหลือเพียง       
+                    {{showInfoMovie.discountCd*order.amount}} บาทเท่านั้น</span>
+                <span ng-show="order.format=='DVD'"> จากราคาปกติ {{showInfoMovie.priceDvd*order.amount}} เหลือเพียง    
+                    {{showInfoMovie.discountDvd*order.amount}} บาทเท่านั้น</span>
+                <span ng-show="order.format=='Blu-ray'"> จากราคาปกติ {{showInfoMovie.priceBluray*order.amount}} 
+                    เหลือเพียง {{showInfoMovie.discountBluray*order.amount}} บาทเท่านั้น</span>
+            </div>
+            <span class = "btn btn-warning col-xs-2 btnbuy">Buy It</span>
+        </div>    
+    </div>
+  </div>
+</div>
