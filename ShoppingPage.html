@@ -63,7 +63,8 @@
                         <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in newmovies" style="height: 330px;">
                             <div class="thumbnail" style="height: 310px;">
                                 <div class = "text-center">
-                                    <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)" data-toggle="modal" data-target=".infomodal">
+                                    <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" 
+                                    ng-click="clickImage(movie)" data-toggle="modal" data-target=".infomodal">
                                 </div>
                                 <div class="caption text-center">
                                     <p ng-style="smartNameEN">{{movie.nameEN}}</p>
@@ -80,7 +81,8 @@
                         <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in hotmovies" style="height: 320px;">
                             <div class="thumbnail" style="height: 300px;">
                                 <div class = "text-center">
-                                    <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)" data-toggle="modal" data-target=".infomodal">
+                                    <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" 
+                                    ng-click="clickImage(movie)" data-toggle="modal" data-target=".infomodal">
                                 </div>
                                 <div class="caption text-center">
                                     <p ng-style="smartNameEN">{{movie.nameEN}}</p>
@@ -96,7 +98,8 @@
                         <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in salemovies" style="height: 320px;">
                             <div class="thumbnail" style="height: 300px;">
                                 <div class = "text-center">
-                                    <img src="{{movie.imgCover}}" class="hotmovieimage img-rounded" ng-click="clickImage($index)"
+                                    <img src="{{movie.imgCover}}" class="hotmovieimage img-rounded" 
+                                    ng-click="clickImage(movie)"
                                     data-toggle="modal" data-target=".infomodal">
                                 </div>
                                 <div class="caption text-center">
@@ -113,7 +116,8 @@
                         <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 320px;">
                             <div class="thumbnail" style="height: 300px;">
                                 <div class = "text-center">
-                                    <img src="{{movie.imgCover}}" class="img-rounded hotmovieimage" ng-click="clickImage($index)"
+                                    <img src="{{movie.imgCover}}" class="img-rounded hotmovieimage" 
+                                    ng-click="clickImage(movie)"
                                     data-toggle="modal" data-target=".infomodal">
                                 </div>
                                 <div class="caption text-center">
@@ -130,7 +134,8 @@
                         <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in movies" style="height: 330px;">
                             <div class="thumbnail" style="height: 310px;">
                                 <div class = "text-center">
-                                    <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage($index)" data-toggle="modal" data-target=".infomodal">
+                                    <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" 
+                                    ng-click="clickImage(movie)" data-toggle="modal" data-target=".infomodal">
                                 </div>
                                 <div class="caption text-center">
                                     <p ng-style="smartNameEN">{{movie.nameEN}}</p>
@@ -152,11 +157,11 @@
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
+                <li><a ng-click="changePage(1,0,20)" ng-style="pagestyle[1]">1</a></li>
+                <li><a ng-click="changePage(2,20,40)" ng-style="pagestyle[2]">2</a></li>
+                <li><a >3</a></li>
+                <li><a >4</a></li>
+                <li><a >5</a></li>
                 <li><a href="#">6</a></li>
                 <li><a href="#">7</a></li>
                 <li><a href="#">8</a></li>

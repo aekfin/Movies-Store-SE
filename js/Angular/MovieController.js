@@ -18,7 +18,6 @@ app.controller('MovieController', function ($scope,$http) {
   var currIndex = $scope.currIndex = 0;
   $scope.infoId = 0;
   $scope.order = {format:"None",amount:1};
-
   // function
   $scope.genreList =[ 'Action','Adventure','Animation','Biography','Comedy','Crime','Documentary','Drama','Family','Fantasy',"Film-Noir",
                       'History','Horror','Music','Musical','Mystery','Romance','Sci-fi','Sport','Thriller','War','Western'];
@@ -52,7 +51,6 @@ app.controller('MovieController', function ($scope,$http) {
   var loadSaleMovies = function(targetID){
     $scope.salemovies = [];
     $http.post("php/GetMoviesByID.php",{'id':targetID}).success(function(data){
-      console.log(data[0].nameEN);
       for(i=0;i<data.length;i++){
         $scope.salemovies.push({
           id:data[i].id, nameEN:data[i].nameEN, genre1:data[i].genre1, genre2:data[i].genre2, genre3:data[i].genre3, 
@@ -78,7 +76,7 @@ app.controller('MovieController', function ($scope,$http) {
           desc:data[i].synopsis, sound:data[i].sound, subtitle:data[i].subtitle, runtime:data[i], releaseDate:data[i].releaseDate,
           priceCd:data[i].priceCd, priceDvd:data[i].priceDvd, priceBluray:data[i].priceBluray, discountCd:data[i].discountCd, discountDvd:data[i].discountDvd,
           discountBluray:data[i].discountBluray, cd:data[i].cd, dvd:data[i].dvd, bluray:data[i].bluray, cdSold:data[i].cdSold, dvdSold:data[i].dvdSold,
-          bluraySold:data[i].bluraySold, onSale:data[i].onSale, imgPoster:data[i].imgPoster, imgCover:data[i].imgCover  
+          bluraySold:data[i].bluraySold, onSale:data[i].onSale, imgPoster:data[i].imgPoster, imgCover:data[i].imgCover, cnShowmore:true  
         });
       }
     });
@@ -132,17 +130,27 @@ app.controller('MovieController', function ($scope,$http) {
 
 
   $scope.showInfoMovie;
-  $scope.clickImage = function(index){
-    $scope.showInfoMovie = $scope.movies[index];
+  $scope.clickImage = function(movie){
+    $scope.showInfoMovie = movie;
+
     if($scope.showInfoMovie.cd > 0)
       $scope.order.format = "CD";
     else if($scope.showInfoMovie.dvd > 0)
           $scope.order.format = "DVD";
       else if($scope.showInfoMovie.bluray > 0)
           $scope.order.format = "Bluray";
+    
+    if($scope.showInfoMovie.desc.length > 300){
+        $scope.showInfoMovie.shortd = $scope.showInfoMovie.desc.substring(0,300)+'...'; 
+        $scope.showInfoMovie.canShowmore = true;
+      }else{
+        $scope.showInfoMovie.shortd = $scope.showInfoMovie.desc;
+        $scope.showInfoMovie.canShowmore = false;
+    }
     console.log($scope.isSearching);
   };
 
+  $scope.catStyle[3] = {"color" : "white","font-weight" : "bold","background-color" : "#cc2900"}
   $scope.SelectCategories = function(catagory){
     for(i=0;i<$scope.catStyle.length;i++){
       if(i == catagory){
@@ -168,15 +176,26 @@ app.controller('MovieController', function ($scope,$http) {
     }
   }
 
-  // assign short description
-  for(i=0;i<$scope.hotmovies.length;i++){
-    $scope.hotmovies[i].shortd = $scope.hotmovies[i].desc.substring(0,20)+'...'; 
+  $scope.pagestyle = [];
+  $scope.pagestyle[1]={"font-weight":"bold","color":"white","background-color" : "#cc2900"};
+  $scope.changePage = function(i,min,max){
+    $scope.pagestyle = [];
+    $scope.pagestyle[i] = {
+      "font-weight":"bold",
+      "color":"white",
+      "background-color" : "#cc2900"
+    }
+    if($scope.wasSelect[3]){
+      $scope.minRowAM = min;    
+      $scope.maxRowAM = max;  
+      loadMovies();
+    }
   }
-  for(i=0;i<$scope.salemovies.length;i++){
-    $scope.salemovies[i].shortd = $scope.salemovies[i].desc.substring(0,20)+'...'; 
+
+  $scope.showDesc = function(movie){
+    movie.shortd = movie.desc;
+    movie.canShowmore = false;
   }
-  for(i=0;i<$scope.movies.length;i++){
-    $scope.movies[i].shortd = $scope.movies[i].desc.substring(0,20)+'...'; 
-  }
+
 });
 
