@@ -1,11 +1,6 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "moviestore";
-
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+include "ConnectDB.php";
 $request = json_decode(file_get_contents('php://input'));
 $id = $conn->real_escape_string($request->id);
 
