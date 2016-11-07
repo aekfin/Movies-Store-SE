@@ -4,7 +4,6 @@
     <div class="modal-content" style = "background-color:#3d3d29">
         <div class="modal-header text-center">
             <h2 style="color:white">{{showInfoMovie.nameEN}}</h2>
-            <span class = "text-left glyphicon glyphicon-remove col-remove"></span>
             <span class = "label label-primary">{{showInfoMovie.genre1}}</span>
             <span class = "label label-danger">{{showInfoMovie.genre2}}</span>
             <span class = "label label-success">{{showInfoMovie.genre3}}</span>
@@ -16,7 +15,7 @@
             </div>
             <div class = "col-xs-8" style="color:white">
                 <h4>Synopsis</h4>
-                <p style = "color:#c2c2a3">{{showInfoMovie.desc}}</p>
+                <p style = "color:#c2c2a3">{{showInfoMovie.shortd}}  <label class = "glyphicon glyphicon-triangle-bottom" ng-show="showInfoMovie.canShowmore" ng-click = "showDesc(showInfoMovie)"></label></p>
                 <p><strong>Sound: </strong>{{showInfoMovie.sound}}<br><strong>Subtitle: </strong> {{showInfoMovie.subtitle}}<br><strong>Release Date: </strong>{{showInfoMovie.releaseDate}}
                 </p>
                 <div class = "text-left">
