@@ -17,10 +17,18 @@
             <ul class="nav navbar-nav navbar-left">
                 <li class="dropdown">
                   <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
-                    GENRE
+                    Genre
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="contactMenu">
                     <li ng-repeat = "item in genreList"><a href="ShoppingPage.html">{{item}}</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
+                    Categories
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="contactMenu">
+                    <li ng-repeat = "item in categoriesList"><a href="ShoppingPage.html">{{item}}</a></li>
                   </ul>
                 </li>
                 <li>
@@ -36,14 +44,26 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a class = "page-scroll" href="#" ng-show = "!isSearching">Login</a>
+                <li ng-show = "!isSearching && !account.inSystem">
+                    <a class = "page-scroll" href="LoginPage.html">Login</a>
                 </li>
-                <li>
-                    <a class = "page-scroll" href="RegisterPage.html" ng-show = "!isSearching">Register</a>
+                <li ng-show = "!isSearching && !account.inSystem">
+                    <a class = "page-scroll" href="RegisterPage.html" ng-show = "!isSearching || !account.inSystem">Register</a>
                 </li>
-                <li ng-show = "false">
-                    <a class = "page-scroll" href="#">Logout</a>
+                <li class="dropdown" ng-show = "account.inSystem">
+                  <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
+                    {{account.userName}}
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="contactMenu">
+                    <li><a>Basket</a></li>
+                    <li><a>Checkout</a></li>
+                    <li><a>Edit Account</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="LoginPage.html" ng-click = "Logout()">Logout</a></li>
+                  </ul>
+                </li>
+                <li ng-show = "!isSearching && account.inSystem">
+                    <a class = "page-scroll" href="LoginPage.html" ng-click = "Logout()">Logout</a>
                 </li>
                 <li>
                     <a class = "page-scroll" ng-click="(isSearching==false||isSearching==null)? isSearching=true: isSearching=false">Search <span class = "glyphicon glyphicon-search"></span></a>

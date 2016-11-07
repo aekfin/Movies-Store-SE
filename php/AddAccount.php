@@ -15,8 +15,6 @@ $country = $conn->real_escape_string($request->country);
 $zip = $conn->real_escape_string($request->zip);
 
 $insert_row = $conn->query("INSERT INTO accounts(id,userName,password,email,firstName,lastName,address,city,province,country,zip)VALUES('$id','$userName','$password','$email','$firstName','$lastName','$address','$city','$province','$country','$zip')");
-$data = $id;
-	print json_encode($data);
 
 $conn->close();
 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Login - Movie Store</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/heroic-features.css" rel="stylesheet">
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    
+    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="js/scrolling-nav.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/Angular/MovieController.js"></script>
+    <script type="text/javascript" src="js/Angular/angular-cookies.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls-2.2.0.min.js"></script>
+</head>
+
+<body ng-app = "MovieStore">
+
+    <!-- Top Navigation -->
+    <div ng-include = "'NavigatorBar.html'"> </div>
+    <div class="container" ng-controller = "AccountController">
+
+        <div class="row" style="margin-top:20px">
+            <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+                <form role="form">
+                    <fieldset>
+                        <h2>Please Login</h2>
+                        <hr class="colorgraph">
+                        <div ng-show = "!successLogin">
+                            <div class="form-group">
+                                <input type="text" ng-model = "loginUsername" class="form-control input-lg" placeholder="Username">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" ng-model = "loginPassword" class="form-control input-lg" placeholder="Password">
+                            </div>
+                            <span class="button-checkbox">
+                                <button type="button" class="btn btn-danger" ng-click="rememberMe=(rememberMe == true)?false:true">
+                                        <div class = "glyphicon glyphicon-unchecked" ng-show="!rememberMe"></div>
+                                        <div class = "glyphicon glyphicon-check" ng-show="rememberMe"></div>
+                                        Remember me</button>
+                                <a href="RegisterPage.html" class="btn btn-link pull-right">Forgot Password?</a>
+                            </span>
+                            <div class="alert alert-danger" ng-show = "alert[3]" style="margin-top: 10px">
+                            Your username or your password was incorrect !!</div>                            
+                        </div>
+                        <div ng-show = "successLogin">
+                            <div class="alert alert-success">
+                                <div style="font-size: 25px">
+                                    <span class = "glyphicon glyphicon-ok-circle"></span> Login Successful !!<br>
+                                </div>
+                                Welcome back {{user.firstName+" "+user.lastName}}.<br>
+                                Login Username: {{user.userName}}<br>
+                            </div>
+                        </div>
+                        <hr class="colorgraph">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6" ng-show = "!successLogin">
+                                <input type="submit" class="btn btn-lg btn-success btn-block" ng-click = "Login()" value="Login">
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6" ng-show = "!successLogin">
+                                <a href="RegisterPage.html" class="btn btn-lg btn-primary btn-block">Register</a>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6" ng-show = "successLogin">
+                               <a href="WelcomePage.html" class="btn btn-lg btn-danger btn-block" ng-cllick = "Logout()">Logout</a>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6" ng-show = "successLogin">
+                                <a href="ShoppingPage.html" class="btn btn-lg btn-primary btn-block">Go Shopping</a>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+    </div>
+     <!-- credit -->
+    <div ng-include = "'credit.html'"></div>
+
+</body>
+
+</html>
