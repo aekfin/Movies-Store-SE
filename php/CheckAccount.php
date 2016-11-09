@@ -3,9 +3,9 @@
 include "ConnectDB.php";
 $request = json_decode(file_get_contents('php://input'));
 $username = $conn->real_escape_string($request->username);
+$email = $conn->real_escape_string($request->email);
 
-
-$query="SELECT * FROM accounts WHERE username = '$username'";
+$query="SELECT * FROM accounts WHERE username = '$username' or email = '$email'";
 //$data = array();
 $data['message'] = "Cannot Find";
 $data['found'] = false;
