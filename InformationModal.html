@@ -3,6 +3,9 @@
  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content" style = "background-color:#3d3d29">
         <div class="modal-header text-center">
+            <span type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:white">
+                <span aria-hidden="true">&times;</span>
+            </span>
             <h2 style="color:white">{{showInfoMovie.nameEN}}</h2>
             <span class = "label label-primary">{{showInfoMovie.genre1}}</span>
             <span class = "label label-danger">{{showInfoMovie.genre2}}</span>
@@ -47,8 +50,41 @@
                 <span ng-show="order.format=='Blu-ray'"> จากราคาปกติ {{showInfoMovie.priceBluray*order.amount}} 
                     เหลือเพียง {{showInfoMovie.discountBluray*order.amount}} บาทเท่านั้น</span>
             </div>
-            <span class = "btn btn-warning col-xs-2 btnbuy">Buy It</span>
+            <span class = "btn btn-warning col-xs-2 btnbuy" ng-click = "buyMovies(showInfoMovie)" data-toggle="modal" data-target=".alertmodal">Buy It</span>
         </div>    
     </div>
   </div>
 </div>
+<div class="modal fade alertmodal" tabindex="-1" role="dialog" style="font-weight: bold">
+  <div class="modal-dialog modal-md" role="document" ng-show="!canBuy">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#990000;color:white;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p style="font-size: 26px;margin-top: -30px;margin-bottom: 0px"><br>Warning!!</p>
+      </div>
+      <div class = "modal-body">
+        <p><div style="text-align: center;font-size: 24px">You need to login before buying movies.</div></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" style="font-weight: bold" data-dismiss="modal">Close</button>
+        <a href = "RegisterPage.html" type="button" class="btn btn-success btn-sm" style="font-weight: bold">Register</a>
+        <a href = "LoginPage.html" type="button" class="btn btn-info btn-sm" style="font-weight: bold">Login</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+  <div class="modal-dialog modal-md" role="document" ng-show="canBuy">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#1f7a1f;color:white;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p style="font-size: 26px;margin-top: -30px;margin-bottom: 0px"><br>Complete Adding</p>
+      </div>
+      <div class = "modal-body">
+        <p><div style="text-align: center;font-size: 18px"><u>{{showInfoMovie.nameEN}}</u> was add to your basket.</div></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" style="font-weight: bold" data-dismiss="modal">Buy More</button>
+        <a href = "RegisterPage.html" type="button" class="btn btn-primary" style="font-weight: bold">Checkout</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,20 +1,46 @@
 var app = angular.module('MovieStore',['ngCookies','ui.bootstrap']);
 
-app.controller('MenuController', function($scope,$log,$cookies){
+app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope){
   $scope.contactlist = [
     'Telephone number',
     'Location',
     'E-mail'
   ];
-    
   $scope.genreList =[ 'Action','Adventure','Animation','Biography','Comedy','Crime','Documentary','Drama','Family','Fantasy',"Film-Noir",
                       'History','Horror','Music','Musical','Mystery','Romance','Sci-fi','Sport','Thriller','War','Western'];
   $scope.categoriesList = ["New Releases","Best Sellers","Promotion","All Movies","Coming Soon"];
   $scope.status = {
     isopen: false
   };
+
+  $scope.ViewBasket = function(){
+    $scope.movies = [];
+    $scope.baskets = [];
+    $http.post("php/GetMovieByCustomerId.php",{'customerId':$scope.account.id}).success(function(data){
+      for(i=0;i<data.length;i++){
+        $scope.baskets.push(data[i]);
+        $http.post("php/GetDataByID.php",{'id':data[i].movieId,'table':"movies"}).success(function(data){
+          $scope.movies.push(data[0]);
+        });            
+      }
+    });
+  }
+
+  $scope.BasketDetail = function(i,type){
+    $scope.viewImg = false;
+    $scope.basketDetail = type;
+    $scope.movIndex = i;
+  }
+
+  $scope.RemoveMovieFormBasket = function(){
+    $http.post("php/RemoveDataByID.php",{'id':$scope.baskets[$scope.movIndex].id,'table':'baskets'}).success(function(data){
+      console.log("Deleted!!");
+      $scope.ViewBasket();
+    });
+  }
+
   $scope.account = {};
-  var loadCookie = function(){
+  $scope.loadCookie = function(){
     $scope.account.id = $cookies.get('logonUser.id');
     $scope.account.firstName = $cookies.get('logonUser.firstName');
     $scope.account.lastName = $cookies.get('logonUser.lastName');
@@ -22,20 +48,30 @@ app.controller('MenuController', function($scope,$log,$cookies){
     $scope.account.inSystem = $cookies.get('logonUser.inSystem');
   }
 
-  $scope.Logout =function(){
-    $cookies.remove('logonUser');  
+  $scope.Logout = function(){
+    $cookies.remove('logonUser.id'); 
+    $cookies.remove('logonUser.firstName'); 
+    $cookies.remove('logonUser.lastName'); 
+    $cookies.remove('logonUser.userName');
+    $cookies.remove('logonUser.email');  
     $cookies.remove('logonUser.inSystem');   
-    $scope.account.inSystem =false;
+    $scope.account.inSystem = false;
     $scope.account = {};
   }
+  // take from another controller
+  $rootScope.$on("loadCookie", function(){
+    $scope.loadCookie();
+  });
 
-  loadCookie();
+  $scope.loadCookie();
 
 });
 
-app.controller('MovieController', function ($scope,$http,$cookies) {
+app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
   var currIndex = $scope.currIndex = 0;
   $scope.infoId = 0;
+  $scope.basketId;
+  $scope.canBuy = true;
   $scope.order = {format:"None",amount:1};
   // function
   $scope.genreList =[ 'Action','Adventure','Animation','Biography','Comedy','Crime','Documentary','Drama','Family','Fantasy',"Film-Noir",
@@ -69,7 +105,7 @@ app.controller('MovieController', function ($scope,$http,$cookies) {
   $scope.salemovies = [];
   var loadSaleMovies = function(targetID){
     $scope.salemovies = [];
-    $http.post("php/GetDataByID.php",{'id':targetID,'database':'movies'}).success(function(data){
+    $http.post("php/GetDataByID.php",{'id':targetID,'table':'movies'}).success(function(data){
       for(i=0;i<data.length;i++){
         $scope.salemovies.push({
           id:data[i].id, nameEN:data[i].nameEN, genre1:data[i].genre1, genre2:data[i].genre2, genre3:data[i].genre3, 
@@ -139,14 +175,15 @@ app.controller('MovieController', function ($scope,$http,$cookies) {
     });
   }
 
-  loadSaleMovies(10);
-  loadSaleMovies(4);
   loadSaleMovies(1);
-  loadSaleMovies(8);
+  loadSaleMovies(2);
+  loadSaleMovies(3);
+  loadSaleMovies(4);
   loadNewMovies();
   loadMovies();
   loadHotMovies();
-
+  console.log("OnUser:"+$cookies.get('logonUser.inSystem'));
+  console.log("User:"+$cookies.get('logonUser.userName'));
 
   $scope.showInfoMovie;
   $scope.clickImage = function(movie){
@@ -166,8 +203,37 @@ app.controller('MovieController', function ($scope,$http,$cookies) {
         $scope.showInfoMovie.shortd = $scope.showInfoMovie.desc;
         $scope.showInfoMovie.canShowmore = false;
     }
-    console.log($scope.isSearching);
   };
+
+  $scope.totalPrice;
+  $scope.buyMovies = function(movie){
+    switch($scope.order.format){
+      case "CD":
+        $scope.totalPrice = movie.discountCd*$scope.order.amount;
+        break;
+      case "DVD":
+        $scope.totalPrice = movie.discountDvd*$scope.order.amount;
+        break;
+      case "Blu-ray":
+        $scope.totalPrice = movie.discountBluray*$scope.order.amount;
+        break;
+    }
+    $http.post("php/GetTableMaxID.php",{'table':"baskets"}).success(function(data){
+      $scope.basketId = parseInt(data[0].id)+1;
+      if($cookies.get('logonUser.inSystem') === undefined){
+        $scope.canBuy = false;
+      }else{
+        /*
+        var customerId = $cookies.get('logonUser.id');
+        $scope.date = new Date();
+        $http.post("php/AddToBasket.php",{'id':$scope.basketId,'customerId':customerId,'movieId':movie.id,'format':$scope.order.format,
+        'amount':$scope.order.amount,'totalPrice':$scope.totalPrice,'date':$scope.date}).success(function(data){
+            
+        });
+        */
+      }
+    });
+  }
 
   $scope.catStyle[3] = {"color" : "white","font-weight" : "bold","background-color" : "#cc2900"}
   $scope.SelectCategories = function(catagory){
@@ -219,7 +285,7 @@ app.controller('MovieController', function ($scope,$http,$cookies) {
 });
 
 
-app.controller('AccountController', function($scope,$http,$cookies){
+app.controller('AccountController', function($scope,$http,$cookies,$rootScope){
   $scope.agree = false;
   $scope.rememberMe = false;
   $scope.alert = [false,false,false,false];
@@ -249,9 +315,9 @@ app.controller('AccountController', function($scope,$http,$cookies){
     }else if($scope.agree == false){
       $scope.alert[1] = true;
     }else{
-      $http.get("php/FetchAccountMaxID.php").success(function(data){
+      $http.post("php/GetTableMaxID.php",{'table':"accounts"}).success(function(data){
           $scope.id = parseInt(data[0].id)+1;
-          $http.post("php/CheckAccount.php",{'username':$scope.userName}).success(function(data){
+          $http.post("php/CheckAccount.php",{'username':$scope.userName,'email':$scope.email}).success(function(data){
             console.log(data['message']);
             if(data['found']){
               $scope.alert[2] = true;
@@ -282,6 +348,7 @@ app.controller('AccountController', function($scope,$http,$cookies){
         $scope.user.firstName = $cookies.get('logonUser.firstName');
         $scope.user.lastName = $cookies.get('logonUser.lastName');
         $scope.user.userName = $cookies.get('logonUser.userName'); 
+        $scope.loadCookie();
       }else{
         $scope.alert[3] = true;
       }
@@ -290,12 +357,16 @@ app.controller('AccountController', function($scope,$http,$cookies){
 
   $scope.Logout =function(){
     $scope.successLogin = false;
-    $cookies.remove('logonUser.id');
+    $cookies.remove('logonUser.id'); 
+    $cookies.remove('logonUser.firstName'); 
+    $cookies.remove('logonUser.lastName'); 
     $cookies.remove('logonUser.userName');
-    $cookies.remove('logonUser.firstName');
-    $cookies.remove('logonUser.lastName');
-    $cookies.remove('logonUser.email');
-    $cookies.remove('logonUser.inSystem');
+    $cookies.remove('logonUser.email');  
+    $cookies.remove('logonUser.inSystem'); 
+  }
+  // set over another controller
+  $scope.loadCookie = function() {
+    $rootScope.$emit("loadCookie", {});
   }
 
 });

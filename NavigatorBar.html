@@ -1,6 +1,7 @@
 <!-- Top Navigation -->
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="font-weight: bold">
-    <div class="container" ng-controller = "MenuController">
+<div ng-controller = "MenuController">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="font-weight: bold;font-size: 16px">
+    <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -9,20 +10,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand page-scroll" href="WelcomePage.html">Seksu Movie Store</a>
+            <a class="navbar-brand page-scroll" href="WelcomePage.html"><span class="glyphicon glyphicon-cd"></span>
+            Seksu Movie Store</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-left">
-                <li class="dropdown">
-                  <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
-                    Genre
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="contactMenu">
-                    <li ng-repeat = "item in genreList"><a href="ShoppingPage.html">{{item}}</a></li>
-                  </ul>
-                </li>
                 <li class="dropdown">
                   <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
                     Categories
@@ -32,11 +26,11 @@
                   </ul>
                 </li>
                 <li>
-                    <a class = "page-scroll" href="#">FAQ</a>
+                    <a class = "page-scroll" href="#">FAQ <span class="glyphicon glyphicon-question-sign"></span></a>
                 </li>
                 <li class="dropdown">
                   <a class="page-scroll dropdown-toggle" id="contactMenu" data-toggle="dropdown">
-                    Contact
+                    Contact <span class="glyphicon glyphicon-earphone"></span>
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="contactMenu">
                     <li ng-repeat = "item in contactlist"><a href="#">{{item}}</a></li>
@@ -45,28 +39,27 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li ng-show = "!isSearching && !account.inSystem">
-                    <a class = "page-scroll" href="LoginPage.html">Login</a>
+                    <a class = "page-scroll" href="LoginPage.html"><span class="glyphicon glyphicon-log-in"></span>  Login</a>
                 </li>
                 <li ng-show = "!isSearching && !account.inSystem">
-                    <a class = "page-scroll" href="RegisterPage.html" ng-show = "!isSearching || !account.inSystem">Register</a>
+                    <a class = "page-scroll" href="RegisterPage.html" ng-show = "!isSearching || !account.inSystem"> Register</a>
                 </li>
                 <li class="dropdown" ng-show = "account.inSystem">
                   <a class="dropdown-toggle" id="contactMenu" data-toggle="dropdown">
-                    {{account.userName}}
+                    <span class="glyphicon glyphicon-user"></span> {{account.userName}}
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="contactMenu">
-                    <li><a>Basket</a></li>
-                    <li><a>Checkout</a></li>
-                    <li><a>Edit Account</a></li>
+                    <li>
+                        <a data-toggle="modal" data-target=".basketmodal" ng-click="ViewBasket()"><span class="glyphicon glyphicon-shopping-cart"></span> Basket</a>
+                    </li>
+                    <li><a><span class="glyphicon glyphicon-list-alt"></span> Checkout</a></li>
+                    <li><a><span class="glyphicon glyphicon-edit"></span> Edit Account</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="LoginPage.html" ng-click = "Logout()">Logout</a></li>
                   </ul>
                 </li>
-                <li ng-show = "!isSearching && account.inSystem">
-                    <a class = "page-scroll" href="LoginPage.html" ng-click = "Logout()">Logout</a>
-                </li>
                 <li>
-                    <a class = "page-scroll" ng-click="(isSearching==false||isSearching==null)? isSearching=true: isSearching=false">Search <span class = "glyphicon glyphicon-search"></span></a>
+                    <a class = "page-scroll" ng-click="(isSearching==false||isSearching==null)? isSearching=true: isSearching=false"><span class = "glyphicon glyphicon-search"></span> Search</a>
                 </li>
                 <li ng-show = "isSearching">
                     <input type="text" style = "margin-top: 15px" name = "Search">
@@ -77,3 +70,84 @@
     </div>
     <!-- /.container -->
 </nav>
+
+<!--Basket Modal-->
+<div class="modal fade basketmodal" tabindex="2" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="background-color: #c2c2a3">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title"><span class="glyphicon glyphicon-shopping-cart"></span> {{account.userName}} Basket</h3>
+      </div>
+      <div class="modal-body">
+        <div class="list-group" style="margin-left: 50px;margin-right: 50px;">        
+          <div ng-repeat = "movie in movies">
+            <div class="panel panel-primary">
+              <div class="panel-heading" style="font-size: 16px"><strong>{{movie.nameEN}}</strong></div>
+              <div class="panel-body">
+                <div class = "col-xs-6 text-left">
+                  รูปแบบ <strong>{{baskets[$index].format}}</strong> จำนวน <strong>{{baskets[$index].amount}}</strong> ชิ้น 
+                  <br>รวมราคาทั้งหมด <strong>{{baskets[$index].totalPrice}} </strong> บาท
+                </div>
+                <div class = "col-xs-6 text-right">
+                  <span class = "btn btn-success btn-sm" data-toggle="modal" data-target=".detailmodal"
+                  ng-click="BasketDetail($index,'ViewDetail')">
+                    View Detail
+                  </span>
+                  <span class = "btn btn-danger btn-sm" data-toggle="modal" data-target=".detailmodal"
+                  ng-click="BasketDetail($index,'Remove')">
+                    Remove</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default">Cancel</button>
+        <button type="button" class="btn btn-warning" style="font-weight: bold">Checkout</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Basket ViewDetail Modal -->
+<div class="modal fade detailmodal">
+  <div class="modal-dialog" role="document"> 
+    <div class="modal-content" style = "background-color:#3d3d29;color:white;">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div ng-show = "basketDetail == 'ViewDetail'">
+            <h3 style="margin-bottom: 0px">{{movies[movIndex].nameEN}} 
+              <span class = "glyphicon glyphicon-picture" ng-click="(viewImg!=true)?viewImg=true:viewImg=false"></span>
+            </h3> 
+            <span class = "label label-primary">{{movies[movIndex].genre1}}</span>
+            <span class = "label label-danger">{{movies[movIndex].genre2}}</span>
+            <span class = "label label-success">{{movies[movIndex].genre3}}</span>
+            <p style="margin-top: 10px">{{movies[movIndex].synopsis}}</p>
+            <p><strong>Sound: </strong>{{movies[movIndex].sound}}<br><strong>Subtitle: </strong> {{movies[movIndex].subtitle}}<br><strong>Release Date: </strong>{{movies[movIndex].releaseDate}}
+            </p>
+            <div class = "text-left" style="margin-top: -10px;margin-bottom: 10px">
+                <strong style="font-size:16px">Format:</strong>
+                <span class = "label label-warning" ng-show="baskets[movIndex].format == 'CD'">CD</span>
+                <span class = "label label-warning" ng-show="baskets[movIndex].format == 'DVD'">DVD</span> 
+                <span class = "label label-warning" ng-show="baskets[movIndex].format == 'Blu-ray'">Blu-ray</span> 
+            </div> 
+            <img src="{{movies[movIndex].imgPoster}}" class = "img-rounded img-responsive text-center" ng-show = "viewImg">
+        </div>
+        <div ng-show = "basketDetail == 'Remove'" style="font-size: bold;text-align: center;background-color:#3d3d29;color:white;">
+            <p style="font-size: 18px;margin-top: 10px;">Remove <u>{{movies[movIndex].nameEN}}</u> from your basket ?</p>  
+            <button class="btn btn-danger" style="font-weight: bold;width: 150px" ng-click = "RemoveMovieFormBasket()" data-dismiss="modal"> Yes
+            </button>
+            <button class="btn btn-primary" data-dismiss="modal" style="font-weight: bold;width:120px">No</button> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>

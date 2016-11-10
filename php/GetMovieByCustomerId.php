@@ -2,10 +2,9 @@
 // Create connection
 include "ConnectDB.php";
 $request = json_decode(file_get_contents('php://input'));
-$id = $conn->real_escape_string($request->id);
-$table = $conn->real_escape_string($request->table);
+$customerId = $conn->real_escape_string($request->customerId);
 
-$query="SELECT * FROM $table WHERE id = '$id'";
+$query="SELECT * FROM baskets WHERE customerId = '$customerId'";
 //$data = array();
 $rs=$conn->query($query);
 
