@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Main Store - Movie Store</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/heroic-features.css" rel="stylesheet">
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    
+
+    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="js/scrolling-nav.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/Angular/MovieController.js"></script>
+    <script type="text/javascript" src="js/Angular/angular-cookies.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls-2.2.0.min.js"></script>
+</head>
+
+<body ng-app = "MovieStore">
+
+    <!-- Top Navigation -->
+    <div ng-include = "'NavigatorBar.html'"> </div>   
+
+    <div class = "container" ng-controller = "MenuController" style="margin-top: 50px">
+        <div class="list-group col-md-7">        
+          <div ng-repeat = "movie in movies">
+            <div class="panel panel-info">
+              <div class="panel-heading" style="font-size: 16px"><strong>{{movie.nameEN}}</strong></div>
+              <div class="panel-body">
+                <div class = "col-md-3">
+                    <img src="{{movie.imgCover}}" class = "img-rounded img-responsive text-center" style="height:160px;width:140px">
+                </div>
+                <div class = "col-md-9 text-left">
+                  <strong>รูปแบบ {{baskets[$index].format}} จำนวน {{baskets[$index].amount}} ชิ้น 
+                  รวมราคาทั้งหมด {{baskets[$index].totalPrice}} </strong> บาท
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class = "panel panel-primary col-md-5">
+            <div class="panel-body">
+              <h2 class = "text-center" style="margin-top: 0px;font-weight: bold">Order List</h2>
+                <div ng-repeat = "movie in movies">
+                  <span class = "col-md-9">
+                    <strong> - {{movie.nameEN}} </strong>
+                  </span>
+                  <span class= "col-md-3">        
+                     {{baskets[$index].totalPrice}}  บาท
+                  </span>
+                </div>
+                <div style="font-size: 16px;font-weight: bold;color:red">
+                    <span class = "col-md-9" style="margin-top: 10px;">Total Price</span>
+                    <span class = "col-md-3" style="margin-top: 10px;">{{totalPrice}} บาท</span>
+                </div>
+                <div class="text-center">
+                    <span class = "btn btn-success cobtn" ng-click="Checkout()">Checkout</span>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+     <!-- credit -->
+    <div ng-include = "'credit.html'"></div>
+
+</body>
+
+</html>

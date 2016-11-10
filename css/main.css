@@ -155,3 +155,9 @@
   height: 300px;
   width: 500px;  
 }
+
+.cobtn{
+  margin-top: 10px;
+  font-weight: bold;
+  width:120px;
+}
