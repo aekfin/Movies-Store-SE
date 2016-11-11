@@ -31,7 +31,7 @@
         <div class="container" style="margin-top: 20px">
             <h1>Genre</h1>
             <div class="btn-group">
-                <label class="btn btn-danger col-md-2" ng-repeat = "genre in genreList" ng-model="checkModel.genre" uib-btn-checkbox ng-click="FilterByGenre($index)" style="text-align: left"> 
+                <label class="btn btn-default col-md-2" ng-repeat = "genre in genreList" ng-model="checkModel.genre" uib-btn-checkbox ng-click="FilterByGenre($index)" style="text-align: left"> 
                     <span class = "glyphicon glyphicon-check" ng-show = "checkModel.genre" style="margin-left: 25px"></span> 
                     <span class = "glyphicon glyphicon-unchecked" ng-show = "!checkModel.genre" style="margin-left: 25px"></span>
                     {{genre}}

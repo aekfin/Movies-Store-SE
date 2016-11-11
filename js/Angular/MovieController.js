@@ -16,12 +16,16 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope)
   $scope.ViewBasket = function(){
     $scope.movies = [];
     $scope.baskets = [];
+    $scope.totalPrice = 0;
     $http.post("php/GetMovieByCustomerId.php",{'customerId':$scope.account.id}).success(function(data){
-      for(i=0;i<data.length;i++){
-        $scope.baskets.push(data[i]);
-        $http.post("php/GetDataByID.php",{'id':data[i].movieId,'table':"movies"}).success(function(data){
-          $scope.movies.push(data[0]);
-        });            
+      if(data[0] == 'not null'){
+        for(i=1;i<data.length;i++){
+          $scope.baskets.push(data[i]);
+          $scope.totalPrice += parseInt(data[i].totalPrice);
+          $http.post("php/GetDataByID.php",{'id':data[i].movieId,'table':"movies"}).success(function(data){
+            $scope.movies.push(data[0]);
+          });            
+        }
       }
     });
   }
@@ -34,9 +38,41 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope)
 
   $scope.RemoveMovieFormBasket = function(){
     $http.post("php/RemoveDataByID.php",{'id':$scope.baskets[$scope.movIndex].id,'table':'baskets'}).success(function(data){
-      console.log("Deleted!!");
       $scope.ViewBasket();
     });
+  }
+
+  $scope.Checkout = function(){
+    for(i=0;i<$scope.movies.length;i++){
+      var movie = $scope.movies[i];
+      var instock;
+      var sold;
+      var soldout = parseInt(movie.sold)+1;
+      var format;
+      switch($scope.baskets[i].format){
+        case 'CD':
+            format = 'cd';
+            instock = parseInt(movie.cd)-1;
+            sold = parseInt(movie.cdSold)+1;                   
+            break;
+        case 'DVD':
+            format = 'dvd';
+            instock = parseInt(movie.dvd)-1;
+            sold = parseInt(movie.dvdSold)+1;
+            break;
+        case 'Blu-ray':
+            format = 'bluray';
+            instock = parseInt(movie.bluray)-1;
+            sold = parseInt(movie.bluraySold)+1;
+            break;
+      }
+      console.log(format+" "+instock+" "+sold+" "+soldout);
+      $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':format,'value':instock});
+      $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':format+'Sold','value':sold});
+      $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':'sold','value':soldout});
+      $scope.movIndex = i;
+      $scope.RemoveMovieFormBasket();      
+    }
   }
 
   $scope.account = {};
@@ -64,7 +100,7 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope)
   });
 
   $scope.loadCookie();
-
+  $scope.ViewBasket();
 });
 
 app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
@@ -223,14 +259,12 @@ app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
       if($cookies.get('logonUser.inSystem') === undefined){
         $scope.canBuy = false;
       }else{
-        /*
         var customerId = $cookies.get('logonUser.id');
         $scope.date = new Date();
         $http.post("php/AddToBasket.php",{'id':$scope.basketId,'customerId':customerId,'movieId':movie.id,'format':$scope.order.format,
         'amount':$scope.order.amount,'totalPrice':$scope.totalPrice,'date':$scope.date}).success(function(data){
             
         });
-        */
       }
     });
   }
