@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title> Change Name - Movie Store</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/heroic-features.css" rel="stylesheet">
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="js/scrolling-nav.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/Angular/MovieController.js"></script>
+    <script type="text/javascript" src="js/Angular/angular-cookies.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls-2.2.0.min.js"></script>
+</head>
+
+<body ng-app = "MovieStore">
+
+    <!-- Top Navigation -->
+    <div ng-include = "'NavigatorBar.html'"> </div>   
+    <ul class="nav nav-pills nav-stacked text-right col-md-2 col-md-offset-1" style="margin-top: 50px">
+        <li class ="text-left" style="font-size: 24px;font-weight: bold">Edit Account</li>
+        <li role="presentation"><a href="Profile.html">Profile</a></li>
+        <li role="presentation"><a href="ChangePassword.html">Change Password</a></li>
+        <li role="presentation" class="active"><a href="ChangeName.html">Change Name</a></li>
+        <li role="presentation"><a href="ChangeAddress.html">Change Address</a></li>
+    </ul>
+    <div ng-controller = "AccountController" class="container">
+        <div class="row" style="margin-top: 50px">
+            <div class="col-xs-12 col-sm-8 col-md-7 col-md-offset-1">
+                <form role="form">
+                    <h2 style="font-weight: bold; margin-top: 40px;margin-left: 5px;margin-bottom: -15px">Change Name</h2>
+                    <hr class="colorgraph">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="password" ng-model="firstName" class="form-control input-lg" placeholder="New First Name" tabindex="5">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="lastName" ng-model="lastName" class="form-control input-lg" placeholder="New Last Name" tabindex="6">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6 col-md-offset-3">
+                            <a class="btn btn-success btn-block btn-lg" ng-click="ChangeName()" ng-show="!alert[1]">
+                            Change Name</a>
+                        </div>
+                    </div>
+                    <div class="alert alert-danger" style="margin-top: 10px" ng-show="alert[0]">
+                        Please fill your first name and last name.
+                    </div>
+                    <div class="alert alert-success" style="margin-top: 10px" ng-show="alert[1]">
+                        Your first name and las name have been updated !!
+                    </div>                    
+                </form>
+            </div>
+        </div>
+
+     <!-- credit -->
+    <div class = "col-md-12" ng-include = "'credit.html'"></div>
+
+</body>
+
+</html>

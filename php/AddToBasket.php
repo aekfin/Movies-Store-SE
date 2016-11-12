@@ -9,8 +9,9 @@ $format = $conn->real_escape_string($request->format);
 $amount = $conn->real_escape_string($request->amount);
 $totalPrice = $conn->real_escape_string($request->totalPrice);
 $date = $conn->real_escape_string($request->date);
+$status = $conn->real_escape_string($request->status);
 
-$insert_row = $conn->query("INSERT INTO baskets(id,customerId,movieId,format,amount,totalPrice,date)VALUES('$id','$customerId','$movieId','$format','$amount','$totalPrice','$date')");
+$insert_row = $conn->query("INSERT INTO baskets(id,customerId,movieId,format,amount,totalPrice,date,status)VALUES('$id','$customerId','$movieId','$format','$amount','$totalPrice','$date','$status')");
 	
 $conn->close();
 
