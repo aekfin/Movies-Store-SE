@@ -24,7 +24,7 @@
     <!-- Top Navigation -->
     <div ng-include = "'NavigatorBar.html'"> </div>
 
-    <!-- Page Content -->
+    <!-- Page Content!! -->
     <div class="container" ng-controller = "MovieController">
         <!-- Jumbotron Header Advisment-->
         <header class="jumbotron hero-spacer welcome">
@@ -121,7 +121,8 @@
             <span class = "label label-danger" style="font-size: 16px">{{salemovies[0].genre2}}</span>
             <span class = "label label-success" style="font-size: 16px">{{salemovies[0].genre3}}</span>
             <p class = "col-md-offset-10">
-            <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
+            <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold" ng-click="clickImage(salemovies[0])"
+            data-toggle="modal" data-target=".infomodal">Buy This!</a>
             </p>
         </div>
         <div class="well" ng-show = "currIndex === 1">
@@ -132,7 +133,8 @@
             <span class = "label label-danger" style="font-size: 16px">{{salemovies[1].genre2}}</span>
             <span class = "label label-success" style="font-size: 16px">{{salemovies[1].genre3}}</span>
             <p class = "col-md-offset-10">
-            <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
+            <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold" ng-click="clickImage(salemovies[1])"
+            data-toggle="modal" data-target=".infomodal">Buy This!</a>
             </p>
         </div>
         <div class="well" ng-show = "(currIndex === 2)">
@@ -143,7 +145,8 @@
             <span class = "label label-danger" style="font-size: 16px">{{salemovies[2].genre2}}</span>
             <span class = "label label-success" style="font-size: 16px">{{salemovies[2].genre3}}</span>
             <p class = "col-md-offset-10">
-            <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
+            <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold" ng-click="clickImage(salemovies[2])"
+            data-toggle="modal" data-target=".infomodal">Buy This!</a>
             </p>
         </div>
         <div class="well" ng-show = "(currIndex === 3)">
@@ -154,7 +157,8 @@
             <span class = "label label-danger" style="font-size: 16px">{{salemovies[3].genre2}}</span>
             <span class = "label label-success" style="font-size: 16px">{{salemovies[3].genre3}}</span>
             <p class = "col-md-offset-10">
-            <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold">Buy This!</a>
+            <a class="btn btn-warning btn-large" style="font-size: 20px; font-weight: bold" ng-click="clickImage(salemovies[3])"
+            data-toggle="modal" data-target=".infomodal">Buy This!</a>
             </p>
         </div>
 

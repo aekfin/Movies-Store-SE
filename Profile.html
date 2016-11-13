@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title> Change Address - Movie Store</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/heroic-features.css" rel="stylesheet">
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    
+    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="js/scrolling-nav.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/Angular/MovieController.js"></script>
+    <script type="text/javascript" src="js/Angular/angular-cookies.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls-2.2.0.min.js"></script>
+</head>
+
+<body ng-app = "MovieStore">
+
+    <!-- Top Navigation -->
+    <div ng-include = "'NavigatorBar.html'"> </div>  
+    <ul class="nav nav-pills nav-stacked text-right col-md-2 col-md-offset-1" style="margin-top: 50px;">
+        <li class ="text-left" style="font-size: 24px;font-weight: bold">Edit Account</li>
+        <li role="presentation" class="active"><a href="Profile.html">Profile</a></li>
+        <li role="presentation"><a href="ChangePassword.html">Change Password</a></li>
+        <li role="presentation"><a href="ChangeName.html">Change Name</a></li>
+        <li role="presentation"><a href="ChangeAddress.html">Change Address</a></li>
+    </ul>
+
+    <div ng-controller = "AccountController" class="container">
+        <div class="container" style="margin-top: 50px">
+            <div class="col-xs-12 col-sm-8 col-md-7 col-md-offset-1">
+                <form role="form" style="font-size: 20px">
+                    <h2 style="font-weight: bold; margin-top: 40px;margin-left: 5px;margin-bottom: -15px">Profile</h2>
+                    <hr class="colorgraph">
+                    <div class="row text-left" style="color:#3d3d29;margin-left: 10px">
+                        <span class = "col-md-4 col-xs-5"><strong>Username: </strong></span>
+                        <span class = "col-md-8 col-xs-7">{{user.userName}}</span>
+                        <span class = "col-md-4 col-xs-5"><strong>Full Name: </strong></span>
+                        <span class = "col-md-8 col-xs-7">{{user.firstName}} {{user.lastName}}</span>
+                        <span class = "col-md-4 col-xs-5"><strong>E-mail: </strong></span>
+                        <span class = "col-md-8 col-xs-7">{{user.email}}</span>
+                        <span class = "col-md-4 col-xs-5" style="margin-top: 10px"><strong>Address Line: </strong></span>
+                        <span class = "col-md-8 col-xs-7" style="margin-top: 10px">{{user.address}}</span>  
+                        <span class = "col-md-4 col-xs-5"><strong>City: </strong></span>
+                        <span class = "col-md-8 col-xs-7">{{user.city}}</span>         
+                        <span class = "col-md-4 col-xs-5"><strong>Province: </strong></span>
+                        <span class = "col-md-8 col-xs-7">{{user.province}}</span> 
+                        <span class = "col-md-4 col-xs-5"><strong>Country: </strong></span>
+                        <span class = "col-md-8 col-xs-7">{{user.country}}</span> 
+                        <span class = "col-md-4 col-xs-5"><strong>Zip: </strong></span>
+                        <span class = "col-md-8 col-xs-7">{{user.zip}}</span> 
+                    </div>
+                    <hr class="colorgraph">
+                </form>
+            </div>
+        </div>
+
+     <!-- credit -->
+    <div class = "col-md-12" ng-include = "'credit.html'"></div>
+
+</body>
+
+</html>
