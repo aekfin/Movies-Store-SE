@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Main Store - Movie Store</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/heroic-features.css" rel="stylesheet">
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="js/scrolling-nav.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/Angular/MovieController.js"></script>
+    <script type="text/javascript" src="js/Angular/angular-cookies.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls-2.2.0.min.js"></script>
+</head>
+
+<body ng-app = "MovieStore">
+
+    <!-- Top Navigation -->
+    <div ng-include = "'NavigatorBar.html'"> </div>
+
+    <div ng-controller = "MovieController">
+
+        <!-- Page Content -->
+        <div class="container" style="margin-top: 20px">
+
+            <div class="row">
+                <!-- Movie information modal -->
+                <div ng-include="'InformationModal.html'"></div>
+
+                <!-- Main Store-->
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class = "h2shop" style="margin-top:15px;color:#3d3d29">Search Movie</h1>
+                    <div class = "row col-md-10">
+                        <input type="text" ng-model = "searchMovie" class="form-control input-lg" 
+                        placeholder="Search Movie By Name" style="margin-bottom: 20px;font-weight: bold">
+                    </div>
+                    <input type="submit" class="btn btn-success btn-lg col-md-2" style="margin-bottom: 20px;font-weight: bold;font-size: 20px" ng-click = "Search()" value="Search">
+                    <h3 style="margin-top:15px;color:#3d3d29;font-weight: bold">Keyword: <u>{{keyword}}<u></h3> 
+                    <div class="alert alert-danger text-center col-md-12" style="margin-top: 10px;font-size: 24px"
+                    ng-show="notfound">
+                        <strong>Movie Not Found !!</strong>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-lg-3 col-md-3" ng-repeat = "movie in searchmovies" style="height: 330px;">
+                            <div class="thumbnail" style="height: 310px;">
+                                <div class = "text-center">
+                                    <img src="{{movie.imgCover}}" alt="" class="hotmovieimage img-rounded" ng-click="clickImage(movie)" data-toggle="modal" data-target=".infomodal">
+                                </div>
+                                <div class="caption text-center">
+                                    <p ng-style="smartNameEN">{{movie.nameEN}}</p>
+                                    <p class = "rdate">Release Date: {{movie.releaseDate}}</p>
+                                    <p ng-style="smartPrice"> ราคา DVD {{movie.discountDvd}} บาท</p>
+                                    <span class = "label label-primary">{{movie.genre1}}</span>
+                                    <span class = "label label-danger">{{movie.genre2}}</span>
+                                    <span class = "label label-success">{{movie.genre3}}</span>
+                                </div>                           
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <nav class = "col-md-offset-3" aria-label="Page navigation">
+              <ul class="pagination">
+                <li>
+                  <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li><a ng-click="changePage(1,0,20)" ng-style="pagestyle[1]">1</a></li>
+                <li><a ng-click="changePage(2,20,40)" ng-style="pagestyle[2]">2</a></li>
+                <li><a ng-click="changePage(3,40,60)" ng-style="pagestyle[3]">3</a></li>
+                <li><a ng-click="changePage(4,60,80)" ng-style="pagestyle[4]">4</a></li>
+                <li><a ng-click="changePage(5,80,100)" ng-style="pagestyle[5]">5</a></li>
+                <li>
+                  <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>        
+        </div> <!-- /.container -->
+    </div> <!-- /.ng-controller =  -->
+    
+
+     <!-- credit -->
+    <div ng-include = "'credit.html'"></div>
+
+</body>
+
+</html>
