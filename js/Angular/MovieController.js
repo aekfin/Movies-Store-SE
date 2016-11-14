@@ -50,7 +50,12 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
 
   $scope.Checkout = function(){
     for(i=0;i<$scope.movies.length;i++){
-      var movie = $scope.movies[i];
+      doit();
+    } 
+  }
+
+  var doit = function(){
+    var movie = $scope.movies[i];
       console.log(movie.nameEN);
       var basket = $scope.baskets[i];
       var orderId;
@@ -58,16 +63,26 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
         orderId = parseInt(data[0].orderId)+1;
         $http.post("php/UpdateDataByID.php",{'id':basket.id,'table':'baskets','variable':'orderId','value':orderId});
         $http.post("php/UpdateDataByID.php",{'id':basket.id,'table':'baskets','variable':'status','value':'Payment'}).success(function(){
+          console.log(movie.nameEN);
           if( i == ($scope.movies.length)){
             $scope.ViewBasket();
           }
         });
       });  
-    }
   }
 
-  $scope.SoldMovie = function(){
+  $scope.SoldMovie = function(wait){
+    console.log($scope.movies.length);
       for(i=0;i<$scope.movies.length;i++){
+        dothat();
+        $scope.movIndex = i;
+        $http.post("php/RemoveDataByID.php",{'id':$scope.baskets[$scope.movIndex].id,'table':'baskets'}).success(function(data){
+          $scope.ViewBasket();
+        });
+      }
+  }
+
+  var dothat = function(){
         var movie = $scope.movies[i];
         var basket = $scope.baskets[i];
         var instock;
@@ -91,26 +106,32 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
               sold = parseInt(movie.bluraySold)+1;
               break;
         }
-        $http.post("php/UpdateDataByID.php",{'id':basket.id,'table':'baskets','variable':'status','value':'Payment'});
+        console.log(movie.nameEN);
         $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':format,'value':instock});
         $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':format+'Sold','value':sold});
         $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':'sold','value':soldout});
-        $scope.movIndex = i;
-        $scope.RemoveMovieFormBasket();
-      }
   }
-
+  
+  $scope.successCheckout = false;
   $scope.ConfirmPayment = function(){
-    $http.post("route.in.th:9999/api/transferbusiness",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
- //   $http.post("php/PaymentBank.php",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
-      console.log(data);
+    $scope.successCheckout = false;
+ //   $http.post("http://bank.route.in.th:9999/api/transferbusiness",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
+    $http.post("php/PaymentBank.php",{'CustomAccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
+      console.log(data.message);
+      if(data.message == "success"){
+        $scope.SoldMovie();
+        $scope.successCheckout = true;
+      }else{
+        $scope.bankerror = true;
+      }
       console.log('confirm');
     });
-//    $scope.SoldMovie();
+    
   }
 
   $scope.bank2error = false;
   $scope.ConfirmPayment2 = function(){
+    $scope.successCheckout = false;
     $scope.bank2error = false;
     $scope.otp = parseInt($scope.otp);
  //   $http.post("http://bank.route.in.th:9999/api/transferbussiness",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
@@ -120,7 +141,7 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
         $scope.bank2error = true;
       }else{
         $scope.SoldMovie();
-        $window.location.href = '/SuccessCheckout.html';
+        $scope.successCheckout = true;
       }
       console.log('confirm2');
     });
