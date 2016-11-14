@@ -66,12 +66,8 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
     }
   }
 
-  $scope.ConfirmPayment = function(){
- //   $http.post("http://bank.route.in.th:9999/api/transferbussiness",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
-    $http.post("php/PaymentBank.php",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
-      console.log(data);
-      console.log('confirm');
-          for(i=0;i<$scope.movies.length;i++){
+  $scope.SoldMovie = function(){
+      for(i=0;i<$scope.movies.length;i++){
         var movie = $scope.movies[i];
         var basket = $scope.baskets[i];
         var instock;
@@ -102,6 +98,31 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
         $scope.movIndex = i;
         $scope.RemoveMovieFormBasket();
       }
+  }
+
+  $scope.ConfirmPayment = function(){
+    $http.post("route.in.th:9999/api/transferbusiness",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
+ //   $http.post("php/PaymentBank.php",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
+      console.log(data);
+      console.log('confirm');
+    });
+//    $scope.SoldMovie();
+  }
+
+  $scope.bank2error = false;
+  $scope.ConfirmPayment2 = function(){
+    $scope.bank2error = false;
+    $scope.otp = parseInt($scope.otp);
+ //   $http.post("http://bank.route.in.th:9999/api/transferbussiness",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
+    $http.post("php/PaymentBank2.php",{'shop_Account':'ssmoviestore','cus_Account':$scope.bankUsername2,'amount':$scope.totalPrice,'otp':$scope.otp}).success(function(data){
+      if(data == "no have this shop account" || data == "no have this customer account" || data == "Wrong otp"){
+        $scope.error2 = data;
+        $scope.bank2error = true;
+      }else{
+        $scope.SoldMovie();
+        $window.location.href = '/SuccessCheckout.html';
+      }
+      console.log('confirm2');
     });
   }
 
@@ -134,7 +155,7 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
   $scope.ViewBasket();
 });
 
-app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
+app.controller('MovieController', function ($scope,$http,$cookies,$rootScope,$window) {
   var currIndex = $scope.currIndex = 0;
   $scope.infoId = 0;
   $scope.basketId;
@@ -505,7 +526,7 @@ app.controller('AccountController', function($scope,$http,$cookies,$rootScope,$w
         $cookies.put('logonUser.lastName',data[0].lastName);
         $cookies.put('logonUser.email',data[0].email);
         $cookies.put('logonUser.inSystem',true);
-        if($cookies.get('logonUser.id') < 2){
+        if(parseInt($cookies.get('logonUser.id')) < 2){
           $cookies.put('logonUser.role','Admin');  
         }else{
           $cookies.put('logonUser.role','User');

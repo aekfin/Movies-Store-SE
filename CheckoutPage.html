@@ -63,19 +63,19 @@
                     <div class="text-right" style="margin-top: 50px">
                         <a class = "btn btn-primary cobtn" style="color:white" ng-click="Checkout()" ng-show="!payment">CHECKOUT</a>
                     </div>
-                    <div ng-show="payment>
+                    <div ng-show="payment">
                         <span class="text-center" style="font-size: 26px;font-weight: bold;">Payment Method</span>
-                        <div style="font-size: 18px;font-weight: bold;margin-top: 5px;">
-                            <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#BankA" aria-expanded="false"><span class="glyphicon glyphicon-usd"></span> <strong>The Realbank</strong> 
+                        <div class="col-md-12" style="font-size: 18px;font-weight: bold;margin-top: 5px;">
+                            <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#BankA" aria-expanded="false" style="font-size: 18px;width:200px"><span class="glyphicon glyphicon-usd"></span> <strong>The Realbank</strong> 
                             </button>
                             <div class="collapse" id="BankA">
                               <div class="well col-md-8">
                                 <div class="row">
-                                    <span class="col-md-6 text-right" style="font-size: 18px;margin-top: 10px">
+                                    <span class="col-md-6 text-right" style="font-size: 17px;margin-top: 10px">
                                         The Realbank Account:
                                     </span>
                                     <div class="form-group col-md-6">
-                                        <input type="text" ng-model = "bankUsername" class="form-control input-lg" placeholder="ABank Account">
+                                        <input type="text" ng-model = "bankUsername" class="form-control input-lg" placeholder="The RealBank Account">
                                     </div>
                                 </div>
                                 <div class="row">              
@@ -87,10 +87,52 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <input type="button" class="btn btn-lg btn-primary btn-block" value="Register A Bank">
+                                    <a type="button" class="btn btn-lg btn-primary btn-block" href="http://bank.route.in.th:9999/user" target="_blank">Check Account</a>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <input type="submit" class="btn btn-lg btn-success btn-block" ng-click="ConfirmPayment()" value="Confirm Payment">
+                                </div>
+                              </div>
+                              </div>
+                            </div>
+                        <div class="col-md-12" style="font-size: 18px;font-weight: bold;margin-top: 5px;">
+                            <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#BankB" aria-expanded="false" style="font-size: 18px;width:200px"><span class="glyphicon glyphicon-usd"></span> <strong>SECE Bank</strong> 
+                            </button>
+                            <div class="collapse" id="BankB">
+                              <div class="well col-md-8">
+                                <div class="row">
+                                    <span class="col-md-6 text-right" style="font-size: 18px;margin-top: 10px">
+                                        SECE Digital account:
+                                    </span>
+                                    <div class="form-group col-md-6">
+                                        <input type="text" ng-model = "bankUsername2" class="form-control input-lg" placeholder="SECE Digital account">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <span class="col-md-6 text-right" style="font-size: 18px;margin-top: 10px">
+                                        OTP:
+                                    </span>
+                                    <div class="form-group col-md-6">
+                                        <input type="text" ng-model = "otp" class="form-control input-lg" placeholder="OTP">
+                                    </div>
+                                </div>
+                                <div class="row">              
+                                    <span class="col-md-5 col-md-offset-1 text-right" style="font-size: 18px;margin-top: 10px">
+                                        Total Price:
+                                    </span>
+                                    <div class="form-group col-md-5 col-md-offset-1">
+                                        <input type="text" ng-model = "bankAmount" class="form-control input-lg" placeholder="  {{totalPrice}} บาท" style="background-color: #3d3d29;text-align: right" disabled>
+                                    </div>
+                                </div>
+                                <div class="alert alert-danger text-center col-md-12" style="margin-top: 10px;font-size: 16px"
+                                ng-show="bank2error">
+                                    <strong>Error: {{error2}}<br></u></a></strong>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <a type="button" class="btn btn-lg btn-primary btn-block" href="http://161.246.70.75:8080/cesebank/Login.html" target="_blank">Get OTP</a>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <input type="submit" class="btn btn-lg btn-success btn-block" ng-click="ConfirmPayment2()" value="Confirm Payment">
                                 </div>
                               </div>
                               </div>
