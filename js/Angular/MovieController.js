@@ -66,12 +66,8 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
     }
   }
 
-  $scope.ConfirmPayment = function(){
- //   $http.post("http://bank.route.in.th:9999/api/transferbussiness",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
-    $http.post("php/PaymentBank.php",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
-      console.log(data);
-      console.log('confirm');
-          for(i=0;i<$scope.movies.length;i++){
+  $scope.SoldMovie = function(){
+      for(i=0;i<$scope.movies.length;i++){
         var movie = $scope.movies[i];
         var basket = $scope.baskets[i];
         var instock;
@@ -102,6 +98,31 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
         $scope.movIndex = i;
         $scope.RemoveMovieFormBasket();
       }
+  }
+
+  $scope.ConfirmPayment = function(){
+    $http.post("route.in.th:9999/api/transferbusiness",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
+ //   $http.post("php/PaymentBank.php",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
+      console.log(data);
+      console.log('confirm');
+    });
+//    $scope.SoldMovie();
+  }
+
+  $scope.bank2error = false;
+  $scope.ConfirmPayment2 = function(){
+    $scope.bank2error = false;
+    $scope.otp = parseInt($scope.otp);
+ //   $http.post("http://bank.route.in.th:9999/api/transferbussiness",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
+    $http.post("php/PaymentBank2.php",{'shop_Account':'ssmoviestore','cus_Account':$scope.bankUsername2,'amount':$scope.totalPrice,'otp':$scope.otp}).success(function(data){
+      if(data == "no have this shop account" || data == "no have this customer account" || data == "Wrong otp"){
+        $scope.error2 = data;
+        $scope.bank2error = true;
+      }else{
+        $scope.SoldMovie();
+        $window.location.href = '/SuccessCheckout.html';
+      }
+      console.log('confirm2');
     });
   }
 
@@ -134,7 +155,7 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
   $scope.ViewBasket();
 });
 
-app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
+app.controller('MovieController', function ($scope,$http,$cookies,$rootScope,$window) {
   var currIndex = $scope.currIndex = 0;
   $scope.infoId = 0;
   $scope.basketId;
@@ -193,6 +214,7 @@ app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
   var loadHotMovies = function(){
     $scope.hotmovies = [];
     $http.post("php/GetHotMovies.php",{'min':$scope.minRowHM,'max':$scope.maxRowHM}).success(function(data){
+      console.log(data.length);
       for(i=0;i<data.length;i++){
         $scope.hotmovies.push({
           id:data[i].id, nameEN:data[i].nameEN, genre1:data[i].genre1, genre2:data[i].genre2, genre3:data[i].genre3, 
@@ -231,6 +253,7 @@ app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
   var loadMovies = function(){
     $scope.movies = [];
     $http.post("php/GetMovies.php",{'min':$scope.minRowAM,'max':$scope.maxRowAM}).success(function(data){
+      console.log(data.length);
       for(i=0;i<data.length;i++){
         $scope.movies.push({
           id:data[i].id, nameEN:data[i].nameEN, genre1:data[i].genre1, genre2:data[i].genre2, genre3:data[i].genre3, 
@@ -347,7 +370,37 @@ app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
     $scope.pagestyle[1]={"font-weight":"bold","color":"white","background-color" : "#3d3d29"};  
   }
 
+  $scope.PageNav = function(nav){
+    if(nav == "Next"){
+      switch($scope.currPage){
+        case 1:
+          $scope.changePage(2,21,40);
+          break;
+        case 2:
+          $scope.changePage(3,81,100);
+          break;
+        case 3:
+          $scope.changePage(1,0,20);
+          break;
+      }
+    }else{
+      switch($scope.currPage){
+        case 1:
+          $scope.changePage(3,81,100);
+          break;
+        case 2:
+          $scope.changePage(1,0,20);
+          break;
+        case 3:
+          $scope.changePage(2,21,40);
+          break;
+      }
+    }
+  }
+
+  $scope.currPage = 1;
   $scope.changePage = function(i,min,max){
+    $scope.currPage = i;
     $scope.pagestyle = [];
     $scope.pagestyle[i] = {
       "font-weight":"bold",
@@ -356,7 +409,7 @@ app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
     }
     if($scope.wasSelect[0]){
         $scope.minRowNM = min;    
-        $scope.maxRowNM = max;  
+        $scope.maxRowNM = max; 
         loadNewMovies();
     }else
       if($scope.wasSelect[1]){
@@ -473,7 +526,7 @@ app.controller('AccountController', function($scope,$http,$cookies,$rootScope,$w
         $cookies.put('logonUser.lastName',data[0].lastName);
         $cookies.put('logonUser.email',data[0].email);
         $cookies.put('logonUser.inSystem',true);
-        if($cookies.get('logonUser.id') < 2){
+        if(parseInt($cookies.get('logonUser.id')) < 2){
           $cookies.put('logonUser.role','Admin');  
         }else{
           $cookies.put('logonUser.role','User');
