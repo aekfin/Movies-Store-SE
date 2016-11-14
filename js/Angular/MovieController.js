@@ -193,6 +193,7 @@ app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
   var loadHotMovies = function(){
     $scope.hotmovies = [];
     $http.post("php/GetHotMovies.php",{'min':$scope.minRowHM,'max':$scope.maxRowHM}).success(function(data){
+      console.log(data.length);
       for(i=0;i<data.length;i++){
         $scope.hotmovies.push({
           id:data[i].id, nameEN:data[i].nameEN, genre1:data[i].genre1, genre2:data[i].genre2, genre3:data[i].genre3, 
@@ -231,6 +232,7 @@ app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
   var loadMovies = function(){
     $scope.movies = [];
     $http.post("php/GetMovies.php",{'min':$scope.minRowAM,'max':$scope.maxRowAM}).success(function(data){
+      console.log(data.length);
       for(i=0;i<data.length;i++){
         $scope.movies.push({
           id:data[i].id, nameEN:data[i].nameEN, genre1:data[i].genre1, genre2:data[i].genre2, genre3:data[i].genre3, 
@@ -347,7 +349,37 @@ app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
     $scope.pagestyle[1]={"font-weight":"bold","color":"white","background-color" : "#3d3d29"};  
   }
 
+  $scope.PageNav = function(nav){
+    if(nav == "Next"){
+      switch($scope.currPage){
+        case 1:
+          $scope.changePage(2,21,40);
+          break;
+        case 2:
+          $scope.changePage(3,81,100);
+          break;
+        case 3:
+          $scope.changePage(1,0,20);
+          break;
+      }
+    }else{
+      switch($scope.currPage){
+        case 1:
+          $scope.changePage(3,81,100);
+          break;
+        case 2:
+          $scope.changePage(1,0,20);
+          break;
+        case 3:
+          $scope.changePage(2,21,40);
+          break;
+      }
+    }
+  }
+
+  $scope.currPage = 1;
   $scope.changePage = function(i,min,max){
+    $scope.currPage = i;
     $scope.pagestyle = [];
     $scope.pagestyle[i] = {
       "font-weight":"bold",
@@ -356,7 +388,7 @@ app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
     }
     if($scope.wasSelect[0]){
         $scope.minRowNM = min;    
-        $scope.maxRowNM = max;  
+        $scope.maxRowNM = max; 
         loadNewMovies();
     }else
       if($scope.wasSelect[1]){

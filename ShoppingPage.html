@@ -131,17 +131,15 @@
             <nav class = "col-md-offset-3" aria-label="Page navigation">
               <ul class="pagination">
                 <li>
-                  <a href="#" aria-label="Previous">
+                  <a href="#" aria-label="Previous" ng-click="PageNav('Previous')">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
                 <li><a ng-click="changePage(1,0,20)" ng-style="pagestyle[1]">1</a></li>
-                <li><a ng-click="changePage(2,20,40)" ng-style="pagestyle[2]">2</a></li>
-                <li><a ng-click="changePage(3,40,60)" ng-style="pagestyle[3]">3</a></li>
-                <li><a ng-click="changePage(4,60,80)" ng-style="pagestyle[4]">4</a></li>
-                <li><a ng-click="changePage(5,80,100)" ng-style="pagestyle[5]">5</a></li>
+                <li><a ng-click="changePage(2,21,40)" ng-style="pagestyle[2]">2</a></li>
+                <li><a ng-click="changePage(3,81,100)" ng-style="pagestyle[3]">3</a></li>
                 <li>
-                  <a href="#" aria-label="Next">
+                  <a href="#" aria-label="Next" ng-click="PageNav('Next')">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
