@@ -51,59 +51,64 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
   $scope.Checkout = function(){
     for(i=0;i<$scope.movies.length;i++){
       var movie = $scope.movies[i];
+      console.log(movie.nameEN);
       var basket = $scope.baskets[i];
       var orderId;
       $http.post("php/GetVariableMaxID.php",{'table':'baskets','variable':'orderId'}).success(function(data){
         orderId = parseInt(data[0].orderId)+1;
-        $http.post("php/UpdateDataByID.php",{'id':basket.id,'table':'baskets','variable':'orderId','value':orderId}).success(function(){ 
-          $scope.ViewBasket(); // Refresh   
+        $http.post("php/UpdateDataByID.php",{'id':basket.id,'table':'baskets','variable':'orderId','value':orderId});
+        $http.post("php/UpdateDataByID.php",{'id':basket.id,'table':'baskets','variable':'status','value':'Payment'}).success(function(){
+          if( i == ($scope.movies.length)){
+            $scope.ViewBasket();
+          }
         });
-        $http.post("php/UpdateDataByID.php",{'id':basket.id,'table':'baskets','variable':'status','value':'Payment'});
       });  
     }
   }
 
-  $scope.LoginBank = function(){
-    $scope.loginBank = true;
-  }
-
   $scope.ConfirmPayment = function(){
-    for(i=0;i<$scope.movies.length;i++){
-      var movie = $scope.movies[i];
-      var basket = $scope.baskets[i];
-      var instock;
-      var sold;
-      var soldout = parseInt(movie.sold)+1;
-      var format;
-      switch(basket.format){
-        case 'CD':
-            format = 'cd';
-            instock = parseInt(movie.cd)-1;
-            sold = parseInt(movie.cdSold)+1;                   
-            break;
-        case 'DVD':
-            format = 'dvd';
-            instock = parseInt(movie.dvd)-1;
-            sold = parseInt(movie.dvdSold)+1;
-            break;
-        case 'Blu-ray':
-            format = 'bluray';
-            instock = parseInt(movie.bluray)-1;
-            sold = parseInt(movie.bluraySold)+1;
-            break;
+ //   $http.post("http://bank.route.in.th:9999/api/transferbussiness",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
+    $http.post("php/PaymentBank.php",{'Customaccount':$scope.bankUsername,'amount':$scope.totalPrice,'key':'Aekkodhod'}).success(function(data){
+      console.log(data);
+      console.log('confirm');
+          for(i=0;i<$scope.movies.length;i++){
+        var movie = $scope.movies[i];
+        var basket = $scope.baskets[i];
+        var instock;
+        var sold;
+        var soldout = parseInt(movie.sold)+1;
+        var format;
+        switch(basket.format){
+          case 'CD':
+              format = 'cd';
+              instock = parseInt(movie.cd)-1;
+              sold = parseInt(movie.cdSold)+1;                   
+              break;
+          case 'DVD':
+              format = 'dvd';
+              instock = parseInt(movie.dvd)-1;
+              sold = parseInt(movie.dvdSold)+1;
+              break;
+          case 'Blu-ray':
+              format = 'bluray';
+              instock = parseInt(movie.bluray)-1;
+              sold = parseInt(movie.bluraySold)+1;
+              break;
+        }
+        $http.post("php/UpdateDataByID.php",{'id':basket.id,'table':'baskets','variable':'status','value':'Payment'});
+        $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':format,'value':instock});
+        $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':format+'Sold','value':sold});
+        $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':'sold','value':soldout});
+        $scope.movIndex = i;
+        $scope.RemoveMovieFormBasket();
       }
-      $http.post("php/UpdateDataByID.php",{'id':basket.id,'table':'baskets','variable':'status','value':'Payment'});
-      $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':format,'value':instock});
-      $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':format+'Sold','value':sold});
-      $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':'sold','value':soldout});
-      $scope.movIndex = i;
-      $scope.RemoveMovieFormBasket();
-    }
+    });
   }
 
   $scope.account = {};
   $scope.loadCookie = function(){
     $scope.account.id = $cookies.get('logonUser.id');
+    $scope.account.role = $cookies.get('logonUser.role');
     $scope.account.firstName = $cookies.get('logonUser.firstName');
     $scope.account.lastName = $cookies.get('logonUser.lastName');
     $scope.account.userName = $cookies.get('logonUser.userName'); 
@@ -234,6 +239,30 @@ app.controller('MovieController', function ($scope,$http,$cookies,$rootScope) {
           discountBluray:data[i].discountBluray, cd:data[i].cd, dvd:data[i].dvd, bluray:data[i].bluray, cdSold:data[i].cdSold, dvdSold:data[i].dvdSold,
           bluraySold:data[i].bluraySold, onSale:data[i].onSale, imgPoster:data[i].imgPoster, imgCover:data[i].imgCover  
         });
+      }
+    });
+  }
+
+  // Serach Movie
+  $scope.searchmovies;
+  $scope.notfound = false;
+  $scope.Search = function(){
+    $scope.searchmovies = [];
+    $scope.notfound = false;
+    $scope.keyword = $scope.searchMovie;
+    $http.post("php/SearchMovieByName.php",{'name':$scope.searchMovie}).success(function(data){
+      if(data[0] == "found"){
+        for(i=1;i<data.length;i++){
+          $scope.searchmovies.push({
+            id:data[i].id, nameEN:data[i].nameEN, genre1:data[i].genre1, genre2:data[i].genre2, genre3:data[i].genre3, 
+            desc:data[i].synopsis, sound:data[i].sound, subtitle:data[i].subtitle, runtime:data[i].runtime, releaseDate:data[i].releaseDate,
+            priceCd:data[i].priceCd, priceDvd:data[i].priceDvd, priceBluray:data[i].priceBluray, discountCd:data[i].discountCd, discountDvd:data[i].discountDvd,
+            discountBluray:data[i].discountBluray, cd:data[i].cd, dvd:data[i].dvd, bluray:data[i].bluray, cdSold:data[i].cdSold, dvdSold:data[i].dvdSold,
+            bluraySold:data[i].bluraySold, onSale:data[i].onSale, imgPoster:data[i].imgPoster, imgCover:data[i].imgCover  
+          });
+        }
+      }else{
+        $scope.notfound = true;
       }
     });
   }
@@ -444,6 +473,11 @@ app.controller('AccountController', function($scope,$http,$cookies,$rootScope,$w
         $cookies.put('logonUser.lastName',data[0].lastName);
         $cookies.put('logonUser.email',data[0].email);
         $cookies.put('logonUser.inSystem',true);
+        if($cookies.get('logonUser.id') < 2){
+          $cookies.put('logonUser.role','Admin');  
+        }else{
+          $cookies.put('logonUser.role','User');
+        }
         $scope.loadCookie();
       }else{
         $scope.alert[3] = true;
@@ -459,6 +493,7 @@ app.controller('AccountController', function($scope,$http,$cookies,$rootScope,$w
     $cookies.remove('logonUser.userName');
     $cookies.remove('logonUser.email');  
     $cookies.remove('logonUser.inSystem'); 
+    $cookies.remove('logonUser.role');
   }
 
   $scope.ChangePassword = function(){
@@ -513,6 +548,13 @@ app.controller('AccountController', function($scope,$http,$cookies,$rootScope,$w
     $http.post("php/GetDataByID.php",{'id':$cookies.get('logonUser.id'),'table':"accounts"}).success(function(data){
       $scope.user = data[0];
     });
+  }
+
+    $scope.test = function(){
+     $http.post("php/test.php",{'me':'สวัสดี','you':'โลกนี้'}).success(function(data){
+      console.log(data.me);
+      console.log(data.you);
+     });
   }
 
   // command other controller to do function

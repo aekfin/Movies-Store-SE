@@ -14,7 +14,8 @@
         </div>
         <div class="modal-body text-left" style="height: 330px">
             <div class = "col-xs-4 text-center">
-                <img src="{{showInfoMovie.imgCover}}" class = "img-rounded img-responsive infoM text-center">
+                <img src="{{showInfoMovie.imgCover}}" class = "img-rounded img-responsive infoM text-center" 
+                data-toggle="modal" data-target=".imgModal">
             </div>
             <div class = "col-xs-8" style="color:white">
                 <h4>Synopsis</h4>
@@ -88,3 +89,12 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<!-- imgmodal-->
+<div class="modal fade imgModal" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <img src="{{showInfoMovie.imgPoster}}" alt="{{showInfoMovie.nameEN}}" class = "img-thumbnail" data-dismiss="modal">
+      </div>
+  </div>
+</div>          

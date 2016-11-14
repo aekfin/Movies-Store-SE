@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title> Edit Website - Movie Store</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/heroic-features.css" rel="stylesheet">
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    
+    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="js/scrolling-nav.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/Angular/MovieController.js"></script>
+    <script type="text/javascript" src="js/Angular/angular-cookies.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls-2.2.0.min.js"></script>
+</head>
+
+<body ng-app = "MovieStore">
+
+    <!-- Top Navigation -->
+    <div ng-include = "'NavigatorBar.html'"> </div>  
+    <ul class="nav nav-pills nav-stacked text-right col-md-2 col-md-offset-1" style="margin-top: 50px;">
+        <li class ="text-left" style="font-size: 24px;font-weight: bold">Admin</li>
+        <li role="presentation" class="active"><a href="ChangeName.html">Edit Website</a></li>
+        <li role="presentation"><a href="AdminManageMovie.html">Manage Movie</a></li>
+        <li role="presentation"><a href="AdminManageAccount.html">Manage Account</a></li>
+    </ul>
+
+     <!-- credit -->
+    <div class = "col-md-12" ng-include = "'credit.html'"></div>
+
+</body>
+
+</html>

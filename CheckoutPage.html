@@ -11,7 +11,6 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     
-
     <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="js/scrolling-nav.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script> 
@@ -64,43 +63,42 @@
                     <div class="text-right" style="margin-top: 50px">
                         <a class = "btn btn-primary cobtn" style="color:white" ng-click="Checkout()" ng-show="!payment">CHECKOUT</a>
                     </div>
-                    <div ng-show="payment">
-                        <div class="alert alert-warning text-center">
-                            <strong>We will delivery your package by your address than you fill in own website.<br>If you want to change your address please <a href="ChangeAddress.html"><u>click!</u></a></strong>
-                        </div>
-                        <span style="font-size: 26px;font-weight: bold;margin-left: 30px;">Select the way to payment</span>
-                        <div style="font-size: 18px;font-weight: bold;margin-top: 5px;margin-left: 30px">
-                            <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#BankA" aria-expanded="false"> Payment by A Bank 
+                    <div ng-show="payment>
+                        <span class="text-center" style="font-size: 26px;font-weight: bold;">Payment Method</span>
+                        <div style="font-size: 18px;font-weight: bold;margin-top: 5px;">
+                            <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#BankA" aria-expanded="false"><span class="glyphicon glyphicon-usd"></span> <strong>The Realbank</strong> 
                             </button>
                             <div class="collapse" id="BankA">
-                              <div class="well col-md-8" ng-show="!loginBank">
-                                <h3 style="margin-top: 0px"><strong>Login A Bank</strong></h3>
-                                <div class="form-group">
-                                    <input type="text" ng-model = "bankUsername" class="form-control input-lg" placeholder="Username">
+                              <div class="well col-md-8">
+                                <div class="row">
+                                    <span class="col-md-6 text-right" style="font-size: 18px;margin-top: 10px">
+                                        The Realbank Account:
+                                    </span>
+                                    <div class="form-group col-md-6">
+                                        <input type="text" ng-model = "bankUsername" class="form-control input-lg" placeholder="ABank Account">
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <input type="password" ng-model = "bankPassword" class="form-control input-lg" placeholder="Password">
+                                <div class="row">              
+                                    <span class="col-md-5 col-md-offset-1 text-right" style="font-size: 18px;margin-top: 10px">
+                                        Total Price:
+                                    </span>
+                                    <div class="form-group col-md-5 col-md-offset-1">
+                                        <input type="text" ng-model = "bankAmount" class="form-control input-lg" placeholder="  {{totalPrice}} บาท" style="background-color: #3d3d29;text-align: right" disabled>
+                                    </div>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <input type="button" class="btn btn-lg btn-primary btn-block" value="Register">
+                                    <input type="button" class="btn btn-lg btn-primary btn-block" value="Register A Bank">
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <input type="submit" class="btn btn-lg btn-success btn-block" ng-click="LoginBank()" value="Login">
+                                    <input type="submit" class="btn btn-lg btn-success btn-block" ng-click="ConfirmPayment()" value="Confirm Payment">
                                 </div>
                               </div>
-                              <div class="well col-md-8" ng-show="loginBank">
-                                <h3 style="margin-top: 0px"><strong>A Bank</strong></h3>
-                                <div class="form-group text-center">
-                                    <h4 style="margin-top: 0px"><strong>Account Name</strong></h4>
-                                </div>
-                                <div class="col-xs-6 col-sm-6 col-md-6 col-md-offset-3">
-                                    <input type="submit" class="btn btn-lg btn-success btn-block" ng-click="ConfirmPayment()"
-                                    value="Confirm Payment">
-                                </div>
                               </div>
                             </div>
                         </div>
-
+                        <div class="alert alert-warning text-center col-md-12" style="margin-top: 10px;font-size: 16px">
+                            <strong>We will delivery your package by your address that you fill in own website.<br>If you want to change your address please <a href="ChangeAddress.html"><u>click!</u></a></strong>
+                        </div>
                     </div>
                 </div>
             </div>
