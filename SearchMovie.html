@@ -39,7 +39,7 @@
                     <h1 class = "h2shop" style="margin-top:15px;color:#3d3d29">Search Movie</h1>
                     <div class = "row col-md-10">
                         <input type="text" ng-model = "searchMovie" class="form-control input-lg" 
-                        placeholder="Search Movie By Name" style="margin-bottom: 20px;font-weight: bold">
+                        placeholder="Search By Name or Genre" style="margin-bottom: 20px;font-weight: bold">
                     </div>
                     <input type="submit" class="btn btn-success btn-lg col-md-2" style="margin-bottom: 20px;font-weight: bold;font-size: 20px" ng-click = "Search()" value="Search">
                     <h3 style="margin-top:15px;color:#3d3d29;font-weight: bold">Keyword: <u>{{keyword}}<u></h3> 
@@ -66,26 +66,7 @@
                     </div>
                     
                 </div>
-            </div>
-            <nav class = "col-md-offset-3" aria-label="Page navigation">
-              <ul class="pagination">
-                <li>
-                  <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li><a ng-click="changePage(1,0,20)" ng-style="pagestyle[1]">1</a></li>
-                <li><a ng-click="changePage(2,20,40)" ng-style="pagestyle[2]">2</a></li>
-                <li><a ng-click="changePage(3,40,60)" ng-style="pagestyle[3]">3</a></li>
-                <li><a ng-click="changePage(4,60,80)" ng-style="pagestyle[4]">4</a></li>
-                <li><a ng-click="changePage(5,80,100)" ng-style="pagestyle[5]">5</a></li>
-                <li>
-                  <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>        
+            </div>        
         </div> <!-- /.container -->
     </div> <!-- /.ng-controller =  -->
     

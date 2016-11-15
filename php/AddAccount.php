@@ -2,7 +2,6 @@
 // Create connection
 include "ConnectDB.php";
 $request = json_decode(file_get_contents('php://input'));
-$id = $conn->real_escape_string($request->id);
 $firstName = $conn->real_escape_string($request->firstName);
 $lastName = $conn->real_escape_string($request->lastName);
 $userName = $conn->real_escape_string($request->userName);

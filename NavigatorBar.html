@@ -38,11 +38,11 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-show = "!isSearching && !account.inSystem">
+                <li ng-show = "!account.inSystem">
                     <a class = "page-scroll" href="LoginPage.html"><span class="glyphicon glyphicon-log-in"></span>  Login</a>
                 </li>
-                <li ng-show = "!isSearching && !account.inSystem">
-                    <a class = "page-scroll" href="RegisterPage.html" ng-show = "!isSearching || !account.inSystem">
+                <li ng-show = "!account.inSystem">
+                    <a class = "page-scroll" href="RegisterPage.html" ng-show = "!account.inSystem">
                     <span class="glyphicon glyphicon-new-window"></span> Register</a>
                 </li>
                 <li class="dropdown" ng-show = "account.inSystem">
@@ -65,11 +65,7 @@
                   </ul>
                 </li>
                 <li>
-                    <a class = "page-scroll" ng-click="(isSearching==false||isSearching==null)? isSearching=true: isSearching=false"
-                     href = "SearchMovie.html"><span class = "glyphicon glyphicon-search"></span> Search</a>
-                </li>
-                <li ng-show = "isSearching">
-                    <input type="text" style = "margin-top: 10px" class="form-control" name = "Search">
+                    <a class = "page-scroll" href = "SearchMovie.html"><span class = "glyphicon glyphicon-search"></span> Search</a>
                 </li>
             </ul>
         </div>

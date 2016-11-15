@@ -2,7 +2,6 @@
 // Create connection
 include "ConnectDB.php";
 $request = json_decode(file_get_contents('php://input'));
-$id = $conn->real_escape_string($request->id);
 $customerId = $conn->real_escape_string($request->customerId);
 $movieId = $conn->real_escape_string($request->movieId);
 $format = $conn->real_escape_string($request->format);
