@@ -2,20 +2,15 @@
 // Create connection
 include "ConnectDB.php";
 $request = json_decode(file_get_contents('php://input'));
-$name = $conn->real_escape_string($request->name);
+$customerId = $conn->real_escape_string($request->customerId);
 
-$query="SELECT * FROM movies WHERE nameEN LIKE '%$name%' OR genre1 = '$name' OR genre2 = '$name' OR genre3 = '$name'";
-
+$query="SELECT * FROM packages WHERE customerId = '$customerId'";
 //$data = array();
 $rs=$conn->query($query);
 
-$data[0] = "not found";
-
 while ($row = $rs->fetch_array()) {
   $data[] = $row;
-  $data[0] = "found";
 }
-
     print json_encode($data);
 
 $conn->close();

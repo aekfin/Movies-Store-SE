@@ -40,8 +40,7 @@ $success = $res->{'success'};
 $error_message = $res->{'error_message'};
 
 if($success == true){
-  echo "OMG";
-  print json_encode($data);
+  echo $success;
 }
 else
 {

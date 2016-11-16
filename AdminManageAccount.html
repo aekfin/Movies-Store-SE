@@ -24,12 +24,117 @@
 
     <!-- Top Navigation -->
     <div ng-include = "'NavigatorBar.html'"> </div>  
-    <ul class="nav nav-pills nav-stacked text-right col-md-2 col-md-offset-1" style="margin-top: 50px;">
-        <li class ="text-left" style="font-size: 24px;font-weight: bold">Admin</li>
-        <li role="presentation"><a href="ChangeName.html">Edit Website</a></li>
+    <ul class="nav nav-pills nav-justified text-right col-md-12" style="margin-top: 50px;font-size: 20px">
+        <li role="presentation"><a href="Admin.html">Admin</a></li>
         <li role="presentation"><a href="AdminManageMovie.html">Manage Movie</a></li>
         <li role="presentation" class="active"><a href="AdminManageAccount.html">Manage Account</a></li>
     </ul>
+    <div class="container col-md-10 col-md-offset-1" style="margin-top: 50px;" ng-controller = "AccountController">
+            <div class="panel panel-default panel-table">
+              <div class="panel-heading">
+                <div class="row text-center">
+                  <div class="col-md-12">
+                    <span class="panel-title" style="font-weight: bold;font-size: 24px">User Accounts</span>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-body">
+                <table class="table table-striped table-bordered table-list">
+                  <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Address</th>
+                    </tr> 
+                  </thead>
+                  <tbody>
+                          <tr ng-repeat = "account in allaccounts">
+                            <td align="center">
+                              <a class="btn btn-info" data-toggle="modal" data-target=".edmodal" 
+                              ng-click="ClickAccount(account)">
+                                <span class="glyphicon glyphicon-cog"></span><em class="fa fa-pencil"></em>
+                              </a>
+                              <a class="btn btn-danger"  data-toggle="modal" data-target=".rmmodal" ng-click="ClickAccount(account)">
+                                <span class="glyphicon glyphicon-trash"></span><em class="fa fa-trash"></em>
+                              </a>
+                            </td>
+                            <td>{{account.userName}}</td>
+                            <td>{{account.email}}</td>
+                            <td>{{account.firstName}}</td>
+                            <td>{{account.lastName}}</td>
+                            <td>{{account.address}}, {{account.city}}, {{account.province}}, {{account.country}}, {{account.zip}}</td>
+                          </tr>
+                        </tbody>
+                </table>
+            
+              </div>
+              <div class="panel-footer">
+                
+              </div>
+            </div>
+            <div class="modal fade rmmodal" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h2 class="modal-title">Remove</h2>
+                  </div>
+                  <div class="modal-body" style="font-size: 20px;font-weight: bold;text-align: center">
+                    <p>You want to remove <u>{{ac.userName}}</u> ?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" ng-click="RemoveAccount()" data-dismiss="modal">Remove</button>
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <div class="modal fade edmodal" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h2 class="modal-title">Edit: <small>{{ac.userName}}</small></h2>
+                  </div>
+                  <div class="modal-body">
+                    <div class="container">
+                        <div class="form-group">
+                            <div class="dropdown col-md-2">
+                              <button class="btn btn-warning btn-lg dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> {{accountedit}}
+                                <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a ng-click="SelectEdit('userName')">   Username</a></li>
+                                <li><a ng-click="SelectEdit('email')">      Email</a></li>
+                                <li><a ng-click="SelectEdit('firstName')">  First Name</a></li>
+                                <li><a ng-click="SelectEdit('lastName')">   Last Name</a></li>
+                                <li><a ng-click="SelectEdit('address')">    Address Line</a></li>
+                                <li><a ng-click="SelectEdit('city')">       City</a></li>
+                                <li><a ng-click="SelectEdit('province')">   Province</a></li>
+                                <li><a ng-click="SelectEdit('country')">    Country</a></li>
+                                <li><a ng-click="SelectEdit('zip')">        Zip</a></li>
+                              </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" ng-model="editvalue" class="form-control input-lg" placeholder="{{accountedit}}" tabindex="3">
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" ng-click="EditAccount()" data-dismiss="modal">Save changes</button>
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
+
+
 
      <!-- credit -->
     <div class = "col-md-12" ng-include = "'credit.html'"></div>

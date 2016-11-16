@@ -24,12 +24,252 @@
 
     <!-- Top Navigation -->
     <div ng-include = "'NavigatorBar.html'"> </div>  
-    <ul class="nav nav-pills nav-stacked text-right col-md-2 col-md-offset-1" style="margin-top: 50px;">
-        <li class ="text-left" style="font-size: 24px;font-weight: bold">Admin</li>
-        <li role="presentation"><a href="ChangeName.html">Edit Website</a></li>
+    <ul class="nav nav-pills nav-justified text-right col-md-12" style="margin-top: 50px;font-size: 20px">
+        <li role="presentation"><a href="Admin.html">Admin</a></li>
         <li role="presentation" class="active"><a href="AdminManageMovie.html">Manage Movie</a></li>
         <li role="presentation"><a href="AdminManageAccount.html">Manage Account</a></li>
     </ul>
+
+    <div class="container col-md-12" style="margin-top: 50px;" ng-controller = "AdminMovieController">
+        <div class="panel panel-default panel-table">
+          <div class="panel-heading">
+            <div class="row text-center">
+              <div class="col-md-12">
+                <span class="panel-title" style="font-weight: bold;font-size: 24px">Movies</span>
+                <span class="btn btn-success pull-right" style="font-weight: bold;font-size: 18px" data-toggle="modal" 
+                data-target =".addmodal">
+                <span class="glyphicon glyphicon-plus"></span> Add Movie</span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <table class="table table-striped table-bordered table-list">
+              <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Name EN</th>
+                    <th>Genre</th>
+                    <th>Sound</th>
+                    <th>Subtitle</th>
+                    <th>Runtime</th>
+                    <th>Release Date</th>
+                    <th>CD</th>
+                    <th>DVD</th>
+                    <th>Bluray</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                </tr> 
+              </thead>
+              <tbody>
+                      <tr ng-repeat = "movie in adminmovies">
+                        <td align="center">
+                          <a class="btn btn-warning"  data-toggle="modal" data-target=".sellmodal" ng-click="ClickMovie(movie)">
+                            <span class="glyphicon glyphicon-star" ng-show="movie.onSale == 1"></span>
+                            <span class="glyphicon glyphicon-star-empty" ng-show="movie.onSale == 0"></span>
+                            <em class="fa fa-trash"></em>
+                          </a>
+                          <a class="btn btn-info" data-toggle="modal" data-target=".edmodal" ng-click="ClickMovie(movie)">
+                            <span class="glyphicon glyphicon-cog"></span><em class="fa fa-pencil"></em>
+                          </a>
+                          <a class="btn btn-danger"  data-toggle="modal" data-target=".rmmodal" ng-click="ClickMovie(movie)">
+                            <span class="glyphicon glyphicon-trash"></span><em class="fa fa-trash"></em>
+                          </a>
+                        </td>
+                        <td>{{movie.nameEN}}</td>
+                        <td>{{movie.genre1}},{{movie.genre2}},{{movie.genre3}}</td>
+                        <td>{{movie.sound}}</td>
+                        <td>{{movie.subtitle}}</td>
+                        <td>{{movie.runtime}}</td>
+                        <td>{{movie.releaseDate}}</td>
+                        <td>{{movie.cd}}</td>
+                        <td>{{movie.dvd}}</td>
+                        <td>{{movie.bluray}}</td>
+                        <td>{{movie.priceCd}}/{{movie.priceDvd}}/{{movie.priceBluray}}</td>
+                        <td>{{movie.discountCd}}/{{movie.priceDvd}}/{{movie.priceBluray}}</td>
+                      </tr>
+                    </tbody>
+            </table>
+        
+          </div>
+          <div class="panel-footer">
+            
+          </div>
+        </div>
+                                                                    <!-- Modal -->
+        <div class="modal fade rmmodal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h2 class="modal-title">Remove</h2>
+              </div>
+              <div class="modal-body" style="font-size: 20px;font-weight: bold;text-align: center">
+                <p>You want to remove <u>{{mv.nameEN}}</u> ?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" ng-click="RemoveMovie()" data-dismiss="modal">Remove</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <div class="modal fade edmodal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h2 class="modal-title">Edit: <small>{{mv.nameEN}}</small></h2>
+              </div>
+              <div class="modal-body">
+                <div class="container">
+                    <div class="form-group">
+                        <div class="dropdown col-md-2">
+                          <button class="btn btn-warning btn-lg dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> {{movieedit}}
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a ng-click="SelectEdit('nameEN')">      Name EN</a></li>
+                            <li><a ng-click="SelectEdit('genre1')">      Genre 1</a></li>
+                            <li><a ng-click="SelectEdit('genre2')">      Genre 2</a></li>
+                            <li><a ng-click="SelectEdit('genre3')">      Genre 3</a></li>
+                            <li><a ng-click="SelectEdit('sound')">       Sound</a></li>
+                            <li><a ng-click="SelectEdit('subtitle')">    Subtitle</a></li>
+                            <li><a ng-click="SelectEdit('runtime')">     Runtime</a></li>
+                            <li><a ng-click="SelectEdit('releaseDate')"> Release Date</a></li>
+                            <li><a ng-click="SelectEdit('cd')">          CD</a></li>
+                            <li><a ng-click="SelectEdit('dvd')">         DVD</a></li>
+                            <li><a ng-click="SelectEdit('bluray')">      Bluray</a></li>
+                            <li><a ng-click="SelectEdit('priceCd')">     Price CD</a></li>
+                            <li><a ng-click="SelectEdit('priceDvd')">    Price DVD</a></li>
+                            <li><a ng-click="SelectEdit('priceBluray')"> Price Bluray</a></li>
+                            <li><a ng-click="SelectEdit('discountCd')">  Discount CD</a></li>
+                            <li><a ng-click="SelectEdit('discountDvd')"> Discount DVD</a></li>
+                            <li><a ng-click="SelectEdit('discountBluray')"> Discount Bluray</a></li>
+                          </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" ng-model="editvalue" class="form-control input-lg" placeholder="{{movieedit}}" tabindex="3">
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" ng-click="EditMovie()" data-dismiss="modal">Save changes</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        
+        <div class="modal fade addmodal" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h2 class="modal-title">Add Movie</h2>
+              </div>
+              <div class="container modal-body col-md-12" style="font-size: 16px;font-weight: bold;text-align: center">
+                <div class="col-md-6">
+                    <input type="text" ng-model="nameEN" class="form-control input-lg" placeholder="Name EN" tabindex="1">
+                </div>
+
+                <div class="col-md-2">
+                    <input type="text" ng-model="cd" class="form-control input-lg" placeholder="CD" tabindex="9">
+                </div>
+                <div class="col-md-2">
+                    <input type="text" ng-model="dvd" class="form-control input-lg" placeholder="DVD" tabindex="10">
+                </div>
+                <div class="col-md-2" style="margin-bottom: 10px">
+                    <input type="text" ng-model="bluray" class="form-control input-lg" placeholder="Bluray" tabindex="11">
+                </div>
+                
+                <div class="col-md-2">
+                    <input type="text" ng-model="genre1" class="form-control input-lg" placeholder="Genre 1" tabindex="2">
+                </div>
+                <div class="col-md-2">
+                    <input type="text" ng-model="genre2" class="form-control input-lg" placeholder="Genre 2" tabindex="3">
+                </div>
+                <div class="col-md-2" style="margin-bottom: 10px">
+                    <input type="text" ng-model="genre3" class="form-control input-lg" placeholder="Genre 3" tabindex="4">
+                </div>
+                
+                <div class="col-md-2">
+                    <input type="text" ng-model="priceCd" class="form-control input-lg" placeholder="Price CD" tabindex="12">
+                </div>
+                <div class="col-md-2">
+                    <input type="text" ng-model="priceDvd" class="form-control input-lg" placeholder="Price DVD" tabindex="13">
+                </div>
+                <div class="col-md-2" style="margin-bottom: 10px">
+                    <input type="text" ng-model="priceBluray" class="form-control input-lg" placeholder="Price Bluray" tabindex="14">
+                </div>
+                
+                <div class="col-md-3">
+                    <input type="text" ng-model="sound" class="form-control input-lg" placeholder="Sound" tabindex="5">
+                </div>
+                <div class="col-md-3" style="margin-bottom: 10px">
+                    <input type="text" ng-model="subtitle" class="form-control input-lg" placeholder="Subtitle" tabindex="6">
+                </div>
+
+                <div class="col-md-2">
+                    <input type="text" ng-model="discountCd" class="form-control input-lg" placeholder="Discount CD" tabindex="15">
+                </div>
+                <div class="col-md-2">
+                    <input type="text" ng-model="discountDvd" class="form-control input-lg" placeholder="Disc. DVD" tabindex="16">
+                </div>
+                <div class="col-md-2" style="margin-bottom: 10px">
+                    <input type="text" ng-model="discountBluray" class="form-control input-lg" placeholder="Disc. Bluray" tabindex="17">
+                </div>
+
+                <div class="col-md-3">
+                    <input type="text" ng-model="runtime" class="form-control input-lg" placeholder="Runtime" tabindex="7">
+                </div>
+                <div class="col-md-3" style="margin-bottom: 10px">
+                    <input type="text" ng-model="releaseDate" class="form-control input-lg" placeholder="Release Date" tabindex="8">
+                </div>
+                <div class="col-md-3" style="margin-bottom: 10px">
+                    <input type="text"  class="form-control input-lg" ng-model="imgPoster" placeholder="Image Poster" tabindex="18">
+                </div>
+                <div class="col-md-3" style="margin-bottom: 10px">
+                    <input type="text" ng-model = "imgCover" class="form-control input-lg" placeholder="Image Cover" tabindex="19">
+                </div>
+                <div class="col-md-12" style="margin-bottom: 10px">
+                    <textarea type="text" ng-model="synopsis" class="form-control input-lg" placeholder="Synopsis" tabindex="20"
+                    rows="5" cols="50">
+                    </textarea>
+                </div>
+              </div>
+
+              <div class="modal-footer text-center">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success btn-lg" ng-click="AddMovie()" data-dismiss="modal">Add Movie</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <div class="modal fade sellmodal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h2 class="modal-title">Sold Log: <small>{{mv.nameEN}}</small></h2>
+              </div>
+              <div class="modal-body" style="font-size: 20px;font-weight: bold;text-align: center">
+                <h2>Total Sold  : {{mv.sold}}</h2>
+                <p>CD : {{mv.cdSold}}, DVD : {{mv.dvdSold}}, Bluray : {{mv.bluraySold}}</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal" ng-click="Promotion()">
+                    <span class="glyphicon glyphicon-unchecked" ng-show="mv.onSale == 0"></span>
+                    <span class="glyphicon glyphicon-check" ng-show="mv.onSale != 0"></span>
+                    Promotion
+                </button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+
 
      <!-- credit -->
     <div class = "col-md-12" ng-include = "'credit.html'"></div>

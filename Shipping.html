@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Shipping - Movie Store</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/heroic-features.css" rel="stylesheet">
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    
+    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="js/scrolling-nav.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/Angular/MovieController.js"></script>
+    <script type="text/javascript" src="js/Angular/angular-cookies.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls-2.2.0.min.js"></script>
+</head>
+
+<body ng-app = "MovieStore">
+
+    <!-- Top Navigation -->
+    <div ng-include = "'NavigatorBar.html'"> </div>   
+
+    <div class = "container" ng-controller = "AdminMovieController" style="margin-top: 50px">
+        <div class = "col-md-10 col-md-offset-1">
+            <div class = "panel panel-info">
+                <div class="panel-heading text-center">
+                  <span style="margin-top: 0px;font-weight: bold;font-size: 30px;">
+                    Shipping
+                  </span>
+                </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-list">
+                  <thead>
+                    <tr style="font-size: 16px">
+                        <th>Movies</th>
+                        <th>Format</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Tag</th>
+                    </tr> 
+                  </thead>
+                  <tbody>
+                          <tr ng-repeat = "package in packages">
+                            <td>{{package.name}}</td>
+                            <td>{{package.format}}</td>
+                            <td>{{package.amount}}</td>
+                            <td>{{package.date}}</td>
+                            <td ng-show="package.status == 'Packaging'"><span class="label label-primary" style="font-size: 14px">{{package.status}}<span></td>
+                            <td ng-show="package.status == 'Delivery'"><span class="label label-success" style="font-size: 14px">{{package.status}}<span></td>
+                            <td>{{package.tag}}</td>
+                          </tr>
+                        </tbody>
+                </table>
+                    <a class="btn btn-success pull-right" href="http://eggplant.ddns.net/thecarrier" style="font-weight: bold" target="_blank">Package Delivery Website</a>
+                    </div>
+
+            </div>
+        </div>    
+    </div>
+
+     <!-- credit -->
+    <div class = "col-md-12" ng-include = "'credit.html'"></div>
+
+</body>
+
+</html>

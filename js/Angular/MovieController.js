@@ -74,15 +74,6 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
   $scope.SoldMovie = function(wait){
     console.log($scope.movies.length);
       for(i=0;i<$scope.movies.length;i++){
-        dothat();
-        $scope.movIndex = i;
-        $http.post("php/RemoveDataByID.php",{'id':$scope.baskets[$scope.movIndex].id,'table':'baskets'}).success(function(data){
-          $scope.ViewBasket();
-        });
-      }
-  }
-
-  var dothat = function(){
         var movie = $scope.movies[i];
         var basket = $scope.baskets[i];
         var instock;
@@ -110,8 +101,29 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
         $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':format,'value':instock});
         $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':format+'Sold','value':sold});
         $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':'sold','value':soldout});
+        $scope.movIndex = i;
+        $http.post("php/RemoveDataByID.php",{'id':$scope.baskets[$scope.movIndex].id,'table':'baskets'}).success(function(data){
+          $scope.ViewBasket();
+        });
+      }
   }
-  
+
+  $scope.PackageDelivery = function(){
+    var name = "";
+    var format = "";
+    var amount = "";
+    var date = new Date();
+    console.log("A");
+    for(k=0;k<$scope.movies.length;k++){
+      name += $scope.movies[k].nameEN+", ";
+      format += $scope.baskets[k].format+", ";
+      amount += $scope.baskets[k].amount+", ";
+      console.log(name);
+    }
+    $http.post("php/AddPackage.php",{'customerId':$cookies.get('logonUser.id'),'name':name,'format':format,
+      'amount':amount,'date':date,'status':'Packaging'});
+  }
+
   $scope.successCheckout = false;
   $scope.ConfirmPayment = function(){
     $scope.successCheckout = false;
@@ -120,10 +132,12 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
       console.log(data.message);
       if(data.message == "success"){
         $scope.SoldMovie();
+        $scope.PackageDelivery();
         $scope.successCheckout = true;
       }else{
         $scope.bankerror = true;
       }
+      console.log(data);
       console.log('confirm');
     });
     
@@ -141,8 +155,10 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
         $scope.bank2error = true;
       }else{
         $scope.SoldMovie();
+        $scope.PackageDelivery();
         $scope.successCheckout = true;
       }
+      console.log(data);
       console.log('confirm2');
     });
   }
@@ -344,18 +360,15 @@ app.controller('MovieController', function ($scope,$http,$cookies,$rootScope,$wi
         $scope.totalPrice = movie.discountBluray*$scope.order.amount;
         break;
     }
-    $http.post("php/GetTableMaxID.php",{'table':"baskets"}).success(function(data){
-      $scope.basketId = parseInt(data[0].id)+1;
-      if($cookies.get('logonUser.inSystem') === undefined){
-        $scope.canBuy = false;
-      }else{
-        var customerId = $cookies.get('logonUser.id');
-        console.log(customerId);
-        $scope.date = new Date();
-        $http.post("php/AddToBasket.php",{'id':$scope.basketId,'customerId':customerId,'movieId':movie.id,'format':$scope.order.format,
-        'amount':$scope.order.amount,'totalPrice':$scope.totalPrice,'date':$scope.date,'status':'Adding'});
-      }
-    });
+    if($cookies.get('logonUser.inSystem') === undefined){
+      $scope.canBuy = false;
+    }else{
+      var customerId = $cookies.get('logonUser.id');
+      console.log(customerId);
+      $scope.date = new Date();
+      $http.post("php/AddToBasket.php",{'customerId':customerId,'movieId':movie.id,'format':$scope.order.format,
+      'amount':$scope.order.amount,'totalPrice':$scope.totalPrice,'date':$scope.date,'status':'Adding'});
+    }
   }
 
   $scope.SelectCategories = function(catagory){
@@ -507,7 +520,8 @@ app.controller('AccountController', function($scope,$http,$cookies,$rootScope,$w
   $scope.successLogin = false;
   $scope.user = {};
   $scope.regdata;
-  
+  $scope.allaccounts = [];
+
   $scope.Register = function(){
     $scope.alert = [false,false,false,false,false,false];
     if($scope.password != $scope.confirm || $scope.password === undefined){
@@ -517,20 +531,17 @@ app.controller('AccountController', function($scope,$http,$cookies,$rootScope,$w
     }else if($scope.firstName === undefined || $scope.lastName === undefined || $scope.userName === undefined || $scope.address === undefined || $scope.city === undefined || $scope.province === undefined || $scope.country === undefined || $scope.zip === undefined){
       $scope.alert[4] = true;
     }else{
-      $http.post("php/GetTableMaxID.php",{'table':"accounts"}).success(function(data){
-          $scope.id = parseInt(data[0].id)+1;
-          $http.post("php/CheckAccount.php",{'username':$scope.userName,'email':$scope.email}).success(function(data){
-            console.log(data['message']);
-            if(data['found']){
-              $scope.alert[2] = true;
-            }else{
-              $http.post("php/AddAccount.php",{'id':$scope.id,'firstName':$scope.firstName,'lastName':$scope.lastName,'userName':$scope.userName,
-                'password':$scope.password,'email':$scope.email,'address':$scope.address,'city':$scope.city,'province':$scope.province,'country':$scope.country,'zip':$scope.zip})
-                .success(function(data){
-                  $scope.successRegister = true;
-              });
-            }
+      $http.post("php/CheckAccount.php",{'username':$scope.userName,'email':$scope.email}).success(function(data){
+        console.log(data['message']);
+        if(data['found']){
+          $scope.alert[2] = true;
+        }else{
+          $http.post("php/AddAccount.php",{'firstName':$scope.firstName,'lastName':$scope.lastName,'userName':$scope.userName,
+            'password':$scope.password,'email':$scope.email,'address':$scope.address,'city':$scope.city,'province':$scope.province,'country':$scope.country,'zip':$scope.zip})
+            .success(function(data){
+              $scope.successRegister = true;
           });
+        }
       });
     }
   }
@@ -618,6 +629,40 @@ app.controller('AccountController', function($scope,$http,$cookies,$rootScope,$w
     }
   }
 
+  $scope.ClickAccount = function(account){
+    $scope.ac = account;
+  }
+
+  $scope.accountedit = "userName";
+  $scope.SelectEdit = function(type){
+    $scope.accountedit = type;  
+  }
+
+  $scope.EditAccount = function(){
+    $http.post("php/UpdateDataByID.php",{'id':$scope.ac.id,'table':'accounts','variable':$scope.accountedit,'value':$scope.editvalue}).success(function(){
+      $scope.allaccounts = [];
+      $scope.editvalue = "";
+      $scope.loadAllAccount();
+    });
+  }
+
+  $scope.RemoveAccount = function(){
+    $http.post("php/RemoveDataByID.php",{'id':$scope.ac.id,'table':'accounts'}).success(function(data){
+      $scope.allaccounts = [];
+      $scope.loadAllAccount();
+    });
+  }
+
+  $scope.loadAllAccount = function(){
+    $http.post("php/GetAllData.php",{'table':"accounts"}).success(function(data){
+      for(i=0;i<data.length;i++){
+        if(data[i].id > 2){
+          $scope.allaccounts.push(data[i]);
+        }
+      }
+    });
+  }
+
   $scope.loadAccount = function(){
     $http.post("php/GetDataByID.php",{'id':$cookies.get('logonUser.id'),'table':"accounts"}).success(function(data){
       $scope.user = data[0];
@@ -638,6 +683,118 @@ app.controller('AccountController', function($scope,$http,$cookies,$rootScope,$w
   }
 
   $scope.loadAccount();
-
+  $scope.loadAllAccount();
 });
 
+
+app.controller('AdminMovieController', function($scope,$http,$cookies,$rootScope,$window){
+  $scope.adminmovies =[];
+  
+  $scope.ClickMovie = function(movie){
+    $scope.mv = movie;
+  }
+
+  $scope.RemoveMovie = function(){
+    $http.post("php/RemoveDataByID.php",{'id':$scope.mv.id,'table':'movies'}).success(function(data){
+      $scope.adminmovies = [];
+      loadAdminMovies();
+    });
+  }
+
+  $scope.movieedit = "nameEN";
+  $scope.SelectEdit = function(type){
+    $scope.movieedit = type;  
+  }
+
+  $scope.EditMovie = function(){
+    $http.post("php/UpdateDataByID.php",{'id':$scope.mv.id,'table':'movies','variable':$scope.movieedit,'value':$scope.editvalue}).success(function(){
+      $scope.adminmovies = [];
+      $scope.editvalue = "";
+      loadAdminMovies();
+    });
+  }
+  $scope.AddMovie = function(){
+    $http.post("php/AddMovie.php",{'nameEN':$scope.nameEN,'genre1':$scope.genre1,'genre2':$scope.genre2,'genre3':$scope.genre3,'sound':$scope.sound,
+      'subtitle':$scope.subtitle,'runtime':$scope.runtime,'releaseDate':$scope.releaseDate,'cd':$scope.cd,'dvd':$scope.dvd,'bluray':$scope.bluray,
+      'priceCd':$scope.priceCd,'priceDvd':$scope.priceBluray,'discountCd':$scope.discountCd,'discountDvd':$scope.discountDvd,'discountBluray':$scope.discountBluray,
+      'imgPoster':$scope.imgPoster,'imgCover':$scope.imgCover,'synopsis':$scope.synopsis}).success(function(){
+      $scope.adminmovies = [];
+      loadAdminMovies();
+    });
+  }
+
+  $scope.Promotion = function(){
+    if($scope.mv.onSale == 0){
+      $http.post("php/UpdateDataByID.php",{'id':$scope.mv.id,'table':'movies','variable':'onSale','value':1}).success(function(){
+          loadAdminMovies();
+        });
+    }else{
+      $http.post("php/UpdateDataByID.php",{'id':$scope.mv.id,'table':'movies','variable':'onSale','value':0}).success(function(){
+          loadAdminMovies();
+        });
+    }
+  }
+
+  $scope.ClickPackage = function(package){
+    $scope.pa = package;
+    console.log($scope.pa);
+  }
+
+  $scope.ConnectPackageDelivery = function(){
+    $http.post("php/GetDataByID.php",{'id':$cookies.get('logonUser.id'),'table':"accounts"}).success(function(data){
+      var fname = data[0].firstName+" "+data[0].lastName;
+      var faddress = data[0].address+", "+data[0].city+", "+data[0].province; 
+      var fzone = 3;
+      var link = 'http://eggplant.ddns.net/thecarrier/moviestorethecarriercoop.php?namere=<?=('+fname+')?>&desre=<?=('+faddress+')?>&zonere=<?=('+fzone+')?>';     
+      $window.open(link,'_blank');
+    }); 
+  }
+
+  $scope.SubmitTag = function(){
+    $http.post("php/UpdateDataByID.php",{'id':$scope.pa.id,'table':'packages','variable':'status','value':'Delivery'});
+    $http.post("php/UpdateDataByID.php",{'id':$scope.pa.id,'table':'packages','variable':'tag','value':$scope.packagetag}).success(function(data){
+      loadAllShipping();
+    });
+  }
+
+  $scope.RemovePackage = function(){
+    $http.post("php/RemoveDataByID.php",{'id':$scope.pa.id,'table':'packages'}).success(function(data){
+      loadAllShipping();
+    });
+  }
+
+  var loadShipping = function(){
+    $scope.packages = [];
+    $http.post("php/GetPackage.php",{'customerId':$cookies.get('logonUser.id')}).success(function(data){
+      console.log(data.length);
+      for(i=0;i<data.length;i++){
+        $scope.packages.push(data[i]);
+      }
+    });
+  }
+
+  $scope.allpackages = [];
+  var loadAllShipping = function(){
+    $scope.allpackages = [];
+    $http.post("php/GetAdminPackages.php").success(function(data){
+      console.log(data.length);
+      for(i=0;i<data.length;i++){
+        $scope.allpackages.push(data[i]);
+      }
+    });
+  }
+
+  var loadAdminMovies = function(){
+    $scope.adminmovies = [];
+    $http.post("php/GetAdminMovie.php").success(function(data){
+      console.log(data.length);
+      for(i=0;i<data.length;i++){
+        $scope.adminmovies.push(data[i]);
+      }
+    });
+  }
+
+  loadAllShipping();
+  loadShipping();
+  loadAdminMovies();
+});
