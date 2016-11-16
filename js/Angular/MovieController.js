@@ -74,15 +74,6 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
   $scope.SoldMovie = function(wait){
     console.log($scope.movies.length);
       for(i=0;i<$scope.movies.length;i++){
-        dothat();
-        $scope.movIndex = i;
-        $http.post("php/RemoveDataByID.php",{'id':$scope.baskets[$scope.movIndex].id,'table':'baskets'}).success(function(data){
-          $scope.ViewBasket();
-        });
-      }
-  }
-
-  var dothat = function(){
         var movie = $scope.movies[i];
         var basket = $scope.baskets[i];
         var instock;
@@ -110,6 +101,27 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
         $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':format,'value':instock});
         $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':format+'Sold','value':sold});
         $http.post("php/UpdateDataByID.php",{'id':movie.id,'table':'movies','variable':'sold','value':soldout});
+        $scope.movIndex = i;
+        $http.post("php/RemoveDataByID.php",{'id':$scope.baskets[$scope.movIndex].id,'table':'baskets'}).success(function(data){
+          $scope.ViewBasket();
+        });
+      }
+  }
+
+  $scope.PackageDelivery = function(){
+    var name = "";
+    var format = "";
+    var amount = "";
+    var date = new Date();
+    console.log("A");
+    for(k=0;k<$scope.movies.length;k++){
+      name += $scope.movies[k].nameEN+", ";
+      format += $scope.baskets[k].format+", ";
+      amount += $scope.baskets[k].amount+", ";
+      console.log(name);
+    }
+    $http.post("php/AddPackage.php",{'customerId':$cookies.get('logonUser.id'),'name':name,'format':format,
+      'amount':amount,'date':date,'status':'Packaging'});
   }
 
   $scope.successCheckout = false;
@@ -120,6 +132,7 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
       console.log(data.message);
       if(data.message == "success"){
         $scope.SoldMovie();
+        $scope.PackageDelivery();
         $scope.successCheckout = true;
       }else{
         $scope.bankerror = true;
@@ -142,6 +155,7 @@ app.controller('MenuController', function($scope,$log,$http,$cookies,$rootScope,
         $scope.bank2error = true;
       }else{
         $scope.SoldMovie();
+        $scope.PackageDelivery();
         $scope.successCheckout = true;
       }
       console.log(data);
@@ -709,6 +723,67 @@ app.controller('AdminMovieController', function($scope,$http,$cookies,$rootScope
     });
   }
 
+  $scope.Promotion = function(){
+    if($scope.mv.onSale == 0){
+      $http.post("php/UpdateDataByID.php",{'id':$scope.mv.id,'table':'movies','variable':'onSale','value':1}).success(function(){
+          loadAdminMovies();
+        });
+    }else{
+      $http.post("php/UpdateDataByID.php",{'id':$scope.mv.id,'table':'movies','variable':'onSale','value':0}).success(function(){
+          loadAdminMovies();
+        });
+    }
+  }
+
+  $scope.ClickPackage = function(package){
+    $scope.pa = package;
+    console.log($scope.pa);
+  }
+
+  $scope.ConnectPackageDelivery = function(){
+    $http.post("php/GetDataByID.php",{'id':$cookies.get('logonUser.id'),'table':"accounts"}).success(function(data){
+      var fname = data[0].firstName+" "+data[0].lastName;
+      var faddress = data[0].address+", "+data[0].city+", "+data[0].province; 
+      var fzone = 3;
+      var link = 'http://eggplant.ddns.net/thecarrier/moviestorethecarriercoop.php?namere=<?=('+fname+')?>&desre=<?=('+faddress+')?>&zonere=<?=('+fzone+')?>';     
+      $window.open(link,'_blank');
+    }); 
+  }
+
+  $scope.SubmitTag = function(){
+    $http.post("php/UpdateDataByID.php",{'id':$scope.pa.id,'table':'packages','variable':'status','value':'Delivery'});
+    $http.post("php/UpdateDataByID.php",{'id':$scope.pa.id,'table':'packages','variable':'tag','value':$scope.packagetag}).success(function(data){
+      loadAllShipping();
+    });
+  }
+
+  $scope.RemovePackage = function(){
+    $http.post("php/RemoveDataByID.php",{'id':$scope.pa.id,'table':'packages'}).success(function(data){
+      loadAllShipping();
+    });
+  }
+
+  var loadShipping = function(){
+    $scope.packages = [];
+    $http.post("php/GetPackage.php",{'customerId':$cookies.get('logonUser.id')}).success(function(data){
+      console.log(data.length);
+      for(i=0;i<data.length;i++){
+        $scope.packages.push(data[i]);
+      }
+    });
+  }
+
+  $scope.allpackages = [];
+  var loadAllShipping = function(){
+    $scope.allpackages = [];
+    $http.post("php/GetAdminPackages.php").success(function(data){
+      console.log(data.length);
+      for(i=0;i<data.length;i++){
+        $scope.allpackages.push(data[i]);
+      }
+    });
+  }
+
   var loadAdminMovies = function(){
     $scope.adminmovies = [];
     $http.post("php/GetAdminMovie.php").success(function(data){
@@ -719,5 +794,7 @@ app.controller('AdminMovieController', function($scope,$http,$cookies,$rootScope
     });
   }
 
+  loadAllShipping();
+  loadShipping();
   loadAdminMovies();
 });

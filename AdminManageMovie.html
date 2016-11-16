@@ -25,7 +25,7 @@
     <!-- Top Navigation -->
     <div ng-include = "'NavigatorBar.html'"> </div>  
     <ul class="nav nav-pills nav-justified text-right col-md-12" style="margin-top: 50px;font-size: 20px">
-        <li role="presentation"><a href="Admin.html">Promotion</a></li>
+        <li role="presentation"><a href="Admin.html">Admin</a></li>
         <li role="presentation" class="active"><a href="AdminManageMovie.html">Manage Movie</a></li>
         <li role="presentation"><a href="AdminManageAccount.html">Manage Account</a></li>
     </ul>
@@ -63,7 +63,12 @@
               <tbody>
                       <tr ng-repeat = "movie in adminmovies">
                         <td align="center">
-                          <a class="btn btn-warning" data-toggle="modal" data-target=".edmodal" ng-click="ClickMovie(movie)">
+                          <a class="btn btn-warning"  data-toggle="modal" data-target=".sellmodal" ng-click="ClickMovie(movie)">
+                            <span class="glyphicon glyphicon-star" ng-show="movie.onSale == 1"></span>
+                            <span class="glyphicon glyphicon-star-empty" ng-show="movie.onSale == 0"></span>
+                            <em class="fa fa-trash"></em>
+                          </a>
+                          <a class="btn btn-info" data-toggle="modal" data-target=".edmodal" ng-click="ClickMovie(movie)">
                             <span class="glyphicon glyphicon-cog"></span><em class="fa fa-pencil"></em>
                           </a>
                           <a class="btn btn-danger"  data-toggle="modal" data-target=".rmmodal" ng-click="ClickMovie(movie)">
@@ -237,6 +242,28 @@
               <div class="modal-footer text-center">
                 <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-success btn-lg" ng-click="AddMovie()" data-dismiss="modal">Add Movie</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <div class="modal fade sellmodal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h2 class="modal-title">Sold Log: <small>{{mv.nameEN}}</small></h2>
+              </div>
+              <div class="modal-body" style="font-size: 20px;font-weight: bold;text-align: center">
+                <h2>Total Sold  : {{mv.sold}}</h2>
+                <p>CD : {{mv.cdSold}}, DVD : {{mv.dvdSold}}, Bluray : {{mv.bluraySold}}</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal" ng-click="Promotion()">
+                    <span class="glyphicon glyphicon-unchecked" ng-show="mv.onSale == 0"></span>
+                    <span class="glyphicon glyphicon-check" ng-show="mv.onSale != 0"></span>
+                    Promotion
+                </button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->

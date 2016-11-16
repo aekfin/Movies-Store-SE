@@ -163,18 +163,48 @@
         </div>
 
         <hr>
-        <!-- Title -->
+        <!-- /.row -->
+        <!-- Movie information modal -->
+        <div ng-include="'InformationModal.html'"></div>
+                <!-- Title -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class = "hothit">Promotion Movies</h3>
+            </div>
+        </div>
+        <!-- Page Features -->
+        <div class="container row text-center">
+            <div class="col-md-3 hero-feature" ng-repeat = "hotmovie in salemovies" ng-if = "$index < 8">
+                <div class="thumbnail" style="background-color:#f5f5ef;height: 350px;margin-top: -30px">
+                    <div>
+                      <img src="{{hotmovie.imgCover}}" alt="" class="hotmovieimage img-rounded" 
+                      ng-click="clickImage(hotmovie)" data-toggle="modal" data-target=".infomodal" >
+                    </div>
+                    <div class="caption">
+                        <h5 style = "font-weight: bold;height:30px;margin-bottom: 10px">{{hotmovie.nameEN}}</h5>
+                        <p style="color:red;margin-top: -10px;margin-bottom: 0px">
+                          ราคา <strong><del>{{hotmovie.priceCd}}/{{hotmovie.priceDvd}}/{{hotmovie.priceBluray}}</del></strong> บาท</p>
+                        <p>ราคา <strong>{{hotmovie.discountCd}}/{{hotmovie.discountDvd}}/{{hotmovie.discountBluray}}</strong> บาท</p>
+                        <div style="height:30px;margin-top: -10px"> 
+                          <span class = "label label-primary">{{hotmovie.genre1}}</span>
+                          <span class = "label label-danger">{{hotmovie.genre2}}</span>
+                          <span class = "label label-success">{{hotmovie.genre3}}</span>
+                        </div>                        
+                        <p style="margin-top: 10px;margin-top: 0px">
+                            <a href="#" class="btn btn-primary" ng-click="clickImage(hotmovie)" data-toggle="modal" data-target=".infomodal">Add to Basket</a>
+                        </p>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+                <!-- Title -->
         <div class="row">
             <div class="col-lg-12">
                 <h3 class = "hothit">Best Selling Movies</h3>
             </div>
         </div>
-        <!-- /.row -->
-        <!-- Movie information modal -->
-        <div ng-include="'InformationModal.html'"></div>
-        <!-- Page Features -->
         <div class="container row text-center">
-            <div class="col-md-3 hero-feature" ng-repeat = "hotmovie in hotmovies">
+            <div class="col-md-3 hero-feature" ng-repeat = "hotmovie in hotmovies" ng-if = "$index < 8">
                 <div class="thumbnail" style="background-color:#f5f5ef;height: 350px;margin-top: -30px">
                     <div>
                       <img src="{{hotmovie.imgCover}}" alt="" class="hotmovieimage img-rounded" 
